@@ -2,9 +2,71 @@
   {
     "service": "Certifikatë e lindjes",
     "institution": "Komuna",
-    "office": "Gjendja Civile",
+    "office": "Zyra e Gjendjes Civile",
     "floor": "Kati 1",
     "documents": ["Letërnjoftimi", "Numri personal"],
-    "estimatedWait": "15-25 minuta"
+    "estimatedWait": "15-25 minuta",
+    "steps": [
+      "Merr numrin e pritjes te sporteli hyrës.",
+      "Paraqitu në Zyrën e Gjendjes Civile.",
+      "Dorëzo dokumentet dhe kërko certifikatën.",
+      "Prano certifikatën ose udhëzimin për pagesë nëse kërkohet."
+    ]
+  },
+  {
+    "service": "Letërnjoftim",
+    "institution": "Ministria e Punëve të Brendshme",
+    "office": "Qendra për Pajisje me Dokumente",
+    "floor": "Kati përdhes",
+    "documents": ["Certifikatë e lindjes", "Dëshmi e vendbanimit", "Fotografi biometrike në zyrë"],
+    "estimatedWait": "30-60 minuta",
+    "steps": [
+      "Paraqitu te Qendra për Pajisje me Dokumente.",
+      "Merr numrin e pritjes për aplikim.",
+      "Dorëzo dokumentet dhe kryej verifikimin biometrik.",
+      "Ruaje dëshminë e aplikimit deri në marrjen e letërnjoftimit."
+    ]
+  },
+  {
+    "service": "Kontroll mjekësor",
+    "institution": "Qendra Kryesore e Mjekësisë Familjare",
+    "office": "Ambulanca e Mjekut Familjar",
+    "floor": "Kati 2",
+    "documents": ["Letërnjoftimi", "Kartela shëndetësore", "Raporte të mëparshme mjekësore nëse ke"],
+    "estimatedWait": "20-45 minuta",
+    "steps": [
+      "Regjistrohu te recepcioni i QKMF-së.",
+      "Trego arsyen e vizitës dhe mjekun familjar.",
+      "Prit thirrjen për kontroll.",
+      "Merr udhëzimin, recetën ose terminin tjetër nëse nevojitet."
+    ]
+  },
+  {
+    "service": "Regjistrim studenti",
+    "institution": "Universiteti",
+    "office": "Shërbimi i Studentëve",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi", "Diploma ose dëftesat", "Fletëpagesa e regjistrimit", "Fotografi"],
+    "estimatedWait": "25-50 minuta",
+    "steps": [
+      "Shko te Shërbimi i Studentëve në fakultetin përkatës.",
+      "Dorëzo dokumentet e regjistrimit.",
+      "Verifiko të dhënat personale dhe programin e studimit.",
+      "Merr vërtetimin ose udhëzimin për hapin e radhës."
+    ]
+  },
+  {
+    "service": "Pagesë komunale",
+    "institution": "Komuna",
+    "office": "Arka Komunale",
+    "floor": "Kati përdhes",
+    "documents": ["Letërnjoftimi", "Fatura ose numri i lëndës", "Dëshmi e obligimit"],
+    "estimatedWait": "10-20 minuta",
+    "steps": [
+      "Paraqitu te Arka Komunale.",
+      "Trego faturën ose numrin e lëndës.",
+      "Kryej pagesën me para të gatshme ose sipas udhëzimit të arkës.",
+      "Ruaje dëshminë e pagesës."
+    ]
   }
 ]
