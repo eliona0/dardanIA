@@ -11,6 +11,11 @@ export default function HomeScreen({ navigation }) {
       />
 
       <Button
+        title="KuMeShku"
+        onPress={() => navigation.navigate("Guide")}
+      />
+
+      <Button
         title="Dashboard"
         onPress={() => navigation.navigate("Dashboard")}
       />
