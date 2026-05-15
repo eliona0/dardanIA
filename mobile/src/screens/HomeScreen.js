@@ -1,29 +1,24 @@
-import { View, Text, Button } from "react-native";
+import { HomeLanding } from "../../app/index";
 
 export default function HomeScreen({ navigation }) {
+  const tabRoutes = {
+    "/": "Home",
+    "/accessibility": "Accessibility",
+    "/dashboard": "Dashboard",
+    "/report": "Report",
+  };
+
   return (
-    <View style={{ padding: 20 }}>
-      <Text>QasjaAI</Text>
-
-      <Button
-        title="Report Problem"
-        onPress={() => navigation.navigate("Report")}
-      />
-
-      <Button
-        title="Accessibility Check"
-        onPress={() => navigation.navigate("Accessibility")}
-      />
-
-      <Button
-        title="KuMeShku"
-        onPress={() => navigation.navigate("Guide")}
-      />
-
-      <Button
-        title="Dashboard"
-        onPress={() => navigation.navigate("Dashboard")}
-      />
-    </View>
+    <HomeLanding
+      onCaseNavigate={(caseId) => {
+        navigation.navigate("Case", { id: caseId });
+      }}
+      onNavigate={(action) => {
+        navigation.navigate(action.screen);
+      }}
+      onTabNavigate={(route) => {
+        navigation.navigate(tabRoutes[route] || "Home");
+      }}
+    />
   );
 }

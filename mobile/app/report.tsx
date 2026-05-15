@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,8 +11,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { router } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 
+import BottomNav from "../components/BottomNav";
 import { analyzeReport, ReportAnalysisResult, saveCase } from "../src/services/api";
 
 type SelectedImage = {
@@ -26,13 +29,73 @@ const severityColor = {
   high: "#c53030",
 };
 
-export default function ReportProblemScreen() {
+const kosovoCities = [
+  "Prishtinë",
+  "Prizren",
+  "Pejë",
+  "Gjakovë",
+  "Ferizaj",
+  "Mitrovicë",
+  "Gjilan",
+  "Vushtrri",
+  "Podujevë",
+  "Suharekë",
+  "Rahovec",
+  "Malishevë",
+  "Lipjan",
+  "Fushë Kosovë",
+  "Kamenicë",
+  "Deçan",
+  "Istog",
+  "Klinë",
+  "Skenderaj",
+  "Drenas",
+  "Kaçanik",
+  "Shtime",
+  "Viti",
+  "Obiliq",
+  "Dragash",
+  "Leposaviq",
+  "Zubin Potok",
+  "Zveçan",
+  "Novobërdë",
+  "Shtërpcë",
+  "Junik",
+  "Mamushë",
+  "Hani i Elezit",
+  "Graçanicë",
+  "Ranillug",
+  "Partesh",
+  "Kllokot",
+];
+
+const routeToScreen = {
+  "/": "Home",
+  "/accessibility": "Accessibility",
+  "/dashboard": "Dashboard",
+  "/report": "Report",
+};
+
+export default function ReportProblemScreen({ navigation }: { navigation?: any }) {
   const [image, setImage] = useState<SelectedImage | null>(null);
   const [description, setDescription] = useState("");
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("Prishtinë");
+  const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+  const [neighborhood, setNeighborhood] = useState("");
   const [result, setResult] = useState<ReportAnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const fullAddress = [city, neighborhood.trim()].filter(Boolean).join(", ");
+
+  const navigateTab = (route: string) => {
+    if (navigation) {
+      navigation.navigate(routeToScreen[route as keyof typeof routeToScreen] || "Home");
+      return;
+    }
+
+    router.push(route as never);
+  };
 
   const requestCamera = async () => {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -89,7 +152,7 @@ export default function ReportProblemScreen() {
 
   const handleAnalyze = async () => {
     const trimmedDescription = description.trim();
-    const trimmedCity = city.trim();
+    const trimmedCity = fullAddress.trim();
 
     if (!trimmedDescription || !trimmedCity) {
       Alert.alert("Missing details", "Write a description and city/location first.");
@@ -123,7 +186,17 @@ export default function ReportProblemScreen() {
 
     try {
       setIsSaving(true);
-      await saveCase(result);
+      const casePayload = {
+        ...result,
+        address: fullAddress,
+        location: {
+          city,
+          coordinates: null,
+          neighborhood: neighborhood.trim(),
+        },
+      };
+
+      await saveCase(casePayload as unknown as ReportAnalysisResult);
       Alert.alert("Case saved", "The civic problem case was saved successfully.");
     } catch (error) {
       Alert.alert(
@@ -136,66 +209,103 @@ export default function ReportProblemScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <Text style={styles.title}>Report Problem</Text>
-      <Text style={styles.subtitle}>Report road damage, waste, lighting, access, transport and public service issues.</Text>
+    <View style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        <Text style={styles.title}>Report Problem</Text>
+        <Text style={styles.subtitle}>Report road damage, waste, lighting, access, transport and public service issues.</Text>
 
-      <View style={styles.actions}>
-        <TouchableOpacity style={styles.secondaryButton} onPress={pickImage}>
-          <Text style={styles.secondaryButtonText}>Select Image</Text>
-        </TouchableOpacity>
+        <View style={styles.formCard}>
+          <Text style={styles.label}>Photo</Text>
+          <View style={styles.actions}>
+            <TouchableOpacity style={styles.secondaryButton} onPress={pickImage}>
+              <Text style={styles.secondaryButtonText}>Select Image</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity style={styles.secondaryButton} onPress={takePhoto}>
-          <Text style={styles.secondaryButtonText}>Take Photo</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity style={styles.secondaryButton} onPress={takePhoto}>
+              <Text style={styles.secondaryButtonText}>Take Photo</Text>
+            </TouchableOpacity>
+          </View>
 
-      {image ? (
-        <Image source={{ uri: image.uri }} style={styles.preview} />
-      ) : (
-        <View style={styles.emptyPreview}>
-          <Text style={styles.emptyText}>Image optional</Text>
+          {image ? (
+            <Image source={{ uri: image.uri }} style={styles.preview} />
+          ) : (
+            <View style={styles.emptyPreview}>
+              <Text style={styles.emptyText}>Image optional</Text>
+            </View>
+          )}
+
+          <Text style={styles.label}>Description</Text>
+          <TextInput
+            style={[styles.input, styles.textArea]}
+            value={description}
+            onChangeText={(value) => {
+              setDescription(value);
+              setResult(null);
+            }}
+            placeholder="Describe the issue, risk, street, landmark, or nearby building."
+            multiline
+            textAlignVertical="top"
+          />
+
+          <Text style={styles.label}>City</Text>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setIsCityDropdownOpen((value) => !value)}
+            style={styles.dropdownButton}
+          >
+            <Text style={styles.dropdownText}>{city}</Text>
+            <Text style={styles.dropdownChevron}>{isCityDropdownOpen ? "▲" : "▼"}</Text>
+          </Pressable>
+
+          {isCityDropdownOpen && (
+            <View style={styles.dropdownList}>
+              {kosovoCities.map((cityName) => (
+                <Pressable
+                  key={cityName}
+                  onPress={() => {
+                    setCity(cityName);
+                    setIsCityDropdownOpen(false);
+                    setResult(null);
+                  }}
+                  style={styles.dropdownItem}
+                >
+                  <Text style={styles.dropdownItemText}>{cityName}</Text>
+                </Pressable>
+              ))}
+            </View>
+          )}
+
+          <Text style={styles.label}>Neighborhood</Text>
+          <TextInput
+            style={styles.input}
+            value={neighborhood}
+            onChangeText={(value) => {
+              setNeighborhood(value);
+              setResult(null);
+            }}
+            placeholder="Lagjja (optional)"
+          />
+
+          <View style={styles.addressPreview}>
+            <Text style={styles.addressLabel}>Full address</Text>
+            <Text style={styles.addressText}>{fullAddress}</Text>
+          </View>
         </View>
-      )}
 
-      <Text style={styles.label}>Description</Text>
-      <TextInput
-        style={[styles.input, styles.textArea]}
-        value={description}
-        onChangeText={(value) => {
-          setDescription(value);
-          setResult(null);
-        }}
-        placeholder="Describe the issue, risk, street, landmark, or nearby building."
-        multiline
-        textAlignVertical="top"
-      />
+        <TouchableOpacity
+          disabled={isAnalyzing}
+          style={[styles.primaryButton, isAnalyzing && styles.disabledButton]}
+          onPress={handleAnalyze}
+        >
+          {isAnalyzing ? (
+            <ActivityIndicator color="#ffffff" />
+          ) : (
+            <Text style={styles.primaryButtonText}>Analyze Problem</Text>
+          )}
+        </TouchableOpacity>
 
-      <Text style={styles.label}>City or Location</Text>
-      <TextInput
-        style={styles.input}
-        value={city}
-        onChangeText={(value) => {
-          setCity(value);
-          setResult(null);
-        }}
-        placeholder="Prishtina, Dardania neighborhood"
-      />
-
-      <TouchableOpacity
-        disabled={isAnalyzing}
-        style={[styles.primaryButton, isAnalyzing && styles.disabledButton]}
-        onPress={handleAnalyze}
-      >
-        {isAnalyzing ? (
-          <ActivityIndicator color="#ffffff" />
-        ) : (
-          <Text style={styles.primaryButtonText}>Analyze Problem</Text>
-        )}
-      </TouchableOpacity>
-
-      {result && (
-        <View style={styles.result}>
+        {result && (
+          <View style={styles.result}>
           <Text style={styles.resultTitle}>{result.title}</Text>
 
           <InfoRow label="Category" value={result.category} />
@@ -220,9 +330,11 @@ export default function ReportProblemScreen() {
               <Text style={styles.primaryButtonText}>Save Case</Text>
             )}
           </TouchableOpacity>
-        </View>
-      )}
-    </ScrollView>
+          </View>
+        )}
+      </ScrollView>
+      <BottomNav activeTab="Report" onNavigate={navigateTab} />
+    </View>
   );
 }
 
@@ -236,6 +348,10 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: "#f6f7f9",
+    flex: 1,
+  },
   actions: {
     flexDirection: "row",
     gap: 12,
@@ -245,6 +361,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f6f7f9",
     flexGrow: 1,
     padding: 20,
+    paddingBottom: 112,
   },
   disabledButton: {
     opacity: 0.5,
@@ -279,13 +396,79 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "#fff",
     borderColor: "#cfd6e4",
-    borderRadius: 8,
+    borderRadius: 14,
     borderWidth: 1,
     color: "#172033",
     fontSize: 16,
     marginBottom: 14,
     minHeight: 48,
     padding: 14,
+  },
+  addressLabel: {
+    color: "#64748B",
+    fontSize: 12,
+    fontWeight: "900",
+    marginBottom: 3,
+    textTransform: "uppercase",
+  },
+  addressPreview: {
+    backgroundColor: "#EEF2FF",
+    borderRadius: 14,
+    marginBottom: 14,
+    padding: 12,
+  },
+  addressText: {
+    color: "#111827",
+    fontSize: 14,
+    fontWeight: "800",
+  },
+  dropdownButton: {
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderColor: "#cfd6e4",
+    borderRadius: 14,
+    borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+    minHeight: 48,
+    padding: 14,
+  },
+  dropdownChevron: {
+    color: "#4F46E5",
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  dropdownItem: {
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  dropdownItemText: {
+    color: "#172033",
+    fontSize: 15,
+    fontWeight: "700",
+  },
+  dropdownList: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#E2E8F0",
+    borderRadius: 16,
+    borderWidth: 1,
+    marginBottom: 14,
+    maxHeight: 230,
+    overflow: "hidden",
+  },
+  dropdownText: {
+    color: "#172033",
+    fontSize: 16,
+    fontWeight: "800",
+  },
+  formCard: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#E2E8F0",
+    borderRadius: 22,
+    borderWidth: 1,
+    marginBottom: 16,
+    padding: 16,
   },
   label: {
     color: "#172033",
@@ -301,8 +484,8 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     alignItems: "center",
-    backgroundColor: "#145da0",
-    borderRadius: 8,
+    backgroundColor: "#4F46E5",
+    borderRadius: 16,
     minHeight: 48,
     justifyContent: "center",
     marginBottom: 16,
@@ -316,7 +499,7 @@ const styles = StyleSheet.create({
   result: {
     backgroundColor: "#ffffff",
     borderColor: "#e2e8f0",
-    borderRadius: 8,
+    borderRadius: 22,
     borderWidth: 1,
     padding: 16,
   },
@@ -330,7 +513,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#ffffff",
     borderColor: "#c7d0da",
-    borderRadius: 8,
+    borderRadius: 14,
     borderWidth: 1,
     flex: 1,
     minHeight: 44,
