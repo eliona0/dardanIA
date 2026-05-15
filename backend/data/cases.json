@@ -97,5 +97,75 @@
     "status": "pending",
     "id": "3f200120-f681-49a6-8cca-53d86e39e861",
     "createdAt": "2026-05-15T17:15:46.052Z"
+  },
+  {
+    "title": "Severely Damaged Road with Numerous Potholes",
+    "category": "accessibility",
+    "accessibilityScore": 10,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Numerous large and deep potholes across the entire road surface",
+      "Extremely uneven and cracked road surface, indicating severe disrepair",
+      "Potholes filled with water, creating hidden depths and slippery conditions",
+      "Lack of a designated, smooth, and safe pedestrian pathway or sidewalk"
+    ],
+    "recommendations": [
+      "Undertake immediate and comprehensive road repair to fill all potholes and resurface the damaged sections.",
+      "Implement a regular road maintenance schedule to prevent future deterioration and ensure road safety.",
+      "Consider constructing a separate, smooth, and accessible pedestrian pathway or sidewalk alongside the road, especially if pedestrian traffic is anticipated.",
+      "Ensure proper drainage systems are in place to prevent water accumulation in road depressions."
+    ],
+    "summary": "The road depicted is in a state of severe disrepair, characterized by numerous large and deep potholes, many filled with water, and an extensively cracked surface. This condition renders the road highly inaccessible and dangerous for both wheelchair users and individuals with visual impairments, posing significant risks of falls, injuries, and equipment damage.",
+    "officialReport": "This report identifies a critical accessibility barrier in the form of a severely damaged road. The presence of numerous large, deep, and water-filled potholes, coupled with an extensively cracked and uneven surface, creates an impassable and hazardous environment. This condition violates fundamental principles of universal design and poses extreme risks to the safety and mobility of individuals using wheelchairs and those with visual impairments. Immediate intervention for repair and maintenance is imperative to ensure basic accessibility and safety.",
+    "recommendedInstitution": "Local Department of Public Works or Road Maintenance Authority",
+    "status": "pending",
+    "id": "5ae3c671-f3b0-4033-bbd5-119c9cba7293",
+    "createdAt": "2026-05-15T20:57:14.592Z"
+  },
+  {
+    "title": "Severe Road Damage and Numerous Potholes",
+    "category": "road_damage",
+    "severity": "high",
+    "recommendedInstitution": "Komuna e Prishtinës - Drejtoria e Shërbimeve Publike",
+    "summary": "The road in Prishtina is in extremely poor condition, characterized by numerous large and deep potholes, many of which are filled with water. This poses a significant hazard to vehicles and drivers.",
+    "officialComplaint": "I am writing to report severe damage to a road within the municipality of Prishtina. As evidenced by the accompanying image, the road surface is extensively deteriorated with numerous large and deep potholes, many containing standing water. This condition presents a significant safety risk to all road users and can cause considerable damage to vehicles. I respectfully request that the Directorate of Public Services conduct an immediate inspection of this road and initiate the necessary repair works to restore it to a safe and functional state.",
+    "location": "Prishtine",
+    "status": "pending",
+    "id": "8d26121b-c49e-4d42-93bc-fc81e7144e63",
+    "createdAt": "2026-05-15T21:17:08.294Z"
+  },
+  {
+    "title": "Catastrophic Ground Collapse Near Construction Site",
+    "category": "accessibility",
+    "accessibilityScore": 0,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Massive ground collapse/sinkhole rendering the area impassable",
+      "Extreme fall hazard due to large, deep chasm",
+      "Uneven, unstable, and broken terrain at the edge of the collapse",
+      "Exposed pipes and debris within and around the collapsed area",
+      "Lack of adequate safety barriers or fencing to prevent access to the dangerous edge",
+      "No accessible alternative routes visible",
+      "Absence of tactile warnings for people with visual impairments indicating the severe drop-off"
+    ],
+    "recommendations": [
+      "Immediately establish robust, high-visibility safety barriers and fencing around the entire perimeter of the collapse to prevent any access.",
+      "Install clear, prominent warning signs (visual and potentially audible) indicating extreme danger and no entry.",
+      "Implement tactile warning surfaces or barriers at a safe distance from the edge for individuals with visual impairments.",
+      "Completely close the affected road and pedestrian areas to all traffic until comprehensive repairs are completed and the area is deemed safe.",
+      "Conduct an urgent geological and structural assessment to determine the cause of the collapse and prevent further instability.",
+      "Develop and clearly mark accessible alternative routes for pedestrians and vehicles.",
+      "Ensure all future construction in the vicinity adheres to strict safety and ground stability protocols."
+    ],
+    "summary": "The image depicts a catastrophic ground collapse, creating a massive, deep chasm that has destroyed a section of the road and surrounding terrain. This area is completely inaccessible and presents an extreme, life-threatening hazard for all individuals, particularly wheelchair users and people with visual impairments. There are no visible safety barriers or warnings to prevent accidental falls into the sinkhole. The risk of severe injury or fatality is exceptionally high.",
+    "officialReport": "An official report should be initiated by the local municipal engineering department, public works, or emergency services to document the incident, assess the structural integrity of the surrounding infrastructure, and plan for immediate remediation and long-term repairs. The report should also investigate the cause of the collapse, especially in relation to the adjacent construction activities.",
+    "recommendedInstitution": "Local Municipality, Public Works Department, Emergency Services, Construction Company (Klub Invest, if responsible for adjacent development)",
+    "status": "pending",
+    "id": "951929b4-0a07-4545-8ad2-9644595a66ff",
+    "createdAt": "2026-05-15T21:17:59.722Z"
   }
 ]

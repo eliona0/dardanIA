@@ -19,6 +19,25 @@ export type AccessibilityAnalysisResult = {
   status: "pending";
 };
 
+export type ReportAnalysisResult = {
+  title: string;
+  category:
+    | "road_damage"
+    | "blocked_sidewalk"
+    | "waste"
+    | "public_lighting"
+    | "water_issue"
+    | "public_transport"
+    | "accessibility"
+    | "other";
+  severity: RiskLevel;
+  recommendedInstitution: string;
+  summary: string;
+  officialComplaint: string;
+  location: string;
+  status: "pending";
+};
+
 type ImagePayload = {
   uri: string;
   fileName?: string | null;
@@ -36,7 +55,7 @@ const parseResponse = async <T>(res: Response): Promise<T> => {
 };
 
 const appendImageFile = async (formData: FormData, image: ImagePayload) => {
-  const fileName = image.fileName || "accessibility-photo.jpg";
+  const fileName = image.fileName || "report-photo.jpg";
   const mimeType = image.mimeType || "image/jpeg";
 
   if (Platform.OS === "web") {
@@ -69,16 +88,44 @@ export const analyzeAccessibility = async (
   return parseResponse<AccessibilityAnalysisResult>(res);
 };
 
+export const analyzeReport = async ({
+  image,
+  description,
+  city,
+}: {
+  image?: ImagePayload | null;
+  description: string;
+  city: string;
+}): Promise<ReportAnalysisResult> => {
+  const formData = new FormData();
+
+  formData.append("description", description);
+  formData.append("city", city);
+
+  if (image) {
+    await appendImageFile(formData, image);
+  }
+
+  const res = await fetch(`${API_URL}/api/report`, {
+    method: "POST",
+    body: formData,
+  });
+
+  return parseResponse<ReportAnalysisResult>(res);
+};
+
 export const saveCase = async (
-  accessibilityResult: AccessibilityAnalysisResult,
-): Promise<AccessibilityAnalysisResult & { id: string; createdAt: string }> => {
+  caseResult: AccessibilityAnalysisResult | ReportAnalysisResult,
+): Promise<(AccessibilityAnalysisResult | ReportAnalysisResult) & { id: string; createdAt: string }> => {
   const res = await fetch(`${API_URL}/api/cases`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(accessibilityResult),
+    body: JSON.stringify(caseResult),
   });
 
-  return parseResponse<AccessibilityAnalysisResult & { id: string; createdAt: string }>(res);
+  return parseResponse<
+    (AccessibilityAnalysisResult | ReportAnalysisResult) & { id: string; createdAt: string }
+  >(res);
 };

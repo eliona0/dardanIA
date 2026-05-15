@@ -5,6 +5,7 @@ import HomeScreen from "./screens/HomeScreen";
 import AccessibilityScreen from "./screens/AccessibilityScreen";
 import DashboardScreen from "./screens/DashboardScreen";
 import GuideScreen from "../app/guide";
+import ReportProblemScreen from "../app/report";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Report" component={ReportProblemScreen} options={{ title: "Report Problem" }} />
         <Stack.Screen name="Guide" component={GuideScreen} options={{ title: "KuMeShku" }} />
         <Stack.Screen name="Accessibility" component={AccessibilityScreen} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} />

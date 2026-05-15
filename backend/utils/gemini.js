@@ -40,6 +40,17 @@ const extractJson = (text) => {
 };
 
 const validateRisk = (value) => ["low", "medium", "high"].includes(value);
+const validateReportCategory = (value) =>
+  [
+    "road_damage",
+    "blocked_sidewalk",
+    "waste",
+    "public_lighting",
+    "water_issue",
+    "public_transport",
+    "accessibility",
+    "other",
+  ].includes(value);
 
 const validateAccessibilityResult = (result) => {
   if (!result || typeof result !== "object") {
@@ -78,6 +89,31 @@ const validateAccessibilityResult = (result) => {
     summary: String(result.summary || ""),
     officialReport: String(result.officialReport || ""),
     recommendedInstitution: String(result.recommendedInstitution || ""),
+    status: "pending",
+  };
+};
+
+const validateReportResult = (result, fallbackLocation) => {
+  if (!result || typeof result !== "object") {
+    throw new Error("Gemini returned an invalid response.");
+  }
+
+  if (!validateReportCategory(result.category)) {
+    result.category = "other";
+  }
+
+  if (!validateRisk(result.severity)) {
+    result.severity = "medium";
+  }
+
+  return {
+    title: String(result.title || "Civic problem report"),
+    category: result.category,
+    severity: result.severity,
+    recommendedInstitution: String(result.recommendedInstitution || ""),
+    summary: String(result.summary || ""),
+    officialComplaint: String(result.officialComplaint || ""),
+    location: String(result.location || fallbackLocation),
     status: "pending",
   };
 };
@@ -137,18 +173,19 @@ Return ONLY valid JSON with this exact shape:
   return validateAccessibilityResult(result);
 };
 
-const analyzeReport = async (textDescription) => {
-  return generateJson([
+const analyzeReport = async ({ description, city, imageBase64, mimeType = "image/jpeg" }) => {
+  const parts = [
     {
-      role: "user",
-      parts: [
-        {
-          text: `
-Analyze this civic problem description:
+      text: `
+Analyze this civic problem report.
 
-"${textDescription}"
+Description:
+"${description}"
 
-Return ONLY valid JSON:
+City or location:
+"${city}"
+
+Return ONLY valid JSON with this exact shape:
 {
   "title": string,
   "category": "road_damage | blocked_sidewalk | waste | public_lighting | water_issue | public_transport | accessibility | other",
@@ -156,13 +193,36 @@ Return ONLY valid JSON:
   "recommendedInstitution": string,
   "summary": string,
   "officialComplaint": string,
+  "location": string,
   "status": "pending"
 }
+
+Rules:
+- Use the provided city/location as the location unless the report clearly identifies a more precise place.
+- If an image is provided, use it as supporting evidence.
+- If no image is provided, analyze only the description and city/location.
+- Keep officialComplaint formal and ready to send to the recommended institution.
 `,
-        },
-      ],
+    },
+  ];
+
+  if (imageBase64) {
+    parts.push({
+      inlineData: {
+        mimeType,
+        data: imageBase64,
+      },
+    });
+  }
+
+  const result = await generateJson([
+    {
+      role: "user",
+      parts,
     },
   ]);
+
+  return validateReportResult(result, city);
 };
 
 module.exports = {

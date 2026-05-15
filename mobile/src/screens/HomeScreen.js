@@ -6,6 +6,11 @@ export default function HomeScreen({ navigation }) {
       <Text>QasjaAI</Text>
 
       <Button
+        title="Report Problem"
+        onPress={() => navigation.navigate("Report")}
+      />
+
+      <Button
         title="Accessibility Check"
         onPress={() => navigation.navigate("Accessibility")}
       />

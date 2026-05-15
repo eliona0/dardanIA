@@ -8,6 +8,7 @@ const path = require("path");
 
 const accessibilityRouter = require("./routes/accessibility");
 const guideRouter = require("./routes/guide");
+const reportRouter = require("./routes/report");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -22,6 +23,7 @@ app.get("/health", (_req, res) => {
 
 app.use("/api/accessibility", accessibilityRouter);
 app.use("/api/guide", guideRouter);
+app.use("/api/report", reportRouter);
 
 app.post("/api/cases", async (req, res) => {
   try {
