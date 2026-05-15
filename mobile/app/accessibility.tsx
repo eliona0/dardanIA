@@ -10,7 +10,9 @@ import {
   View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { router } from "expo-router";
 
+import BottomNav from "../components/BottomNav";
 import {
   AccessibilityAnalysisResult,
   analyzeAccessibility,
@@ -29,11 +31,27 @@ const riskColor = {
   high: "#c53030",
 };
 
-export default function AccessibilityCheckScreen() {
+const routeToScreen = {
+  "/": "Home",
+  "/accessibility": "Accessibility",
+  "/dashboard": "Dashboard",
+  "/report": "Report",
+};
+
+export default function AccessibilityCheckScreen({ navigation }: { navigation?: any }) {
   const [image, setImage] = useState<SelectedImage | null>(null);
   const [result, setResult] = useState<AccessibilityAnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const navigateTab = (route: string) => {
+    if (navigation) {
+      navigation.navigate(routeToScreen[route as keyof typeof routeToScreen] || "Home");
+      return;
+    }
+
+    router.push(route as never);
+  };
 
   const requestCamera = async () => {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -127,11 +145,12 @@ export default function AccessibilityCheckScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Accessibility Check</Text>
-      <Text style={styles.subtitle}>Entrances, sidewalks, ramps, parking and elevators.</Text>
+    <View style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Accessibility Check</Text>
+        <Text style={styles.subtitle}>Entrances, sidewalks, ramps, parking and elevators.</Text>
 
-      <View style={styles.actions}>
+        <View style={styles.actions}>
         <TouchableOpacity style={styles.secondaryButton} onPress={pickImage}>
           <Text style={styles.secondaryButtonText}>Select Image</Text>
         </TouchableOpacity>
@@ -139,17 +158,17 @@ export default function AccessibilityCheckScreen() {
         <TouchableOpacity style={styles.secondaryButton} onPress={takePhoto}>
           <Text style={styles.secondaryButtonText}>Take Photo</Text>
         </TouchableOpacity>
-      </View>
+        </View>
 
-      {image ? (
+        {image ? (
         <Image source={{ uri: image.uri }} style={styles.preview} />
       ) : (
         <View style={styles.emptyPreview}>
           <Text style={styles.emptyText}>No image selected</Text>
         </View>
-      )}
+        )}
 
-      <TouchableOpacity
+        <TouchableOpacity
         disabled={!image || isAnalyzing}
         style={[styles.primaryButton, (!image || isAnalyzing) && styles.disabledButton]}
         onPress={handleAnalyze}
@@ -159,10 +178,10 @@ export default function AccessibilityCheckScreen() {
         ) : (
           <Text style={styles.primaryButtonText}>Analyze Accessibility</Text>
         )}
-      </TouchableOpacity>
+        </TouchableOpacity>
 
-      {result && (
-        <View style={styles.result}>
+        {result && (
+          <View style={styles.result}>
           <Text style={styles.resultTitle}>{result.title}</Text>
 
           <View style={styles.scoreRow}>
@@ -199,9 +218,11 @@ export default function AccessibilityCheckScreen() {
               <Text style={styles.primaryButtonText}>Save Case</Text>
             )}
           </TouchableOpacity>
-        </View>
-      )}
-    </ScrollView>
+          </View>
+        )}
+      </ScrollView>
+      <BottomNav activeTab="Accessibility" onNavigate={navigateTab} />
+    </View>
   );
 }
 
@@ -236,6 +257,10 @@ function Section({ title, items }: { title: string; items: string[] }) {
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: "#f6f7f9",
+    flex: 1,
+  },
   actions: {
     flexDirection: "row",
     gap: 12,
@@ -245,6 +270,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f6f7f9",
     flexGrow: 1,
     padding: 20,
+    paddingBottom: 112,
   },
   disabledButton: {
     opacity: 0.5,

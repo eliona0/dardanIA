@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import AccessibilityScreen from "./screens/AccessibilityScreen";
 import DashboardScreen from "./screens/DashboardScreen";
+import CaseDetailsScreen from "./screens/CaseDetailsScreen";
+import MapScreen from "./screens/MapScreen";
 import GuideScreen from "../app/guide";
 import ReportProblemScreen from "../app/report";
 
@@ -18,6 +20,8 @@ export default function App() {
         <Stack.Screen name="Guide" component={GuideScreen} options={{ title: "KuMeShku" }} />
         <Stack.Screen name="Accessibility" component={AccessibilityScreen} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="Map" component={MapScreen} />
+        <Stack.Screen name="Case" component={CaseDetailsScreen} options={{ title: "Case Details" }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

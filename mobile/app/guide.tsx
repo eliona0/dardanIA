@@ -8,6 +8,9 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { router } from "expo-router";
+
+import BottomNav from "../components/BottomNav";
 
 type GuideResult = {
   service: string;
@@ -21,6 +24,12 @@ type GuideResult = {
 };
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
+const routeToScreen = {
+  "/": "Home",
+  "/accessibility": "Accessibility",
+  "/dashboard": "Dashboard",
+  "/report": "Report",
+};
 
 async function readJsonResponse(response: Response) {
   const text = await response.text();
@@ -36,11 +45,20 @@ async function readJsonResponse(response: Response) {
   }
 }
 
-export default function GuideScreen() {
+export default function GuideScreen({ navigation }: { navigation?: any }) {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState<GuideResult | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigateTab = (route: string) => {
+    if (navigation) {
+      navigation.navigate(routeToScreen[route as keyof typeof routeToScreen] || "Home");
+      return;
+    }
+
+    router.push(route as never);
+  };
 
   const askGuide = async () => {
     const trimmedQuestion = question.trim();
@@ -78,29 +96,30 @@ export default function GuideScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <Text style={styles.title}>KuMeShku</Text>
-      <TextInput
+    <View style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        <Text style={styles.title}>KuMeShku</Text>
+        <TextInput
         style={styles.input}
         value={question}
         onChangeText={setQuestion}
         placeholder="P.sh. Ku të shkoj për certifikatë të lindjes?"
         multiline
         textAlignVertical="top"
-      />
+        />
 
-      <Pressable
+        <Pressable
         style={[styles.button, loading && styles.buttonDisabled]}
         onPress={askGuide}
         disabled={loading}
       >
         {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Pyet KuMeShku</Text>}
-      </Pressable>
+        </Pressable>
 
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+        {error ? <Text style={styles.error}>{error}</Text> : null}
 
-      {result ? (
-        <View style={styles.result}>
+        {result ? (
+          <View style={styles.result}>
           <Text style={styles.answer}>{result.friendlyAnswer}</Text>
 
           <InfoRow label="Shërbimi" value={result.service} />
@@ -122,9 +141,11 @@ export default function GuideScreen() {
               {index + 1}. {step}
             </Text>
           ))}
-        </View>
-      ) : null}
-    </ScrollView>
+          </View>
+        ) : null}
+      </ScrollView>
+      <BottomNav activeTab="Home" onNavigate={navigateTab} />
+    </View>
   );
 }
 
@@ -138,9 +159,14 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: "#f6f7f9",
+    flex: 1,
+  },
   container: {
     flexGrow: 1,
     padding: 20,
+    paddingBottom: 112,
     backgroundColor: "#f6f7f9",
   },
   title: {

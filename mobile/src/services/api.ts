@@ -1,6 +1,6 @@
 import { Platform } from "react-native";
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export type RiskLevel = "low" | "medium" | "high";
 

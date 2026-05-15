@@ -1,5 +1,4 @@
-const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
-
+const API_URL = process.env.EXPO_PUBLIC_API_URL ;
 const readJsonResponse = async (res, fallbackMessage) => {
   const data = await res.json().catch(() => null);
 
