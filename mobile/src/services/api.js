@@ -1,6 +1,5 @@
-import axios from "axios";
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
 
-import { API_URL } from "@env";
 export const analyzeAccessibility = async (image) => {
   const formData = new FormData();
 
@@ -10,11 +9,14 @@ export const analyzeAccessibility = async (image) => {
     type: "image/jpeg",
   });
 
-  const res = await axios.post(`${API_URL}/api/accessibility`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+  const res = await fetch(`${API_URL}/api/accessibility`, {
+    method: "POST",
+    body: formData,
   });
 
-  return res.data;
+  if (!res.ok) {
+    throw new Error(`Accessibility analysis failed: ${res.status}`);
+  }
+
+  return res.json();
 };
