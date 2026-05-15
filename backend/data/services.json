@@ -1,0 +1,10 @@
+[
+  {
+    "service": "Certifikatë e lindjes",
+    "institution": "Komuna",
+    "office": "Gjendja Civile",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi", "Numri personal"],
+    "estimatedWait": "15-25 minuta"
+  }
+]
