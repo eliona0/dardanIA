@@ -1,13 +1,15 @@
+const fs = require("fs");
 const path = require("path");
 
 if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = path.join(__dirname, "..", "credentials.json");
 } else if (!path.isAbsolute(process.env.GOOGLE_APPLICATION_CREDENTIALS)) {
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve(
-    __dirname,
-    "..",
-    process.env.GOOGLE_APPLICATION_CREDENTIALS,
-  );
+  const fromBackend = path.resolve(__dirname, "..", process.env.GOOGLE_APPLICATION_CREDENTIALS);
+  const fromRepoRoot = path.resolve(__dirname, "..", "..", process.env.GOOGLE_APPLICATION_CREDENTIALS);
+
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = fs.existsSync(fromBackend)
+    ? fromBackend
+    : fromRepoRoot;
 }
 
 const { GoogleGenAI } = require("@google/genai");
@@ -225,7 +227,57 @@ Rules:
   return validateReportResult(result, city);
 };
 
+const matchGuideService = async (question, services) => {
+  const serviceNames = services.map((service) => service.service);
+  const payload = JSON.stringify({ question, allowedServices: serviceNames }, null, 2);
+  const result = await generateJson([
+    {
+      role: "user",
+      parts: [
+        {
+          text: `
+You are KuMeShku, an Albanian public-service routing assistant.
+
+Task:
+Choose the single best matching service from the allowed services list for the user's question.
+
+Input:
+${payload}
+
+Return ONLY valid JSON with this exact shape:
+{
+  "service": string | null,
+  "confidence": number,
+  "reason": string
+}
+
+Rules:
+- The "service" value must be exactly one of the allowed services, or null if none fits.
+- Understand informal Albanian, typos, synonyms, abbreviations, and mixed language.
+- Match the user's intent, not only exact words.
+- Do not invent new services, institutions, offices, documents, or steps.
+- Use confidence from 0 to 1.
+`,
+        },
+      ],
+    },
+  ]);
+
+  if (!result || typeof result !== "object") {
+    throw new Error("Gemini returned an invalid guide match.");
+  }
+
+  const matchedService = serviceNames.find((name) => name === result.service);
+
+  return {
+    service: matchedService || null,
+    confidence: Math.max(0, Math.min(1, Number(result.confidence) || 0)),
+    reason: String(result.reason || ""),
+  };
+};
+
 module.exports = {
   analyzeAccessibility,
   analyzeReport,
+  matchGuideService,
 };

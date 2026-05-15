@@ -167,5 +167,29 @@
     "status": "pending",
     "id": "951929b4-0a07-4545-8ad2-9644595a66ff",
     "createdAt": "2026-05-15T21:17:59.722Z"
+  },
+  {
+    "title": "Excessive Waste Accumulation",
+    "category": "waste",
+    "severity": "medium",
+    "recommendedInstitution": "Municipal Directorate for Public Services, Prishtina",
+    "summary": "Report of significant waste accumulation in Prishtina.",
+    "officialComplaint": "I am reporting a significant accumulation of waste in Prishtina. I request that the relevant services address this issue promptly to ensure public hygiene and cleanliness.",
+    "location": "Prishtine",
+    "status": "pending",
+    "id": "29465e98-df01-4fae-9748-4320e8cb6a4f",
+    "createdAt": "2026-05-15T21:37:33.283Z"
+  },
+  {
+    "title": "Pothole Report",
+    "category": "road_damage",
+    "severity": "medium",
+    "recommendedInstitution": "Komuna e Prishtinës - Drejtoria e Shërbimeve Publike",
+    "summary": "A pothole (gropa) has been reported in Prishtina, requiring attention for road safety.",
+    "officialComplaint": "I am reporting a pothole (gropa) located within the city of Prishtina. This issue poses a potential hazard to vehicles and pedestrians. I request that the relevant department conduct an inspection of the reported area and arrange for its prompt repair to ensure public safety and maintain road infrastructure.",
+    "location": "Prishtine",
+    "status": "pending",
+    "id": "0524af17-2506-45db-b0c6-55536057105a",
+    "createdAt": "2026-05-15T22:21:26.078Z"
   }
 ]

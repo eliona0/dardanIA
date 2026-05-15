@@ -65,8 +65,274 @@
     "steps": [
       "Paraqitu te Arka Komunale.",
       "Trego faturën ose numrin e lëndës.",
-      "Kryej pagesën me para të gatshme ose sipas udhëzimit të arkës.",
+      "Kryej pagesën sipas udhëzimit të arkës.",
       "Ruaje dëshminë e pagesës."
+    ]
+  },
+  {
+    "service": "Patentë shoferi",
+    "institution": "Ministria e Punëve të Brendshme",
+    "office": "Qendra për Patentë Shoferi",
+    "floor": "Kati përdhes",
+    "documents": ["Letërnjoftimi", "Certifikatë mjekësore", "Dëshmi e provimit", "Fletëpagesa"],
+    "estimatedWait": "30-60 minuta",
+    "steps": [
+      "Paraqitu te Qendra për Patentë Shoferi.",
+      "Dorëzo dokumentet e aplikimit.",
+      "Verifiko të dhënat dhe kategorinë e patentës.",
+      "Merr dëshminë e aplikimit ose udhëzimin për marrje."
+    ]
+  },
+  {
+    "service": "Pasaportë",
+    "institution": "Ministria e Punëve të Brendshme",
+    "office": "Qendra për Pajisje me Dokumente",
+    "floor": "Kati përdhes",
+    "documents": ["Letërnjoftimi", "Certifikatë e lindjes", "Dëshmi e pagesës", "Pasaporta e vjetër nëse ka"],
+    "estimatedWait": "30-70 minuta",
+    "steps": [
+      "Merr numrin e pritjes për pasaportë.",
+      "Dorëzo dokumentet te sporteli për dokumente udhëtimi.",
+      "Kryej fotografimin dhe verifikimin biometrik.",
+      "Ruaje dëshminë e aplikimit deri në marrjen e pasaportës."
+    ]
+  },
+  {
+    "service": "Ndërrim adrese",
+    "institution": "Komuna",
+    "office": "Zyra e Gjendjes Civile",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi", "Dëshmi e vendbanimit të ri", "Kontratë qiraje ose dëshmi pronësie"],
+    "estimatedWait": "20-40 minuta",
+    "steps": [
+      "Paraqitu në Zyrën e Gjendjes Civile.",
+      "Trego se dëshiron të ndryshosh adresën.",
+      "Dorëzo dëshminë e vendbanimit të ri.",
+      "Merr vërtetimin e përditësimit të adresës."
+    ]
+  },
+  {
+    "service": "Certifikatë e martesës",
+    "institution": "Komuna",
+    "office": "Zyra e Gjendjes Civile",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi", "Numri personal", "Të dhënat e bashkëshortit/bashkëshortes"],
+    "estimatedWait": "15-30 minuta",
+    "steps": [
+      "Merr numrin e pritjes në sportel.",
+      "Paraqitu në Zyrën e Gjendjes Civile.",
+      "Jep të dhënat e martesës që kërkohet të vërtetohen.",
+      "Prano certifikatën ose udhëzimin për pagesë."
+    ]
+  },
+  {
+    "service": "Certifikatë e vdekjes",
+    "institution": "Komuna",
+    "office": "Zyra e Gjendjes Civile",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi i aplikuesit", "Të dhënat e personit të vdekur", "Dëshmi mjekësore nëse kërkohet"],
+    "estimatedWait": "20-35 minuta",
+    "steps": [
+      "Paraqitu në Zyrën e Gjendjes Civile.",
+      "Trego të dhënat e personit për të cilin kërkohet certifikata.",
+      "Dorëzo dokumentet mbështetëse nëse kërkohen.",
+      "Prano certifikatën ose udhëzimin për hapin e radhës."
+    ]
+  },
+  {
+    "service": "Vërtetim i vendbanimit",
+    "institution": "Komuna",
+    "office": "Zyra e Gjendjes Civile",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi", "Dëshmi e adresës", "Numri personal"],
+    "estimatedWait": "15-25 minuta",
+    "steps": [
+      "Paraqitu në Zyrën e Gjendjes Civile.",
+      "Kërko vërtetim të vendbanimit.",
+      "Dorëzo dokumentet që dëshmojnë adresën.",
+      "Merr vërtetimin e vendbanimit."
+    ]
+  },
+  {
+    "service": "Regjistrim biznesi",
+    "institution": "Agjencia për Regjistrimin e Bizneseve",
+    "office": "Sporteli për Regjistrim Biznesi",
+    "floor": "Kati përdhes",
+    "documents": ["Letërnjoftimi", "Emri i biznesit", "Adresa e biznesit", "Formulari i aplikimit"],
+    "estimatedWait": "40-90 minuta",
+    "steps": [
+      "Plotëso formularin për regjistrim biznesi.",
+      "Dorëzo dokumentet te sporteli i regjistrimit.",
+      "Verifiko të dhënat e pronarit dhe aktivitetin e biznesit.",
+      "Merr certifikatën e regjistrimit ose njoftimin për plotësim dokumentesh."
+    ]
+  },
+  {
+    "service": "Leje ndërtimi",
+    "institution": "Komuna",
+    "office": "Drejtoria e Urbanizmit",
+    "floor": "Kati 3",
+    "documents": ["Letërnjoftimi", "Dëshmi pronësie", "Projekti teknik", "Pëlqime institucionale nëse kërkohen"],
+    "estimatedWait": "1-3 ditë për dorëzim fillestar",
+    "steps": [
+      "Paraqitu te Drejtoria e Urbanizmit.",
+      "Dorëzo projektin dhe dokumentet e pronësisë.",
+      "Merr konfirmimin për pranimin e kërkesës.",
+      "Prit shqyrtimin ose kërkesën për plotësim dokumentesh."
+    ]
+  },
+  {
+    "service": "Tatim në pronë",
+    "institution": "Komuna",
+    "office": "Zyra e Tatimit në Pronë",
+    "floor": "Kati 2",
+    "documents": ["Letërnjoftimi", "Numri i pronës ose fatura", "Dëshmi pronësie nëse kërkohet"],
+    "estimatedWait": "15-35 minuta",
+    "steps": [
+      "Paraqitu te Zyra e Tatimit në Pronë.",
+      "Jep numrin e pronës ose faturën.",
+      "Verifiko obligimin tatimor.",
+      "Merr faturën, vërtetimin ose udhëzimin për pagesë."
+    ]
+  },
+  {
+    "service": "Ndihmë sociale",
+    "institution": "Qendra për Punë Sociale",
+    "office": "Zyra për Asistencë Sociale",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi", "Certifikatë familjare", "Dëshmi të të ardhurave", "Dokumente mjekësore nëse ka"],
+    "estimatedWait": "30-60 minuta",
+    "steps": [
+      "Paraqitu në Qendrën për Punë Sociale.",
+      "Kërko formularin për ndihmë sociale.",
+      "Dorëzo dokumentet e gjendjes familjare dhe financiare.",
+      "Merr udhëzimin për shqyrtim ose vizitë verifikuese."
+    ]
+  },
+  {
+    "service": "Termini te mjeku familjar",
+    "institution": "Qendra Kryesore e Mjekësisë Familjare",
+    "office": "Recepcioni i Mjekësisë Familjare",
+    "floor": "Kati përdhes",
+    "documents": ["Letërnjoftimi", "Kartela shëndetësore"],
+    "estimatedWait": "10-25 minuta",
+    "steps": [
+      "Paraqitu te recepcioni i QKMF-së.",
+      "Kërko termin te mjeku familjar.",
+      "Jep të dhënat personale dhe arsyen e vizitës.",
+      "Merr kohën e terminit ose prit thirrjen për kontroll."
+    ]
+  },
+  {
+    "service": "Vaksinim",
+    "institution": "Qendra Kryesore e Mjekësisë Familjare",
+    "office": "Zyra e Vaksinimit",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi", "Kartela e vaksinimit", "Kartela shëndetësore"],
+    "estimatedWait": "15-40 minuta",
+    "steps": [
+      "Paraqitu te Zyra e Vaksinimit.",
+      "Trego vaksinën ose shërbimin që kërkon.",
+      "Dorëzo kartelën e vaksinimit nëse e ke.",
+      "Merr vaksinën ose terminin sipas udhëzimit të stafit shëndetësor."
+    ]
+  },
+  {
+    "service": "Regjistrim në çerdhe",
+    "institution": "Komuna",
+    "office": "Drejtoria e Arsimit",
+    "floor": "Kati 2",
+    "documents": ["Certifikatë e lindjes së fëmijës", "Letërnjoftimi i prindit", "Dëshmi vendbanimi", "Dokumente shtesë sipas konkursit"],
+    "estimatedWait": "30-60 minuta",
+    "steps": [
+      "Paraqitu te Drejtoria e Arsimit.",
+      "Kërko informata për regjistrim në çerdhe.",
+      "Dorëzo dokumentet e fëmijës dhe prindit.",
+      "Merr konfirmimin e aplikimit ose udhëzimin për konkurs."
+    ]
+  },
+  {
+    "service": "Regjistrim në shkollë",
+    "institution": "Shkolla ose Drejtoria e Arsimit",
+    "office": "Sekretaria e Shkollës",
+    "floor": "Kati përdhes",
+    "documents": ["Certifikatë e lindjes", "Letërnjoftimi i prindit", "Dëshmi vendbanimi", "Dokumente të mëparshme shkollore nëse ka"],
+    "estimatedWait": "20-45 minuta",
+    "steps": [
+      "Paraqitu te sekretaria e shkollës përkatëse.",
+      "Trego klasën ose nivelin ku kërkohet regjistrimi.",
+      "Dorëzo dokumentet e fëmijës.",
+      "Merr konfirmimin e regjistrimit ose udhëzimin për plotësim dokumentesh."
+    ]
+  },
+  {
+    "service": "Bursë studentore",
+    "institution": "Universiteti ose Komuna",
+    "office": "Zyra për Bursa",
+    "floor": "Kati 1",
+    "documents": ["Letërnjoftimi", "Vërtetim studenti", "Transkripta e notave", "Dëshmi të të ardhurave familjare nëse kërkohet"],
+    "estimatedWait": "30-60 minuta",
+    "steps": [
+      "Kontrollo kriteret e konkursit për bursë.",
+      "Paraqitu te Zyra për Bursa.",
+      "Dorëzo dokumentet akademike dhe financiare.",
+      "Merr konfirmimin e aplikimit."
+    ]
+  },
+  {
+    "service": "Ankesë komunale",
+    "institution": "Komuna",
+    "office": "Zyra për Ankesa dhe Kërkesa",
+    "floor": "Kati përdhes",
+    "documents": ["Letërnjoftimi", "Përshkrimi i ankesës", "Foto ose dëshmi nëse ka"],
+    "estimatedWait": "15-30 minuta",
+    "steps": [
+      "Paraqitu te Zyra për Ankesa dhe Kërkesa.",
+      "Shpjego problemin ose plotëso formularin e ankesës.",
+      "Dorëzo dëshmitë mbështetëse nëse i ke.",
+      "Merr numrin e protokollit për përcjellje."
+    ]
+  },
+  {
+    "service": "Problem me mbeturina",
+    "institution": "Komuna",
+    "office": "Drejtoria e Shërbimeve Publike",
+    "floor": "Kati 2",
+    "documents": ["Letërnjoftimi", "Adresa e lokacionit", "Foto e problemit nëse ka"],
+    "estimatedWait": "15-30 minuta",
+    "steps": [
+      "Paraqitu te Drejtoria e Shërbimeve Publike.",
+      "Trego lokacionin ku ka problem me mbeturina.",
+      "Dorëzo foto ose përshkrim të problemit.",
+      "Merr numrin e kërkesës për përcjellje."
+    ]
+  },
+  {
+    "service": "Leje parkimi",
+    "institution": "Komuna",
+    "office": "Zyra e Parkingut",
+    "floor": "Kati përdhes",
+    "documents": ["Letërnjoftimi", "Leja e qarkullimit të automjetit", "Dëshmi vendbanimi ose pune në zonë"],
+    "estimatedWait": "20-40 minuta",
+    "steps": [
+      "Paraqitu te Zyra e Parkingut.",
+      "Trego zonën për të cilën kërkon leje parkimi.",
+      "Dorëzo dokumentet e automjetit dhe vendbanimit.",
+      "Merr lejen ose udhëzimin për pagesë."
+    ]
+  },
+  {
+    "service": "Transport publik",
+    "institution": "Ndërmarrja e Transportit Publik",
+    "office": "Zyra e Kartelave dhe Abonimeve",
+    "floor": "Kati përdhes",
+    "documents": ["Letërnjoftimi", "Fotografi", "Vërtetim studenti ose pensionisti nëse kërkohet"],
+    "estimatedWait": "15-35 minuta",
+    "steps": [
+      "Paraqitu te Zyra e Kartelave dhe Abonimeve.",
+      "Zgjidh llojin e kartelës ose abonimit.",
+      "Dorëzo dokumentet dhe fotografinë.",
+      "Merr kartelën ose udhëzimin për pagesë."
     ]
   }
 ]
