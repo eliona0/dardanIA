@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "title": "Severely Non-Compliant Entrance Ramps and Stairs",
+    "category": "accessibility",
+    "accessibilityScore": 1,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Excessively steep ramps (likely far exceeding 1:12 slope)",
+      "Lack of handrails on both sides of the ramps",
+      "Curved ramps, making maneuvering difficult and dangerous",
+      "Insufficient ramp width, especially on curved sections",
+      "Lack of level landings at the top and bottom of ramps",
+      "Lack of tactile warning surfaces at the top and bottom of stairs and ramps",
+      "Poor color contrast on stair treads, making step edges hard to distinguish",
+      "Stair handrail does not extend horizontally beyond the top and bottom steps",
+      "Potentially slippery ramp surface (tiled)"
+    ],
+    "recommendations": [
+      "Remove and completely redesign the ramps to meet accessibility standards, ensuring a maximum slope of 1:12, minimum width of 36 inches, level landings at top and bottom, and continuous handrails on both sides extending beyond the ramp.",
+      "Install tactile warning strips at the top and bottom of all stairs and any compliant ramps.",
+      "Improve color contrast on stair treads to clearly delineate each step.",
+      "Ensure stair handrails extend horizontally at least 12 inches beyond the top and bottom risers.",
+      "Consider alternative accessible entry solutions such as a platform lift if space for a compliant ramp is insufficient.",
+      "Ensure all walking surfaces, especially ramps, are made of slip-resistant materials."
+    ],
+    "summary": "The entrance features stairs and what appear to be an attempt at accessible ramps. However, the 'ramps' are extremely steep, curved, lack handrails, and do not have proper landings, rendering them unusable and highly dangerous for wheelchair users. The stairs also present significant risks for people with visual impairments due to a lack of tactile warnings, poor color contrast, and inadequate handrail extensions. This entrance is severely non-compliant with accessibility standards and poses a high risk to users.",
+    "officialReport": "This entrance requires immediate remediation to comply with local and national accessibility standards (e.g., ADA, local building codes). A detailed architectural assessment is recommended to design and implement a safe and accessible entry solution.",
+    "recommendedInstitution": "Local building authority, accessibility consultants, disability advocacy organizations",
+    "status": "pending",
+    "id": "29975ba0-0fab-48f5-a9ee-6d12d3e9f1e7",
+    "createdAt": "2026-05-15T17:15:28.266Z"
+  },
+  {
+    "title": "Severely Non-Compliant Entrance Ramps and Stairs",
+    "category": "accessibility",
+    "accessibilityScore": 1,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Excessively steep ramps (likely far exceeding 1:12 slope)",
+      "Lack of handrails on both sides of the ramps",
+      "Curved ramps, making maneuvering difficult and dangerous",
+      "Insufficient ramp width, especially on curved sections",
+      "Lack of level landings at the top and bottom of ramps",
+      "Lack of tactile warning surfaces at the top and bottom of stairs and ramps",
+      "Poor color contrast on stair treads, making step edges hard to distinguish",
+      "Stair handrail does not extend horizontally beyond the top and bottom steps",
+      "Potentially slippery ramp surface (tiled)"
+    ],
+    "recommendations": [
+      "Remove and completely redesign the ramps to meet accessibility standards, ensuring a maximum slope of 1:12, minimum width of 36 inches, level landings at top and bottom, and continuous handrails on both sides extending beyond the ramp.",
+      "Install tactile warning strips at the top and bottom of all stairs and any compliant ramps.",
+      "Improve color contrast on stair treads to clearly delineate each step.",
+      "Ensure stair handrails extend horizontally at least 12 inches beyond the top and bottom risers.",
+      "Consider alternative accessible entry solutions such as a platform lift if space for a compliant ramp is insufficient.",
+      "Ensure all walking surfaces, especially ramps, are made of slip-resistant materials."
+    ],
+    "summary": "The entrance features stairs and what appear to be an attempt at accessible ramps. However, the 'ramps' are extremely steep, curved, lack handrails, and do not have proper landings, rendering them unusable and highly dangerous for wheelchair users. The stairs also present significant risks for people with visual impairments due to a lack of tactile warnings, poor color contrast, and inadequate handrail extensions. This entrance is severely non-compliant with accessibility standards and poses a high risk to users.",
+    "officialReport": "This entrance requires immediate remediation to comply with local and national accessibility standards (e.g., ADA, local building codes). A detailed architectural assessment is recommended to design and implement a safe and accessible entry solution.",
+    "recommendedInstitution": "Local building authority, accessibility consultants, disability advocacy organizations",
+    "status": "pending",
+    "id": "592b6d5f-a941-4a64-8e6e-9b8c2647ac59",
+    "createdAt": "2026-05-15T17:15:39.992Z"
+  },
+  {
+    "title": "Severely Non-Compliant Entrance Ramps and Stairs",
+    "category": "accessibility",
+    "accessibilityScore": 1,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Excessively steep ramps (likely far exceeding 1:12 slope)",
+      "Lack of handrails on both sides of the ramps",
+      "Curved ramps, making maneuvering difficult and dangerous",
+      "Insufficient ramp width, especially on curved sections",
+      "Lack of level landings at the top and bottom of ramps",
+      "Lack of tactile warning surfaces at the top and bottom of stairs and ramps",
+      "Poor color contrast on stair treads, making step edges hard to distinguish",
+      "Stair handrail does not extend horizontally beyond the top and bottom steps",
+      "Potentially slippery ramp surface (tiled)"
+    ],
+    "recommendations": [
+      "Remove and completely redesign the ramps to meet accessibility standards, ensuring a maximum slope of 1:12, minimum width of 36 inches, level landings at top and bottom, and continuous handrails on both sides extending beyond the ramp.",
+      "Install tactile warning strips at the top and bottom of all stairs and any compliant ramps.",
+      "Improve color contrast on stair treads to clearly delineate each step.",
+      "Ensure stair handrails extend horizontally at least 12 inches beyond the top and bottom risers.",
+      "Consider alternative accessible entry solutions such as a platform lift if space for a compliant ramp is insufficient.",
+      "Ensure all walking surfaces, especially ramps, are made of slip-resistant materials."
+    ],
+    "summary": "The entrance features stairs and what appear to be an attempt at accessible ramps. However, the 'ramps' are extremely steep, curved, lack handrails, and do not have proper landings, rendering them unusable and highly dangerous for wheelchair users. The stairs also present significant risks for people with visual impairments due to a lack of tactile warnings, poor color contrast, and inadequate handrail extensions. This entrance is severely non-compliant with accessibility standards and poses a high risk to users.",
+    "officialReport": "This entrance requires immediate remediation to comply with local and national accessibility standards (e.g., ADA, local building codes). A detailed architectural assessment is recommended to design and implement a safe and accessible entry solution.",
+    "recommendedInstitution": "Local building authority, accessibility consultants, disability advocacy organizations",
+    "status": "pending",
+    "id": "3f200120-f681-49a6-8cca-53d86e39e861",
+    "createdAt": "2026-05-15T17:15:46.052Z"
+  }
+]
