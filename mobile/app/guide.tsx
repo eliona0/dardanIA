@@ -22,6 +22,20 @@ type GuideResult = {
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
 
+async function readJsonResponse(response: Response) {
+  const text = await response.text();
+
+  try {
+    return text ? JSON.parse(text) : null;
+  } catch {
+    throw new Error(
+      response.status === 404
+        ? "Backend route /api/guide nuk u gjet. Rinis backend-in me npm run dev."
+        : "Backend ktheu pergjigje jo-JSON.",
+    );
+  }
+}
+
 export default function GuideScreen() {
   const [question, setQuestion] = useState("");
   const [result, setResult] = useState<GuideResult | null>(null);
@@ -48,10 +62,10 @@ export default function GuideScreen() {
         },
         body: JSON.stringify({ question: trimmedQuestion }),
       });
-      const data = await response.json();
+      const data = await readJsonResponse(response);
 
       if (!response.ok) {
-        throw new Error(data.error || "Nuk mund ta gjej shërbimin.");
+        throw new Error(data?.error || "Nuk mund ta gjej shërbimin.");
       }
 
       setResult(data);

@@ -45,7 +45,7 @@ export default function AccessibilityCheckScreen() {
 
     return ImagePicker.launchCameraAsync({
       allowsEditing: false,
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       quality: 0.85,
     });
   };
@@ -60,7 +60,7 @@ export default function AccessibilityCheckScreen() {
 
     return ImagePicker.launchImageLibraryAsync({
       allowsEditing: false,
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       quality: 0.85,
     });
   };

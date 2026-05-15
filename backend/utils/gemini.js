@@ -1,13 +1,20 @@
 const path = require("path");
-const { GoogleGenAI } = require("@google/genai");
-
-const project = process.env.GOOGLE_CLOUD_PROJECT || "dardania-496416";
-const location = process.env.GOOGLE_CLOUD_LOCATION || "us-central1";
-const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = path.join(__dirname, "..", "credentials.json");
+} else if (!path.isAbsolute(process.env.GOOGLE_APPLICATION_CREDENTIALS)) {
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve(
+    __dirname,
+    "..",
+    process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  );
 }
+
+const { GoogleGenAI } = require("@google/genai");
+
+const project = process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || "dardania-496416";
+const location = process.env.GOOGLE_CLOUD_LOCATION || "us-central1";
+const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
 const ai = new GoogleGenAI({
   vertexai: true,
