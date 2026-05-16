@@ -27,19 +27,21 @@ type SelectedImage = {
 };
 
 const colors = {
-  accent: "#6A97B2",
-  background: "#F2F5EA",
+  accent: "#2A9D8F",
+  background: "#F7FAF9",
   card: "#FFFFFF",
-  gold: "#6A97B2",
-  primary: "#356F94",
-  success: "#5B7B57",
-  text: "#2F2D2E",
+  error: "#E76F51",
+  highlight: "#E9C46A",
+  primary: "#264653",
+  success: "#2A9D8F",
+  text: "#1F2933",
+  warning: "#F4A261",
 };
 
 const riskColor = {
-  low: "#5B7B57",
-  medium: "#6A97B2",
-  high: "#356F94",
+  low: "#2A9D8F",
+  medium: "#F4A261",
+  high: "#E76F51",
 };
 
 const riskLabel = {
@@ -63,11 +65,14 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
 
   const navigateTab = (route: string) => {
     if (navigation) {
-      navigation.navigate(routeToScreen[route as keyof typeof routeToScreen] || "Home");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: routeToScreen[route as keyof typeof routeToScreen] || "Home" }],
+      });
       return;
     }
 
-    router.push(route as never);
+    router.replace(route as never);
   };
 
   const requestCamera = async () => {
@@ -216,7 +221,7 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
             <Image source={{ uri: image.uri }} style={styles.preview} />
           ) : (
             <View style={styles.emptyPreview}>
-              <Ionicons color={colors.gold} name="image-outline" size={34} />
+              <Ionicons color={colors.accent} name="image-outline" size={34} />
               <Text style={styles.emptyText}>Zgjidh foto për analizë</Text>
             </View>
           )}
@@ -347,7 +352,7 @@ function ListCard({
       {items.length ? (
         items.map((item) => (
           <View key={item} style={styles.listRow}>
-            <Ionicons color={colors.gold} name="checkmark-circle-outline" size={18} />
+            <Ionicons color={colors.highlight} name="checkmark-circle-outline" size={18} />
             <Text style={styles.listItem}>{item}</Text>
           </View>
         ))
@@ -385,7 +390,7 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   brand: {
-    color: colors.gold,
+    color: colors.highlight,
     fontSize: 15,
     fontWeight: "900",
   },
@@ -397,7 +402,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.card,
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 3,
@@ -416,14 +421,14 @@ const styles = StyleSheet.create({
   },
   cardIcon: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 14,
     height: 40,
     justifyContent: "center",
     width: 40,
   },
   cardTitle: {
-    color: colors.text,
+    color: colors.primary,
     flex: 1,
     fontSize: 18,
     fontWeight: "900",
@@ -439,8 +444,8 @@ const styles = StyleSheet.create({
   emptyPreview: {
     alignItems: "center",
     aspectRatio: 4 / 3,
-    backgroundColor: "#F2F5EA",
-    borderColor: "#C6D6DE",
+    backgroundColor: "#F7FAF9",
+    borderColor: "#C9DEDA",
     borderRadius: 18,
     borderStyle: "dashed",
     borderWidth: 1,
@@ -473,8 +478,8 @@ const styles = StyleSheet.create({
     width: 44,
   },
   innerCard: {
-    backgroundColor: "#F2F5EA",
-    borderColor: "#D8E1D0",
+    backgroundColor: "#F7FAF9",
+    borderColor: "#DDEAE7",
     borderRadius: 18,
     borderWidth: 1,
     marginTop: 12,
@@ -536,14 +541,14 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   progressTrack: {
-    backgroundColor: "#C6D6DE",
+    backgroundColor: "#C9DEDA",
     borderRadius: 999,
     height: 12,
     overflow: "hidden",
   },
   resultCard: {
     backgroundColor: colors.card,
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 3,
@@ -564,7 +569,7 @@ const styles = StyleSheet.create({
   },
   resultIcon: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 16,
     height: 46,
     justifyContent: "center",
@@ -577,13 +582,13 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   resultTitle: {
-    color: colors.text,
+    color: colors.primary,
     fontSize: 20,
     fontWeight: "900",
   },
   riskCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 18,
     borderWidth: 1,
     marginTop: 12,
@@ -624,8 +629,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   scoreCard: {
-    backgroundColor: "#F2F5EA",
-    borderColor: "#D8E1D0",
+    backgroundColor: "#F7FAF9",
+    borderColor: "#DDEAE7",
     borderRadius: 18,
     borderWidth: 1,
     padding: 16,
@@ -636,7 +641,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   scoreMax: {
-    color: colors.gold,
+    color: colors.highlight,
     fontSize: 28,
     fontWeight: "900",
     marginBottom: 8,
@@ -658,8 +663,8 @@ const styles = StyleSheet.create({
   },
   secondaryButton: {
     alignItems: "center",
-    backgroundColor: "#F2F5EA",
-    borderColor: "#C6D6DE",
+    backgroundColor: "#E6F4F1",
+    borderColor: "#C9DEDA",
     borderRadius: 16,
     borderWidth: 1,
     flex: 1,
@@ -677,7 +682,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   sectionTitle: {
-    color: colors.text,
+    color: colors.primary,
     flex: 1,
     fontSize: 17,
     fontWeight: "900",

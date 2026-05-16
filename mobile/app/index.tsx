@@ -16,15 +16,16 @@ import QuickActionCard from "../components/QuickActionCard";
 import SearchBar from "../components/SearchBar";
 import { mockCases } from "../components/mockCases";
 
-const primary = "#356F94";
-const secondary = "#6A97B2";
-const success = "#5B7B57";
-const background = "#F2F5EA";
-const text = "#2F2D2E";
+const primary = "#264653";
+const secondary = "#2A9D8F";
+const success = "#2A9D8F";
+const warning = "#F4A261";
+const background = "#F7FAF9";
+const text = "#1F2933";
 
 const actions = [
   {
-    color: primary,
+    color: warning,
     icon: "camera-plus-outline",
     iconFamily: "MaterialCommunityIcons",
     route: "/report",
@@ -48,7 +49,7 @@ const actions = [
     title: "Ku me shku?",
   },
   {
-    color: "#356F94",
+    color: "#264653",
     icon: "map-outline",
     iconFamily: "Ionicons",
     route: "/map",
@@ -80,7 +81,7 @@ export function HomeLanding({
       return;
     }
 
-    router.push(action.route as never);
+    router.replace(action.route as never);
   };
 
   const handleCaseNavigate = (caseId: string) => {
@@ -98,7 +99,7 @@ export function HomeLanding({
       return;
     }
 
-    router.push(route as never);
+    router.replace(route as never);
   };
 
   return (
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     alignItems: "center",
-    backgroundColor: primary,
+    backgroundColor: secondary,
     borderRadius: 16,
     height: 48,
     justifyContent: "center",
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
   },
   mapCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 22,
     borderWidth: 1,
     elevation: 3,
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   sectionTitle: {
-    color: text,
+    color: primary,
     fontSize: 19,
     fontWeight: "900",
   },
@@ -267,7 +268,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   mapButton: {
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -282,14 +283,14 @@ const styles = StyleSheet.create({
   },
   infoCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     marginTop: 22,
     padding: 16,
   },
   infoTitle: {
-    color: text,
+    color: primary,
     fontSize: 17,
     fontWeight: "900",
     marginBottom: 10,

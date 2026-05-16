@@ -26,19 +26,21 @@ type SelectedImage = {
 };
 
 const colors = {
-  accent: "#6A97B2",
-  background: "#F2F5EA",
+  accent: "#2A9D8F",
+  background: "#F7FAF9",
   card: "#FFFFFF",
-  gold: "#6A97B2",
-  primary: "#356F94",
-  success: "#5B7B57",
-  text: "#2F2D2E",
+  error: "#E76F51",
+  highlight: "#E9C46A",
+  primary: "#264653",
+  success: "#2A9D8F",
+  text: "#1F2933",
+  warning: "#F4A261",
 };
 
 const severityColor = {
-  low: "#5B7B57",
-  medium: "#6A97B2",
-  high: "#356F94",
+  low: "#2A9D8F",
+  medium: "#F4A261",
+  high: "#E76F51",
 };
 
 const severityLabel = {
@@ -113,11 +115,14 @@ export default function ReportProblemScreen({ navigation }: { navigation?: any }
 
   const navigateTab = (route: string) => {
     if (navigation) {
-      navigation.navigate(routeToScreen[route as keyof typeof routeToScreen] || "Home");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: routeToScreen[route as keyof typeof routeToScreen] || "Home" }],
+      });
       return;
     }
 
-    router.push(route as never);
+    router.replace(route as never);
   };
 
   const requestCamera = async () => {
@@ -280,7 +285,7 @@ export default function ReportProblemScreen({ navigation }: { navigation?: any }
             <Image source={{ uri: image.uri }} style={styles.preview} />
           ) : (
             <View style={styles.emptyPreview}>
-              <Ionicons color={colors.gold} name="image-outline" size={34} />
+              <Ionicons color={colors.warning} name="image-outline" size={34} />
               <Text style={styles.emptyText}>Ende nuk është zgjedhur foto</Text>
             </View>
           )}
@@ -295,7 +300,7 @@ export default function ReportProblemScreen({ navigation }: { navigation?: any }
               setResult(null);
             }}
             placeholder="Përshkruaj problemin me sa më shumë detaje..."
-            placeholderTextColor="#6A97B2"
+            placeholderTextColor="#2A9D8F"
             multiline
             textAlignVertical="top"
           />
@@ -342,7 +347,7 @@ export default function ReportProblemScreen({ navigation }: { navigation?: any }
               setResult(null);
             }}
             placeholder="Lagjja / adresa (opsionale)"
-            placeholderTextColor="#6A97B2"
+            placeholderTextColor="#2A9D8F"
           />
 
           <View style={styles.addressPreview}>
@@ -370,7 +375,7 @@ export default function ReportProblemScreen({ navigation }: { navigation?: any }
           <View style={styles.resultCard}>
             <View style={styles.resultHeader}>
               <View style={styles.resultIcon}>
-                <Ionicons color={colors.primary} name="sparkles-outline" size={22} />
+                <Ionicons color={colors.warning} name="sparkles-outline" size={22} />
               </View>
               <View style={styles.resultHeaderText}>
                 <Text style={styles.resultTitle}>Analiza nga dardanIA</Text>
@@ -390,7 +395,7 @@ export default function ReportProblemScreen({ navigation }: { navigation?: any }
 
             <View style={styles.complaintCard}>
               <View style={styles.complaintHeader}>
-                <Ionicons color={colors.primary} name="mail-outline" size={19} />
+                <Ionicons color={colors.warning} name="mail-outline" size={19} />
                 <Text style={styles.complaintTitle}>Ankesa zyrtare</Text>
               </View>
               <Text style={styles.complaintText}>{result.officialComplaint}</Text>
@@ -431,7 +436,7 @@ function SectionCard({
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <View style={styles.cardIcon}>
-          <Ionicons color={colors.primary} name={icon} size={20} />
+          <Ionicons color={colors.warning} name={icon} size={20} />
         </View>
         <Text style={styles.cardTitle}>{title}</Text>
       </View>
@@ -457,8 +462,8 @@ const styles = StyleSheet.create({
   },
   addressPreview: {
     alignItems: "center",
-    backgroundColor: "#F2F5EA",
-    borderColor: "#D8E1D0",
+    backgroundColor: "#F7FAF9",
+    borderColor: "#DDEAE7",
     borderRadius: 16,
     borderWidth: 1,
     flexDirection: "row",
@@ -473,7 +478,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   brand: {
-    color: colors.gold,
+    color: colors.highlight,
     fontSize: 15,
     fontWeight: "900",
   },
@@ -485,7 +490,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.card,
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 3,
@@ -504,21 +509,21 @@ const styles = StyleSheet.create({
   },
   cardIcon: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#FFF4E6",
     borderRadius: 14,
     height: 40,
     justifyContent: "center",
     width: 40,
   },
   cardTitle: {
-    color: colors.text,
+    color: colors.primary,
     flex: 1,
     fontSize: 18,
     fontWeight: "900",
   },
   complaintCard: {
-    backgroundColor: "#F2F5EA",
-    borderColor: "#D8E1D0",
+    backgroundColor: "#F7FAF9",
+    borderColor: "#DDEAE7",
     borderRadius: 18,
     borderWidth: 1,
     marginTop: 12,
@@ -551,7 +556,7 @@ const styles = StyleSheet.create({
   dropdownButton: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    borderColor: "#C9DEDA",
     borderRadius: 16,
     borderWidth: 1,
     flexDirection: "row",
@@ -561,7 +566,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   dropdownItem: {
-    borderBottomColor: "#D8E1D0",
+    borderBottomColor: "#DDEAE7",
     borderBottomWidth: 1,
     paddingHorizontal: 14,
     paddingVertical: 12,
@@ -573,7 +578,7 @@ const styles = StyleSheet.create({
   },
   dropdownList: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    borderColor: "#C9DEDA",
     borderRadius: 16,
     borderWidth: 1,
     marginBottom: 12,
@@ -587,8 +592,8 @@ const styles = StyleSheet.create({
   emptyPreview: {
     alignItems: "center",
     aspectRatio: 4 / 3,
-    backgroundColor: "#F2F5EA",
-    borderColor: "#C6D6DE",
+    backgroundColor: "#F7FAF9",
+    borderColor: "#C9DEDA",
     borderRadius: 18,
     borderStyle: "dashed",
     borderWidth: 1,
@@ -614,7 +619,7 @@ const styles = StyleSheet.create({
   },
   heroIcon: {
     alignItems: "center",
-    backgroundColor: colors.accent,
+    backgroundColor: colors.warning,
     borderRadius: 14,
     height: 44,
     justifyContent: "center",
@@ -627,7 +632,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   infoRow: {
-    borderTopColor: "#D8E1D0",
+    borderTopColor: "#DDEAE7",
     borderTopWidth: 1,
     paddingVertical: 12,
   },
@@ -638,7 +643,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    borderColor: "#C9DEDA",
     borderRadius: 16,
     borderWidth: 1,
     color: colors.text,
@@ -647,7 +652,7 @@ const styles = StyleSheet.create({
     padding: 14,
   },
   label: {
-    color: colors.text,
+    color: colors.accent,
     fontSize: 14,
     fontWeight: "900",
     marginBottom: 8,
@@ -681,7 +686,7 @@ const styles = StyleSheet.create({
   },
   resultCard: {
     backgroundColor: colors.card,
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 3,
@@ -702,7 +707,7 @@ const styles = StyleSheet.create({
   },
   resultIcon: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#FFF4E6",
     borderRadius: 16,
     height: 46,
     justifyContent: "center",
@@ -716,7 +721,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   resultTitle: {
-    color: colors.text,
+    color: colors.primary,
     fontSize: 20,
     fontWeight: "900",
   },
@@ -730,8 +735,8 @@ const styles = StyleSheet.create({
   },
   secondaryButton: {
     alignItems: "center",
-    backgroundColor: "#F2F5EA",
-    borderColor: "#C6D6DE",
+    backgroundColor: "#E6F4F1",
+    borderColor: "#C9DEDA",
     borderRadius: 16,
     borderWidth: 1,
     flex: 1,

@@ -5,21 +5,52 @@ import BottomNav from "./BottomNav";
 import { mockCases } from "./mockCases";
 
 const severityColors = {
-  high: "#356F94",
-  medium: "#6A97B2",
-  low: "#5B7B57",
+  high: "#E76F51",
+  medium: "#F4A261",
+  low: "#2A9D8F",
 };
 
-export default function CaseDetailsContent({ activeTab = "Home", caseId, onTabNavigate }) {
-  const caseItem = mockCases.find((item) => item.id === caseId) || mockCases[0];
-  const severityColor = severityColors[caseItem.severity] || "#5B7B57";
+const getLocationText = (caseItem) => {
+  const location = caseItem?.location;
+
+  if (caseItem?.address) {
+    return caseItem.address;
+  }
+
+  if (location && typeof location === "object") {
+    return [location.city, location.neighborhood].filter(Boolean).join(", ");
+  }
+
+  return location || caseItem?.city || "Nuk është dhënë lokacion.";
+};
+
+const getRecommendations = (caseItem) => {
+  if (Array.isArray(caseItem?.recommendations)) {
+    return caseItem.recommendations;
+  }
+
+  if (Array.isArray(caseItem?.detectedBarriers)) {
+    return caseItem.detectedBarriers;
+  }
+
+  return [];
+};
+
+export default function CaseDetailsContent({ activeTab = "Home", caseId, caseItem: providedCase, onTabNavigate }) {
+  const caseItem = providedCase || mockCases.find((item) => item.id === caseId) || mockCases[0];
+  const severityColor = severityColors[caseItem.severity] || "#2A9D8F";
+  const summary = caseItem.summary || caseItem.description || caseItem.officialReport || "Nuk ka përmbledhje.";
+  const recommendations = getRecommendations(caseItem);
+  const institution =
+    caseItem.recommendedInstitution || caseItem.institutionName || "Institucioni nuk është caktuar.";
+  const locationText = getLocationText(caseItem);
 
   return (
     <View style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.iconWrap}>
-            <Ionicons color="#356F94" name={caseItem.icon} size={24} />
+            <Ionicons color="#264653" name={caseItem.icon || "document-text-outline"} size={24} />
           </View>
           <Text style={styles.title}>{caseItem.title}</Text>
           <View style={styles.metaRow}>
@@ -33,22 +64,32 @@ export default function CaseDetailsContent({ activeTab = "Home", caseId, onTabNa
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Description</Text>
-          <Text style={styles.paragraph}>{caseItem.description}</Text>
+          <Text style={styles.sectionTitle}>Përmbledhje</Text>
+          <Text style={styles.paragraph}>{summary}</Text>
         </View>
 
         <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Recommendations</Text>
-          {caseItem.recommendations?.length ? (
-            caseItem.recommendations.map((recommendation) => (
+          <Text style={styles.sectionTitle}>Rekomandime</Text>
+          {recommendations.length ? (
+            recommendations.map((recommendation) => (
               <View key={recommendation} style={styles.recommendationRow}>
                 <View style={styles.dot} />
                 <Text style={styles.recommendationText}>{recommendation}</Text>
               </View>
             ))
           ) : (
-            <Text style={styles.paragraph}>No recommendations available yet.</Text>
+            <Text style={styles.paragraph}>Ende nuk ka rekomandime.</Text>
           )}
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Institucioni</Text>
+          <Text style={styles.paragraph}>{institution}</Text>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Lokacioni</Text>
+          <Text style={styles.paragraph}>{locationText}</Text>
         </View>
       </ScrollView>
 
@@ -59,7 +100,7 @@ export default function CaseDetailsContent({ activeTab = "Home", caseId, onTabNa
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "#F2F5EA",
+    backgroundColor: "#F7FAF9",
     flex: 1,
   },
   content: {
@@ -68,19 +109,19 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 26,
     borderWidth: 1,
     elevation: 4,
     padding: 18,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { height: 10, width: 0 },
     shadowOpacity: 0.08,
     shadowRadius: 18,
   },
   iconWrap: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 18,
     height: 54,
     justifyContent: "center",
@@ -88,7 +129,7 @@ const styles = StyleSheet.create({
     width: 54,
   },
   title: {
-    color: "#2F2D2E",
+    color: "#264653",
     fontSize: 26,
     fontWeight: "900",
     letterSpacing: 0,
@@ -101,7 +142,7 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   category: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 14,
     fontWeight: "800",
   },
@@ -116,20 +157,20 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 22,
     borderWidth: 1,
     marginTop: 16,
     padding: 16,
   },
   sectionTitle: {
-    color: "#2F2D2E",
+    color: "#264653",
     fontSize: 17,
     fontWeight: "900",
     marginBottom: 8,
   },
   paragraph: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 15,
     fontWeight: "600",
     lineHeight: 23,
@@ -141,14 +182,14 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   recommendationText: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     flex: 1,
     fontSize: 15,
     fontWeight: "600",
     lineHeight: 22,
   },
   dot: {
-    backgroundColor: "#356F94",
+    backgroundColor: "#264653",
     borderRadius: 999,
     height: 7,
     marginTop: 8,

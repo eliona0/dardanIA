@@ -33,13 +33,13 @@ export default function ActionCard({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 22,
     borderWidth: 1,
     elevation: 3,
     minHeight: 154,
     padding: 14,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { height: 10, width: 0 },
     shadowOpacity: 0.08,
     shadowRadius: 16,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     width: 48,
   },
   title: {
-    color: "#2F2D2E",
+    color: "#264653",
     flex: 1,
     fontSize: 16,
     fontWeight: "900",

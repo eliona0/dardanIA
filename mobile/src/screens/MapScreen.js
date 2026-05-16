@@ -45,7 +45,9 @@ export default function MapScreen({ navigation }) {
 
       <BottomNav
         activeTab="Home"
-        onNavigate={(path) => navigation.navigate(routeToScreen[path] || "Home")}
+        onNavigate={(path) =>
+          navigation.reset({ index: 0, routes: [{ name: routeToScreen[path] || "Home" }] })
+        }
       />
     </View>
   );
@@ -53,7 +55,7 @@ export default function MapScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "#F2F5EA",
+    backgroundColor: "#F7FAF9",
     flex: 1,
     padding: 18,
     paddingBottom: 106,
@@ -62,13 +64,13 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   title: {
-    color: "#2F2D2E",
+    color: "#264653",
     fontSize: 30,
     fontWeight: "900",
     letterSpacing: 0,
   },
   subtitle: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 15,
     fontWeight: "700",
     lineHeight: 22,
@@ -76,13 +78,13 @@ const styles = StyleSheet.create({
   },
   mapCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 22,
     borderWidth: 1,
     elevation: 3,
     overflow: "hidden",
     padding: 8,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.07,
     shadowRadius: 16,

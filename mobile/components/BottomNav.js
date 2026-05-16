@@ -16,7 +16,7 @@ export default function BottomNav({ activeTab, onNavigate }) {
       return;
     }
 
-    router.push(route);
+    router.replace(route);
   };
 
   return (
@@ -34,7 +34,7 @@ export default function BottomNav({ activeTab, onNavigate }) {
             >
               <View style={[styles.iconWrap, isActive && styles.iconWrapActive]}>
                 <Ionicons
-                  color={isActive ? "#FFFFFF" : "#6A97B2"}
+                  color={isActive ? "#FFFFFF" : "#2A9D8F"}
                   name={tab.icon}
                   size={20}
                 />
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   nav: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    borderColor: "#C9DEDA",
     borderRadius: 24,
     borderWidth: 1,
     elevation: 8,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 10,
     paddingVertical: 9,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { height: 12, width: 0 },
     shadowOpacity: 0.14,
     shadowRadius: 22,
@@ -87,14 +87,20 @@ const styles = StyleSheet.create({
     width: 42,
   },
   iconWrapActive: {
-    backgroundColor: "#356F94",
+    backgroundColor: "#264653",
+    elevation: 2,
+    shadowColor: "#264653",
+    shadowOffset: { height: 4, width: 0 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
   },
   label: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 11,
     fontWeight: "800",
   },
   labelActive: {
-    color: "#356F94",
+    color: "#264653",
+    fontWeight: "900",
   },
 });

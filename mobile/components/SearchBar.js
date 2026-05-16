@@ -10,11 +10,11 @@ export default function SearchBar({
   return (
     <View style={styles.wrap}>
       <View style={styles.inputRow}>
-        <Ionicons color="#6A97B2" name="search" size={20} />
+        <Ionicons color="#2A9D8F" name="search" size={20} />
         <TextInput
           onChangeText={onChangeText}
           placeholder={placeholder}
-          placeholderTextColor="#6A97B2"
+          placeholderTextColor="#2A9D8F"
           style={styles.input}
           value={value}
         />
@@ -25,7 +25,7 @@ export default function SearchBar({
           <Text style={styles.suggestionLabel}>Sugjerime</Text>
           {suggestions.map((suggestion) => (
             <View key={suggestion} style={styles.suggestionItem}>
-              <Ionicons color="#356F94" name="sparkles-outline" size={15} />
+              <Ionicons color="#264653" name="sparkles-outline" size={15} />
               <Text style={styles.suggestionText}>{suggestion}</Text>
             </View>
           ))}
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   inputRow: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    borderColor: "#C9DEDA",
     borderRadius: 18,
     borderWidth: 1,
     elevation: 2,
@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
     gap: 10,
     minHeight: 54,
     paddingHorizontal: 15,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.06,
     shadowRadius: 14,
   },
   input: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     flex: 1,
     fontSize: 15,
     fontWeight: "700",
@@ -64,14 +64,14 @@ const styles = StyleSheet.create({
   },
   suggestions: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    borderColor: "#C9DEDA",
     borderRadius: 18,
     borderWidth: 1,
     marginTop: 10,
     padding: 12,
   },
   suggestionLabel: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 12,
     fontWeight: "900",
     marginBottom: 8,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   suggestionText: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     flex: 1,
     fontSize: 14,
     fontWeight: "800",

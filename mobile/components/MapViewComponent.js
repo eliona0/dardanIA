@@ -49,7 +49,7 @@ export default function MapViewComponent({
       )}
 
       <View style={styles.mapFallbackLabel}>
-        <Ionicons color="#356F94" name="location" size={15} />
+        <Ionicons color="#264653" name="location" size={15} />
         <Text style={styles.mapFallbackText}>Harta e rasteve në Prishtinë</Text>
       </View>
 
@@ -77,14 +77,14 @@ export default function MapViewComponent({
 }
 
 function markerColor(severity) {
-  if (severity === "high") return "#356F94";
-  if (severity === "medium") return "#6A97B2";
-  return "#5B7B57";
+  if (severity === "high") return "#E76F51";
+  if (severity === "medium") return "#F4A261";
+  return "#2A9D8F";
 }
 
 const styles = StyleSheet.create({
   mapFallback: {
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 20,
     overflow: "hidden",
   },
@@ -123,13 +123,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 14,
     top: 14,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.14,
     shadowRadius: 14,
   },
   calloutMeta: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 12,
     fontWeight: "700",
     marginTop: 3,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   calloutTitle: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 14,
     fontWeight: "900",
   },
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   mapFallbackText: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 12,
     fontWeight: "900",
   },
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   zoomLevel: {
     backgroundColor: "#FFFFFF",
     borderRadius: 999,
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 10,
     fontWeight: "900",
     overflow: "hidden",
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   zoomText: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 20,
     fontWeight: "900",
   },

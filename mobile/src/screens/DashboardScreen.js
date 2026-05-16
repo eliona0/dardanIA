@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Pressable,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -16,31 +17,31 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
 const severityStyles = {
   high: {
     label: "I lartë",
-    backgroundColor: "#E4EDF1",
-    color: "#356F94",
+    backgroundColor: "#FCEBE6",
+    color: "#E76F51",
   },
   medium: {
     label: "Mesatar",
-    backgroundColor: "#E4EDF1",
-    color: "#6A97B2",
+    backgroundColor: "#FFF4E6",
+    color: "#F4A261",
   },
   low: {
     label: "I ulët",
-    backgroundColor: "#E4EFE3",
-    color: "#5B7B57",
+    backgroundColor: "#E6F4F1",
+    color: "#2A9D8F",
   },
 };
 
 const statusStyles = {
   pending: {
     label: "Në pritje",
-    backgroundColor: "#E4EDF1",
-    color: "#356F94",
+    backgroundColor: "#E6F4F1",
+    color: "#264653",
   },
   default: {
     label: "Hapur",
-    backgroundColor: "#F2F5EA",
-    color: "#2F2D2E",
+    backgroundColor: "#F7FAF9",
+    color: "#1F2933",
   },
 };
 
@@ -61,6 +62,13 @@ const routeToScreen = {
   "/dashboard": "Dashboard",
   "/report": "Report",
 };
+
+const severityFilterOptions = [
+  { label: "Të gjitha", value: "all" },
+  { label: "I ulët", value: "low" },
+  { label: "Mesatar", value: "medium" },
+  { label: "I lartë", value: "high" },
+];
 
 const getSeverityStyle = (severity) =>
   severityStyles[String(severity || "").toLowerCase()] || severityStyles.low;
@@ -94,6 +102,33 @@ const formatDate = (value) => {
   });
 };
 
+const getLocationParts = (item) => {
+  const location = item?.location;
+
+  if (location && typeof location === "object") {
+    return {
+      city: location.city || item.city || "",
+      neighborhood: location.neighborhood || "",
+      display: item.address || [location.city, location.neighborhood].filter(Boolean).join(", "),
+    };
+  }
+
+  return {
+    city: item?.city || (typeof location === "string" ? location : ""),
+    neighborhood: "",
+    display: item?.address || (typeof location === "string" ? location : ""),
+  };
+};
+
+const getUniqueOptions = (items, getter) => {
+  const values = items
+    .map(getter)
+    .map((value) => String(value || "").trim())
+    .filter(Boolean);
+
+  return ["all", ...Array.from(new Set(values))];
+};
+
 const StatCard = ({ accentColor, label, value }) => (
   <View style={styles.statCard}>
     <View style={[styles.statAccent, { backgroundColor: accentColor }]} />
@@ -110,12 +145,46 @@ const Badge = ({ styleConfig }) => (
   </View>
 );
 
-const CaseCard = ({ item }) => {
+const FilterRow = ({ label, options, selectedValue, onSelect }) => (
+  <View style={styles.filterGroup}>
+    <Text style={styles.filterLabel}>{label}</Text>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <View style={styles.filterOptions}>
+        {options.map((option) => {
+          const value = typeof option === "string" ? option : option.value;
+          const optionLabel =
+            typeof option === "string" ? (option === "all" ? "Të gjitha" : option) : option.label;
+          const isActive = selectedValue === value;
+
+          return (
+            <Pressable
+              accessibilityRole="button"
+              key={value}
+              onPress={() => onSelect(value)}
+              style={[styles.filterChip, isActive && styles.filterChipActive]}
+            >
+              <Text style={[styles.filterChipText, isActive && styles.filterChipTextActive]}>
+                {optionLabel}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    </ScrollView>
+  </View>
+);
+
+const CaseCard = ({ item, onPress }) => {
   const severityStyle = getSeverityStyle(item.severity);
   const statusStyle = getStatusStyle(item.status);
+  const location = getLocationParts(item);
 
   return (
-    <View style={styles.caseCard}>
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => [styles.caseCard, pressed && styles.caseCardPressed]}
+    >
       <View style={styles.caseTopRow}>
         <Text style={styles.caseCategory}>{formatCategory(item.category)}</Text>
         <Text style={styles.caseDate}>{formatDate(item.createdAt)}</Text>
@@ -129,6 +198,12 @@ const CaseCard = ({ item }) => {
         {item.summary || "Ende nuk ka përmbledhje."}
       </Text>
 
+      {!!location.display && (
+        <Text style={styles.caseLocation} numberOfLines={1}>
+          {location.display}
+        </Text>
+      )}
+
       <View style={styles.caseFooter}>
         <View style={styles.badgeRow}>
           <Badge styleConfig={severityStyle} />
@@ -141,23 +216,43 @@ const CaseCard = ({ item }) => {
           </Text>
         )}
       </View>
-    </View>
+    </Pressable>
   );
 };
 
 export default function DashboardScreen({ navigation }) {
   const [cases, setCases] = useState([]);
   const [error, setError] = useState("");
+  const [filters, setFilters] = useState({
+    city: "all",
+    neighborhood: "all",
+    severity: "all",
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const navigateTab = (route) => {
     if (navigation) {
-      navigation.navigate(routeToScreen[route] || "Home");
+      navigation.reset({ index: 0, routes: [{ name: routeToScreen[route] || "Home" }] });
       return;
     }
 
-    router.push(route);
+    router.replace(route);
+  };
+
+  const openCase = (item) => {
+    if (navigation) {
+      navigation.navigate("Case", { id: item.id, caseItem: item });
+      return;
+    }
+
+    router.push({
+      pathname: "/case/[id]",
+      params: {
+        id: item.id || "case",
+        caseItem: JSON.stringify(item),
+      },
+    });
   };
 
   const fetchCases = async ({ refreshing = false } = {}) => {
@@ -205,25 +300,56 @@ export default function DashboardScreen({ navigation }) {
       {
         label: "Gjithsej raste",
         value: cases.length,
-        accentColor: "#356F94",
+        accentColor: "#264653",
       },
       {
         label: "Prioritet i lartë",
         value: highPriorityCases.length,
-        accentColor: "#356F94",
+        accentColor: "#E76F51",
       },
       {
         label: "Qasje",
         value: accessibilityCases.length,
-        accentColor: "#6A97B2",
+        accentColor: "#2A9D8F",
       },
       {
         label: "Në pritje",
         value: pendingCases.length,
-        accentColor: "#5B7B57",
+        accentColor: "#F4A261",
       },
     ];
   }, [cases]);
+
+  const cityOptions = useMemo(
+    () => getUniqueOptions(cases, (item) => getLocationParts(item).city),
+    [cases],
+  );
+
+  const neighborhoodOptions = useMemo(
+    () =>
+      getUniqueOptions(
+        filters.city === "all"
+          ? cases
+          : cases.filter((item) => getLocationParts(item).city === filters.city),
+        (item) => getLocationParts(item).neighborhood,
+      ),
+    [cases, filters.city],
+  );
+
+  const filteredCases = useMemo(
+    () =>
+      cases.filter((item) => {
+        const location = getLocationParts(item);
+        const severity = String(item.severity || "").toLowerCase();
+
+        return (
+          (filters.city === "all" || location.city === filters.city) &&
+          (filters.neighborhood === "all" || location.neighborhood === filters.neighborhood) &&
+          (filters.severity === "all" || severity === filters.severity)
+        );
+      }),
+    [cases, filters],
+  );
 
   return (
     <View style={styles.screen}>
@@ -233,7 +359,7 @@ export default function DashboardScreen({ navigation }) {
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={() => fetchCases({ refreshing: true })}
-            tintColor="#356F94"
+            tintColor="#264653"
           />
         }
         showsVerticalScrollIndicator={false}
@@ -248,7 +374,7 @@ export default function DashboardScreen({ navigation }) {
 
         {isLoading ? (
           <View style={styles.stateCard}>
-            <ActivityIndicator color="#356F94" size="large" />
+            <ActivityIndicator color="#264653" size="large" />
             <Text style={styles.stateTitle}>Duke ngarkuar panelin</Text>
             <Text style={styles.stateText}>
               Po marrim rastet e raportuara së fundmi...
@@ -267,9 +393,34 @@ export default function DashboardScreen({ navigation }) {
               ))}
             </View>
 
+            <View style={styles.filtersCard}>
+              <FilterRow
+                label="Qyteti"
+                options={cityOptions}
+                selectedValue={filters.city}
+                onSelect={(city) =>
+                  setFilters((current) => ({ ...current, city, neighborhood: "all" }))
+                }
+              />
+              <FilterRow
+                label="Lagjja"
+                options={neighborhoodOptions}
+                selectedValue={filters.neighborhood}
+                onSelect={(neighborhood) =>
+                  setFilters((current) => ({ ...current, neighborhood }))
+                }
+              />
+              <FilterRow
+                label="Ashpërsia"
+                options={severityFilterOptions}
+                selectedValue={filters.severity}
+                onSelect={(severity) => setFilters((current) => ({ ...current, severity }))}
+              />
+            </View>
+
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Rastet e fundit</Text>
-              <Text style={styles.sectionCount}>{cases.length}</Text>
+              <Text style={styles.sectionCount}>{filteredCases.length}</Text>
             </View>
 
             {!!error && (
@@ -279,19 +430,26 @@ export default function DashboardScreen({ navigation }) {
               </View>
             )}
 
-            {cases.length === 0 ? (
+            {filteredCases.length === 0 ? (
               <View style={styles.stateCard}>
                 <Text style={styles.emptyIcon}>0</Text>
-                <Text style={styles.stateTitle}>No cases reported yet</Text>
+                <Text style={styles.stateTitle}>
+                  {cases.length === 0 ? "No cases reported yet" : "Nuk u gjet asnjë rast"}
+                </Text>
                 <Text style={styles.stateText}>
-                  New civic and accessibility reports will appear here as soon as
-                  they are submitted.
+                  {cases.length === 0
+                    ? "New civic and accessibility reports will appear here as soon as they are submitted."
+                    : "Ndrysho filtrat për të parë më shumë raste."}
                 </Text>
               </View>
             ) : (
               <View style={styles.caseList}>
-                {cases.map((item, index) => (
-                  <CaseCard key={item.id || `${item.title}-${index}`} item={item} />
+                {filteredCases.map((item, index) => (
+                  <CaseCard
+                    key={item.id || `${item.title}-${index}`}
+                    item={item}
+                    onPress={() => openCase(item)}
+                  />
                 ))}
               </View>
             )}
@@ -306,7 +464,7 @@ export default function DashboardScreen({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#F2F5EA",
+    backgroundColor: "#F7FAF9",
   },
   content: {
     padding: 20,
@@ -317,7 +475,7 @@ const styles = StyleSheet.create({
     paddingBottom: 22,
   },
   eyebrow: {
-    color: "#356F94",
+    color: "#264653",
     fontSize: 13,
     fontWeight: "800",
     letterSpacing: 0.4,
@@ -325,13 +483,13 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   title: {
-    color: "#2F2D2E",
+    color: "#264653",
     fontSize: 34,
     fontWeight: "900",
     letterSpacing: 0,
   },
   subtitle: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 16,
     lineHeight: 23,
     marginTop: 8,
@@ -343,15 +501,62 @@ const styles = StyleSheet.create({
     gap: 12,
     marginBottom: 24,
   },
+  filtersCard: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#DDEAE7",
+    borderRadius: 20,
+    borderWidth: 1,
+    elevation: 2,
+    gap: 14,
+    marginBottom: 24,
+    padding: 14,
+    shadowColor: "#1F2933",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+  },
+  filterGroup: {
+    gap: 8,
+  },
+  filterLabel: {
+    color: "#264653",
+    fontSize: 13,
+    fontWeight: "900",
+  },
+  filterOptions: {
+    flexDirection: "row",
+    gap: 8,
+    paddingRight: 8,
+  },
+  filterChip: {
+    backgroundColor: "#F7FAF9",
+    borderColor: "#C9DEDA",
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  filterChipActive: {
+    backgroundColor: "#264653",
+    borderColor: "#264653",
+  },
+  filterChipText: {
+    color: "#2A9D8F",
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  filterChipTextActive: {
+    color: "#FFFFFF",
+  },
   statCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 3,
     minHeight: 116,
     padding: 16,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.08,
     shadowRadius: 16,
@@ -364,13 +569,13 @@ const styles = StyleSheet.create({
     width: 42,
   },
   statValue: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 30,
     fontWeight: "900",
     letterSpacing: 0,
   },
   statLabel: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 13,
     fontWeight: "700",
     marginTop: 4,
@@ -382,14 +587,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   sectionTitle: {
-    color: "#2F2D2E",
+    color: "#264653",
     fontSize: 20,
     fontWeight: "900",
   },
   sectionCount: {
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 999,
-    color: "#356F94",
+    color: "#264653",
     fontSize: 13,
     fontWeight: "800",
     overflow: "hidden",
@@ -401,15 +606,19 @@ const styles = StyleSheet.create({
   },
   caseCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 22,
     borderWidth: 1,
     elevation: 2,
     padding: 16,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.07,
     shadowRadius: 14,
+  },
+  caseCardPressed: {
+    opacity: 0.86,
+    transform: [{ scale: 0.99 }],
   },
   caseTopRow: {
     alignItems: "center",
@@ -418,7 +627,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   caseCategory: {
-    color: "#356F94",
+    color: "#264653",
     flex: 1,
     fontSize: 12,
     fontWeight: "900",
@@ -427,24 +636,30 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   caseDate: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 12,
     fontWeight: "700",
   },
   caseTitle: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 18,
     fontWeight: "900",
     lineHeight: 23,
   },
   caseSummary: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 14,
     lineHeight: 21,
     marginTop: 8,
   },
+  caseLocation: {
+    color: "#1F2933",
+    fontSize: 13,
+    fontWeight: "700",
+    marginTop: 10,
+  },
   caseFooter: {
-    borderTopColor: "#D8E1D0",
+    borderTopColor: "#DDEAE7",
     borderTopWidth: 1,
     marginTop: 14,
     paddingTop: 14,
@@ -464,7 +679,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   institution: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 13,
     fontWeight: "700",
     marginTop: 12,
@@ -472,35 +687,35 @@ const styles = StyleSheet.create({
   stateCard: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 24,
     borderWidth: 1,
     elevation: 2,
     marginTop: 10,
     padding: 24,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.07,
     shadowRadius: 14,
   },
   stateTitle: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 18,
     fontWeight: "900",
     marginTop: 14,
     textAlign: "center",
   },
   stateText: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 14,
     lineHeight: 21,
     marginTop: 6,
     textAlign: "center",
   },
   emptyIcon: {
-    backgroundColor: "#E4EFE3",
+    backgroundColor: "#E6F4F1",
     borderRadius: 999,
-    color: "#5B7B57",
+    color: "#2A9D8F",
     fontSize: 24,
     fontWeight: "900",
     height: 48,
@@ -510,20 +725,20 @@ const styles = StyleSheet.create({
     width: 48,
   },
   errorCard: {
-    backgroundColor: "#E4EDF1",
-    borderColor: "#C6D6DE",
+    backgroundColor: "#FCEBE6",
+    borderColor: "#F3C7BA",
     borderRadius: 18,
     borderWidth: 1,
     marginBottom: 14,
     padding: 14,
   },
   errorTitle: {
-    color: "#356F94",
+    color: "#E76F51",
     fontSize: 14,
     fontWeight: "900",
   },
   errorText: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 13,
     lineHeight: 19,
     marginTop: 4,

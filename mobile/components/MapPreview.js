@@ -20,7 +20,7 @@ export default function MapPreview({ markers }) {
         />
       ))}
       <View style={styles.mapFallbackLabel}>
-        <Ionicons color="#356F94" name="location" size={15} />
+        <Ionicons color="#264653" name="location" size={15} />
         <Text style={styles.mapFallbackText}>Harta e rasteve në Prishtinë</Text>
       </View>
     </View>
@@ -29,7 +29,7 @@ export default function MapPreview({ markers }) {
 
 const styles = StyleSheet.create({
   mapFallback: {
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 20,
     height: 190,
     overflow: "hidden",
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   mapFallbackText: {
-    color: "#2F2D2E",
+    color: "#1F2933",
     fontSize: 12,
     fontWeight: "900",
   },
