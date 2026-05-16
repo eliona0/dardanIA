@@ -11,8 +11,9 @@ export default function CaseDetailsScreen({ navigation, route }) {
   return (
     <CaseDetailsContent
       caseId={route?.params?.id}
+      caseItem={route?.params?.caseItem}
       onTabNavigate={(path) => {
-        navigation.navigate(routeToScreen[path] || "Home");
+        navigation.reset({ index: 0, routes: [{ name: routeToScreen[path] || "Home" }] });
       }}
     />
   );

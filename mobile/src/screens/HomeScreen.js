@@ -14,10 +14,10 @@ export default function HomeScreen({ navigation }) {
         navigation.navigate("Case", { id: caseId });
       }}
       onNavigate={(action) => {
-        navigation.navigate(action.screen);
+        navigation.reset({ index: 0, routes: [{ name: action.screen }] });
       }}
       onTabNavigate={(route) => {
-        navigation.navigate(tabRoutes[route] || "Home");
+        navigation.reset({ index: 0, routes: [{ name: tabRoutes[route] || "Home" }] });
       }}
     />
   );

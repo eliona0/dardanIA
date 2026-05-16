@@ -2,9 +2,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const severityStyles = {
-  high: { background: "#E4EDF1", color: "#356F94", label: "High" },
-  medium: { background: "#E4EDF1", color: "#6A97B2", label: "Medium" },
-  low: { background: "#E4EFE3", color: "#5B7B57", label: "Low" },
+  high: { background: "#FCEBE6", color: "#E76F51", label: "High" },
+  medium: { background: "#FFF4E6", color: "#F4A261", label: "Medium" },
+  low: { background: "#E6F4F1", color: "#2A9D8F", label: "Low" },
 };
 
 export default function CaseCard({ category, icon, onPress, severity, title }) {
@@ -12,7 +12,7 @@ export default function CaseCard({ category, icon, onPress, severity, title }) {
   const content = (
     <>
       <View style={styles.iconWrap}>
-        <Ionicons color="#356F94" name={icon} size={20} />
+        <Ionicons color="#264653" name={icon} size={20} />
       </View>
       <View style={styles.copy}>
         <Text numberOfLines={1} style={styles.title}>
@@ -50,14 +50,14 @@ const styles = StyleSheet.create({
   card: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 2,
     flexDirection: "row",
     gap: 12,
     padding: 13,
-    shadowColor: "#2F2D2E",
+    shadowColor: "#1F2933",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.06,
     shadowRadius: 14,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   iconWrap: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 15,
     height: 44,
     justifyContent: "center",
@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: "#2F2D2E",
+    color: "#264653",
     fontSize: 14,
     fontWeight: "900",
   },
   category: {
-    color: "#6A97B2",
+    color: "#2A9D8F",
     fontSize: 12,
     fontWeight: "700",
     marginTop: 3,

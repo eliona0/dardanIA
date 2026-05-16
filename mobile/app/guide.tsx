@@ -32,13 +32,15 @@ type GuideResult = {
 type SupportedLanguage = "sq" | "en" | "tr" | "sr";
 
 const colors = {
-  accent: "#6A97B2",
-  background: "#F2F5EA",
+  accent: "#2A9D8F",
+  background: "#F7FAF9",
   card: "#FFFFFF",
-  gold: "#6A97B2",
-  primary: "#356F94",
-  success: "#5B7B57",
-  text: "#2F2D2E",
+  error: "#E76F51",
+  highlight: "#E9C46A",
+  primary: "#264653",
+  success: "#2A9D8F",
+  text: "#1F2933",
+  warning: "#F4A261",
 };
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
@@ -81,11 +83,14 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
 
   const navigateTab = (route: string) => {
     if (navigation) {
-      navigation.navigate(routeToScreen[route as keyof typeof routeToScreen] || "Home");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: routeToScreen[route as keyof typeof routeToScreen] || "Home" }],
+      });
       return;
     }
 
-    router.push(route as never);
+    router.replace(route as never);
   };
 
   const speakAnswer = (text: string, language: SupportedLanguage = "sq") => {
@@ -291,7 +296,7 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
               setError("");
             }}
             placeholder="Shkruaj p.sh. certifikatë lindjeje..."
-            placeholderTextColor="#6A97B2"
+            placeholderTextColor="#2A9D8F"
             multiline
             textAlignVertical="top"
           />
@@ -350,7 +355,7 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
 
         {error ? (
           <View style={styles.errorCard}>
-            <Ionicons color={colors.primary} name="alert-circle-outline" size={20} />
+            <Ionicons color={colors.error} name="alert-circle-outline" size={20} />
             <Text style={styles.error}>{error}</Text>
           </View>
         ) : null}
@@ -459,7 +464,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   brand: {
-    color: colors.gold,
+    color: colors.highlight,
     fontSize: 15,
     fontWeight: "900",
   },
@@ -500,14 +505,14 @@ const styles = StyleSheet.create({
   },
   cardIcon: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 14,
     height: 40,
     justifyContent: "center",
     width: 40,
   },
   cardTitle: {
-    color: colors.text,
+    color: colors.primary,
     flex: 1,
     fontSize: 18,
     fontWeight: "900",
@@ -518,21 +523,21 @@ const styles = StyleSheet.create({
     paddingBottom: 116,
   },
   demoCard: {
-    backgroundColor: "#F2F5EA",
-    borderColor: "#D8E1D0",
+    backgroundColor: "#F7FAF9",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     marginTop: 16,
     padding: 16,
   },
   demoTitle: {
-    color: colors.text,
+    color: colors.primary,
     fontSize: 17,
     fontWeight: "900",
     marginBottom: 12,
   },
   error: {
-    color: colors.primary,
+    color: colors.error,
     flex: 1,
     fontSize: 15,
     fontWeight: "800",
@@ -540,8 +545,8 @@ const styles = StyleSheet.create({
   },
   errorCard: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
-    borderColor: "#C6D6DE",
+    backgroundColor: "#FCEBE6",
+    borderColor: "#F3C7BA",
     borderRadius: 18,
     borderWidth: 1,
     flexDirection: "row",
@@ -552,7 +557,7 @@ const styles = StyleSheet.create({
   examplePill: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    borderColor: "#C9DEDA",
     borderRadius: 16,
     borderWidth: 1,
     flexDirection: "row",
@@ -588,8 +593,8 @@ const styles = StyleSheet.create({
   },
   infoCard: {
     alignItems: "center",
-    backgroundColor: "#F2F5EA",
-    borderColor: "#D8E1D0",
+    backgroundColor: "#F7FAF9",
+    borderColor: "#DDEAE7",
     borderRadius: 18,
     borderWidth: 1,
     flexDirection: "row",
@@ -622,7 +627,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    borderColor: "#C9DEDA",
     borderRadius: 18,
     borderWidth: 1,
     color: colors.text,
@@ -632,7 +637,7 @@ const styles = StyleSheet.create({
   },
   listCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 18,
     borderWidth: 1,
     marginTop: 12,
@@ -646,7 +651,7 @@ const styles = StyleSheet.create({
   },
   listMarker: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 999,
     height: 24,
     justifyContent: "center",
@@ -672,7 +677,7 @@ const styles = StyleSheet.create({
   },
   result: {
     backgroundColor: colors.card,
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 3,
@@ -694,14 +699,14 @@ const styles = StyleSheet.create({
   },
   resultIcon: {
     alignItems: "center",
-    backgroundColor: "#E4EDF1",
+    backgroundColor: "#E6F4F1",
     borderRadius: 16,
     height: 46,
     justifyContent: "center",
     width: 46,
   },
   resultTitle: {
-    color: colors.text,
+    color: colors.primary,
     fontSize: 19,
     fontWeight: "900",
   },
@@ -711,7 +716,7 @@ const styles = StyleSheet.create({
   },
   searchCard: {
     backgroundColor: colors.card,
-    borderColor: "#D8E1D0",
+    borderColor: "#DDEAE7",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 3,
@@ -722,7 +727,7 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
   },
   sectionTitle: {
-    color: colors.text,
+    color: colors.primary,
     flex: 1,
     fontSize: 17,
     fontWeight: "900",
@@ -736,8 +741,8 @@ const styles = StyleSheet.create({
   },
   speechToggle: {
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderColor: "#C6D6DE",
+    backgroundColor: "#E6F4F1",
+    borderColor: "#C9DEDA",
     borderRadius: 16,
     borderWidth: 1,
     flex: 1,
@@ -785,7 +790,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   voiceButtonActive: {
-    backgroundColor: "#B42318",
+    backgroundColor: "#E76F51",
   },
   voiceButtonText: {
     color: "#FFFFFF",

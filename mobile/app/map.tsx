@@ -22,7 +22,7 @@ export default function FullMapScreen() {
         />
       </View>
 
-      <BottomNav activeTab="Home" onNavigate={(path: string) => router.push(path as never)} />
+      <BottomNav activeTab="Home" onNavigate={(path: string) => router.replace(path as never)} />
     </View>
   );
 }
@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   title: {
-    color: "#111827",
+    color: "#264653",
     fontSize: 30,
     fontWeight: "900",
     letterSpacing: 0,
   },
   subtitle: {
-    color: "#64748B",
+    color: "#2A9D8F",
     fontSize: 15,
     fontWeight: "700",
     lineHeight: 22,
@@ -52,13 +52,13 @@ const styles = StyleSheet.create({
   },
   mapCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#EEF2F7",
+    borderColor: "#DDEAE7",
     borderRadius: 22,
     borderWidth: 1,
     elevation: 3,
     overflow: "hidden",
     padding: 8,
-    shadowColor: "#0F172A",
+    shadowColor: "#1F2933",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.07,
     shadowRadius: 16,
