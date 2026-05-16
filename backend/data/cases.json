@@ -442,5 +442,191 @@
     "institutionEmail": "lea.mustafa2005@gmail.com",
     "emailStatus": "sent",
     "emailSentAt": "2026-05-16T09:44:59.676Z"
+  },
+  {
+    "title": "Rrjedhje uji në rrugë",
+    "category": "water_issue",
+    "severity": "medium",
+    "recommendedInstitution": "Kompania Rajonale e Ujësjellësit \"Prishtina\"",
+    "summary": "Në Rrugën C në Prishtinë, vërehet një sasi e konsiderueshme uji e grumbulluar ose duke rrjedhur në sipërfaqen e shtruar me pllaka. Kjo situatë krijon një sipërfaqe të lagur dhe potencialisht të rrezikshme për kalimtarët dhe automjetet.",
+    "officialComplaint": "I nderuar/a, \n\nMe anë të këtij raporti, dëshiroj të njoftoj për një problem me ujë në Rrugën C, Prishtinë. \n\nNë këtë lokacion, vërehet një rrjedhje ose grumbullim i konsiderueshëm uji në sipërfaqen e rrugës së shtruar me pllaka. Kjo gjendje krijon një sipërfaqe të lagur dhe të rrëshqitshme, duke paraqitur rrezik për sigurinë e kalimtarëve dhe pjesëmarrësve në trafik. \n\nKërkojmë ndërhyrjen tuaj të shpejtë për identifikimin e burimit të problemit dhe marrjen e masave të nevojshme për riparimin dhe normalizimin e situatës. \n\nMe respekt,\nQytetar",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga C"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga C",
+    "id": "355e2da5-0802-48d1-a09c-80aed6190966",
+    "createdAt": "2026-05-16T12:38:03.038Z",
+    "institutionName": null,
+    "institutionEmail": null,
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Ujë i ndenjur në rrugën B, Prishtinë",
+    "category": "water_issue",
+    "severity": "medium",
+    "recommendedInstitution": "Kompania Rajonale e Ujësjellësit 'Prishtina'",
+    "summary": "Në rrugën B në Prishtinë, vërehet një sasi e konsiderueshme uji e ndenjur në sipërfaqen e shtruar, duke shkaktuar shqetësim dhe rrezik rrëshqitjeje për kalimtarët dhe automjetet. Ky problem kërkon ndërhyrje urgjente.",
+    "officialComplaint": "I nderuar/a,\n\nMe anë të këtij raporti, dëshiroj të paraqes një ankesë lidhur me një problem me ujë të ndenjur në rrugën B, Prishtinë. Siç shihet edhe nga fotografia e bashkangjitur, një sasi e konsiderueshme uji është grumbulluar në sipërfaqen e shtruar, duke krijuar vështirësi për kalimtarët dhe automjetet, si dhe rrezik potencial për rrëshqitje.\n\nKërkojmë nga institucioni juaj që të ndërmarrë hapa të menjëhershëm për identifikimin e shkakut të këtij problemi (p.sh., rrjedhje uji, bllokim i kanalizimit) dhe për zgjidhjen e tij sa më parë, me qëllim të garantimit të sigurisë dhe mirëqenies publike.\n\nMe respekt,\nQytetar/e i/e shqetësuar",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga B"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga B",
+    "id": "7337133f-a51a-4b13-8be0-e6617c470b9b",
+    "createdAt": "2026-05-16T13:20:17.300Z",
+    "institutionName": null,
+    "institutionEmail": null,
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Pengesa serioze e qasjes: Rampë jo funksionale dhe shkallë të papërshtatshme",
+    "category": "accessibility",
+    "accessibilityScore": 5,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "medium",
+    "detectedBarriers": [
+      "Rampë me pjerrësi ekstreme dhe kthesa të mprehta, e cila e bën të pamundur përdorimin nga karrocat me rrota.",
+      "Mungesë e parmakëve të sigurt dhe të vazhdueshëm në të gjithë gjatësinë e rampës.",
+      "Rampë jo e vazhdueshme dhe e ndërprerë, duke krijuar pengesa shtesë.",
+      "Mungesë e sipërfaqeve taktike paralajmëruese për persona me dëmtime në shikim në fillim dhe fund të rampës/shkallëve.",
+      "Paramakë jo të plotë ose jo të dyanshëm në shkallë, duke rritur rrezikun e rënies.",
+      "Dizajn i përgjithshëm i hyrjes që nuk përmbush standardet e qasjes universale."
+    ],
+    "recommendations": [
+      "Ndërtimi i një rampe të re, me pjerrësi të përshtatshme sipas standardeve ndërkombëtare (maksimumi 1:12) dhe me sipërfaqe të vazhdueshme.",
+      "Instalimi i parmakëve të dyanshëm, të vazhdueshëm dhe të sigurt në të gjithë gjatësinë e rampës dhe shkallëve, me zgjatime në fillim dhe fund.",
+      "Përdorimi i sipërfaqeve taktike paralajmëruese në fillim dhe fund të rampës dhe shkallëve për orientimin e personave me dëmtime në shikim.",
+      "Sigurimi i hapësirës së mjaftueshme për manovrim në fillim dhe fund të rampës.",
+      "Rishikimi i të gjithë dizajnit të hyrjes për të siguruar qasje universale dhe të sigurt për të gjithë qytetarët."
+    ],
+    "summary": "Hyrja e objektit paraqet pengesa të rënda qasjeje për personat me aftësi të kufizuara, veçanërisht për përdoruesit e karrocave dhe personat me dëmtime në shikim. Rampa e ndërtuar është plotësisht jo funksionale, e rrezikshme dhe nuk përmbush asnjë standard të qasjes. Kjo situatë kërkon ndërhyrje urgjente për të siguruar barazinë në qasje.",
+    "officialReport": "Raport mbi Pengesat e Qasjes në Hyrjen e Objektit\n\nI nderuar/a Z./Znj. Ministër/e,\n\nMe anë të këtij raporti, dëshirojmë të tërheqim vëmendjen tuaj mbi një situatë alarmante të mungesës së qasjes për personat me aftësi të kufizuara në hyrjen e një objekti (lokacioni i saktë duhet të identifikohet). Fotografia e bashkangjitur ilustron qartë një rampë të ndërtuar në mënyrë të papërshtatshme, me pjerrësi ekstreme, kthesa të mprehta dhe mungesë parmakësh, duke e bërë atë plotësisht të pashfrytëzueshme dhe të rrezikshme për përdoruesit e karrocave. Po ashtu, mungojnë elementet thelbësore për orientimin e personave me dëmtime në shikim, duke rritur rrezikun e aksidenteve.\n\nKjo situatë shkel ligjet dhe rregulloret në fuqi për qasjen universale dhe diskriminon një pjesë të qytetarëve. Kërkojmë ndërhyrjen urgjente të institucionit tuaj për të adresuar këtë problem, për të inspektuar objektin në fjalë dhe për të siguruar që ai të përmbushë standardet e qasjes për të gjithë qytetarët, duke përfshirë ndërtimin e një rampe funksionale dhe të sigurt.\n\nMe respekt,\n[Emri i Raportuesit/Organizata]",
+    "recommendedInstitution": "Ministria e Mjedisit, Planifikimit Hapësinor dhe Infrastrukturës",
+    "status": "pending",
+    "id": "34b866fb-b738-418c-96ff-f337397ceddd",
+    "createdAt": "2026-05-16T13:20:54.396Z",
+    "institutionName": "Drejtoria e Inspektoratit",
+    "institutionEmail": "lea.mustafa2005@gmail.com",
+    "emailStatus": "sent",
+    "emailSentAt": "2026-05-16T13:20:57.179Z"
+  },
+  {
+    "title": "Probleme me ujësjellës dhe ujëra të ndotura",
+    "category": "water_issue",
+    "severity": "high",
+    "recommendedInstitution": "Kompania Rajonale e Ujësjellësit 'Prishtina'",
+    "summary": "Ujëra të ndotura dhe probleme me rrjetin e ujësjellësit janë vërejtur në rrugë, duke shkaktuar shqetësim për banorët dhe kalimtarët. Prania e ujit në sipërfaqen publike paraqet rrezik higjienik dhe pengesë.",
+    "officialComplaint": "I nderuar/a, Me anë të këtij raporti, dëshiroj të paraqes një ankesë lidhur me praninë e ujërave të ndotura dhe problemeve me rrjetin e ujësjellësit në lokacionin Prishtinë, Rruga B. Siç shihet edhe nga fotografia e bashkangjitur, ka një derdhje të konsiderueshme uji në sipërfaqen publike, e cila paraqet rrezik higjienik dhe pengesë për kalimtarët. Kërkojmë ndërhyrjen tuaj urgjente për identifikimin dhe riparimin e defektit, si dhe pastrimin e zonës së prekur.",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga b"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga b",
+    "id": "28094d32-c4a4-42f3-86c8-6332df79760e",
+    "createdAt": "2026-05-16T13:34:22.163Z",
+    "institutionName": null,
+    "institutionEmail": null,
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Problem me ujë",
+    "category": "water_issue",
+    "severity": "medium",
+    "recommendedInstitution": "KRU Prishtina",
+    "summary": "Raportohet për një problem me ujë në Prishtinë, zona Lakrishte. Fotografia tregon ujë të grumbulluar në një sipërfaqe të shtruar, duke shkaktuar vështirësi në kalim dhe rrezik potencial.",
+    "officialComplaint": "I nderuar institucion,\n\nMe anë të këtij raporti, dëshiroj të paraqes një ankesë lidhur me një problem me ujë në lokacionin Prishtinë, Lakrishte. Siç shihet edhe në fotografinë e bashkangjitur, një sasi e konsiderueshme uji është grumbulluar në sipërfaqen e shtruar, duke krijuar vështirësi dhe rrezik për kalimtarët.\n\nKërkojmë nga institucioni juaj që të ndërmarrë hapat e nevojshëm për identifikimin e shkakut të këtij problemi dhe zgjidhjen e tij sa më parë.\n\nMe respekt,\nQytetar i shqetësuar",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Lakrishte"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Lakrishte",
+    "id": "daff723b-2e4f-4853-9d2e-6a5725a84353",
+    "createdAt": "2026-05-16T14:38:45.578Z",
+    "institutionName": null,
+    "institutionEmail": null,
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Rrjedhje uji në rrugë",
+    "category": "water_issue",
+    "severity": "medium",
+    "recommendedInstitution": "KRU Prishtina",
+    "summary": "Vërehet një rrjedhje uji në rrugë, duke krijuar një pellg uji në sipërfaqen e shtruar. Kjo mund të shkaktojë rrëshqitje dhe dëmtim të infrastrukturës.",
+    "officialComplaint": "I nderuar/a, Ju njoftojmë për një rrjedhje uji në Prishtinë, Rruga B, siç dëshmohet nga fotografia. Kjo ka krijuar një pellg në rrugë, duke paraqitur rrezik dhe dëmtim të mundshëm. Kërkojmë ndërhyrje urgjente për riparim. Me respekt, Qytetar.",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga B"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga B",
+    "id": "f8821914-dfa6-48ef-a62b-a70d7093b4d0",
+    "createdAt": "2026-05-16T15:31:09.204Z",
+    "institutionName": null,
+    "institutionEmail": null,
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Pengesa serioze e qasjes në hyrjen e objektit",
+    "category": "accessibility",
+    "accessibilityScore": 1,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Rampë jashtëzakonisht e pjerrët, e papërdorshme për karroca.",
+      "Rampë e ngushtë dhe e lakuar, e cila nuk lejon manovrimin e karrocave.",
+      "Mungesë parmakësh të sigurt dhe të vazhdueshëm në rampë dhe shkallë.",
+      "Mungesë sipërfaqesh taktike paralajmëruese në fillim dhe fund të rampës/shkallëve.",
+      "Mungesë kontrastesh ngjyrash për shkallët dhe rampën, duke vështirësuar orientimin për personat me dëmtime në shikim.",
+      "Dizajn i përgjithshëm i rrezikshëm dhe jo-funksional për qasje universale."
+    ],
+    "recommendations": [
+      "Ndërtimi i një rampe të re, që plotëson standardet ndërkombëtare të qasjes (pjerrësi maksimale 1:12, gjerësi e mjaftueshme, sipërfaqe jo-rrëshqitëse dhe platforma pushimi).",
+      "Instalimi i parmakëve të dyfishtë, të vazhdueshëm dhe të sigurt në të dy anët e rampës dhe shkallëve, me zgjatime në fillim dhe fund.",
+      "Vendosja e sipërfaqeve taktike paralajmëruese në fillim dhe fund të rampës dhe shkallëve për personat me dëmtime në shikim.",
+      "Përmirësimi i kontrastit vizual të shkallëve dhe zonave të qasjes për të lehtësuar orientimin.",
+      "Sigurimi i një rruge alternative të qasshme nëse rampa aktuale nuk mund të përmirësohet plotësisht në vendndodhjen ekzistuese."
+    ],
+    "summary": "Hyrja paraqet pengesa të rënda qasjeje me një rampë të papërdorshme dhe të rrezikshme, si dhe shkallë pa elemente sigurie, duke e bërë të pamundur qasjen për personat me aftësi të kufizuara. Rreziku i lëndimeve është shumë i lartë.",
+    "officialReport": "I nderuar Inspektorat Komunal i Prishtinës,\n\nMe anë të këtij raporti, dëshirojmë të tërheqim vëmendjen tuaj mbi një situatë alarmante të mungesës së qasjes në hyrjen e një objekti, siç ilustrohet në fotografinë e bashkangjitur.\n\nHyrja në fjalë paraqet një rampë e cila është jashtëzakonisht e pjerrët, e ngushtë dhe e lakuar, duke e bërë atë plotësisht të papërdorshme dhe të rrezikshme për personat që përdorin karroca. Për më tepër, mungojnë parmakët e sigurt dhe të vazhdueshëm, si dhe sipërfaqet taktike paralajmëruese, të cilat janë thelbësore për sigurinë e personave me dëmtime në shikim. Shkallët gjithashtu nuk plotësojnë standardet e qasjes, duke mos ofruar kontraste të mjaftueshme vizuale apo shenja taktike.\n\nKjo gjendje përbën shkelje të rëndë të Ligjit për Ndërtim dhe standardeve ndërkombëtare të qasjes, duke diskriminuar personat me aftësi të kufizuara dhe duke u mohuar atyre të drejtën për lëvizje të lirë dhe të sigurt. Rreziku i lëndimeve është jashtëzakonisht i lartë.\n\nKërkojmë nga institucioni juaj që të ndërmarrë veprime urgjente për inspektimin e këtij objekti dhe të urdhërojë përmirësimin e menjëhershëm të infrastrukturës së qasjes, në përputhje me standardet e aplikueshme.\n\nMe respekt,\nQendra për Avokimin e të Drejtave të Personave me Aftësi të Kufizuara",
+    "recommendedInstitution": "Inspektorati Komunal i Prishtinës",
+    "status": "pending",
+    "id": "9914e0bd-c595-4c04-8658-ce42e1d6ce47",
+    "createdAt": "2026-05-16T15:32:41.161Z",
+    "institutionName": "Drejtoria e Inspektoratit",
+    "institutionEmail": "lea.mustafa2005@gmail.com",
+    "emailStatus": "sent",
+    "emailSentAt": "2026-05-16T15:32:43.068Z"
+  },
+  {
+    "title": "Ujë i derdhur në rrugë/trotuar",
+    "category": "water_issue",
+    "severity": "medium",
+    "recommendedInstitution": "KRU Prishtina",
+    "summary": "Në rrugën 'Rruga b' në Prishtinë, ka ujë të derdhur dhe të grumbulluar në një pjesë të sipërfaqes së rrugës/trotuarit, duke krijuar një pellg të madh. Kjo mund të jetë shkaktuar nga një rrjedhje uji ose problem me kanalizimin.",
+    "officialComplaint": "I nderuar/a, me anë të këtij raporti, dëshiroj të ju informoj për një problem me ujë të derdhur në rrugën 'Rruga b' në Prishtinë. Siç shihet edhe nga fotografia e bashkangjitur, ka një sasi të konsiderueshme uji të grumbulluar në sipërfaqen e rrugës/trotuarit, duke krijuar vështirësi dhe rrezik për kalimtarët dhe automjetet. Kjo situatë mund të jetë shkaktuar nga një rrjedhje uji ose një problem me sistemin e kanalizimit. Kërkojmë ndërhyrjen tuaj të shpejtë për identifikimin dhe zgjidhjen e këtij problemi. Me respekt.",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga b"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga b",
+    "id": "8b26ba37-b4ff-4ac0-91f4-85769d289647",
+    "createdAt": "2026-05-16T18:14:42.707Z",
+    "institutionName": null,
+    "institutionEmail": null,
+    "emailStatus": "not_sent"
   }
 ]
