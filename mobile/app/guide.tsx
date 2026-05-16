@@ -17,6 +17,8 @@ import { router } from "expo-router";
 import BottomNav from "../components/BottomNav";
 
 type GuideResult = {
+  answer?: string;
+  audioUrl?: string | null;
   service: string;
   institution: string;
   office: string;
@@ -76,8 +78,9 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
   const [loading, setLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isProcessingVoice, setIsProcessingVoice] = useState(false);
-  const [readAloud, setReadAloud] = useState(true);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const recordingRef = useRef<Audio.Recording | null>(null);
+  const playbackRef = useRef<Audio.Sound | null>(null);
 
   const navigateTab = (route: string) => {
     if (navigation) {
@@ -88,8 +91,18 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
     router.push(route as never);
   };
 
-  const speakAnswer = (text: string, language: SupportedLanguage = "sq") => {
-    if (!readAloud || !text) {
+  const stopAnswerAudio = async () => {
+    Speech.stop();
+    setIsSpeaking(false);
+
+    if (playbackRef.current) {
+      await playbackRef.current.unloadAsync();
+      playbackRef.current = null;
+    }
+  };
+
+  const speakFallback = (text: string, language: SupportedLanguage = "sq") => {
+    if (!text) {
       return;
     }
 
@@ -98,7 +111,62 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
       language: speechLanguage[language] || speechLanguage.sq,
       pitch: 1,
       rate: 0.96,
+      onDone: () => setIsSpeaking(false),
+      onStopped: () => setIsSpeaking(false),
+      onError: () => setIsSpeaking(false),
     });
+  };
+
+  const playAnswerAudio = async (
+    text: string,
+    audioUrl?: string | null,
+    language: SupportedLanguage = "sq",
+  ) => {
+    if (!text) {
+      return;
+    }
+
+    try {
+      await stopAnswerAudio();
+      setIsSpeaking(true);
+
+      if (!audioUrl) {
+        speakFallback(text, language);
+        return;
+      }
+
+      const { sound } = await Audio.Sound.createAsync(
+        { uri: audioUrl },
+        { shouldPlay: true },
+        (status) => {
+          if (status.isLoaded && status.didJustFinish) {
+            setIsSpeaking(false);
+            playbackRef.current?.unloadAsync();
+            playbackRef.current = null;
+          }
+        },
+      );
+      playbackRef.current = sound;
+    } catch {
+      speakFallback(text, language);
+    }
+  };
+
+  const toggleAnswerAudio = async () => {
+    if (!result) {
+      return;
+    }
+
+    if (isSpeaking) {
+      await stopAnswerAudio();
+      return;
+    }
+
+    await playAnswerAudio(
+      result.answer || result.friendlyAnswer,
+      result.audioUrl,
+      result.language || "sq",
+    );
   };
 
   const askGuide = async (overrideQuestion?: string) => {
@@ -127,8 +195,8 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
         throw new Error(data?.error || "Nuk mund ta gjej shërbimin.");
       }
 
+      await stopAnswerAudio();
       setResult(data);
-      speakAnswer(data.friendlyAnswer, data.language || "sq");
     } catch (err) {
       setResult(null);
       setError(err instanceof Error ? err.message : "Diçka shkoi keq.");
@@ -167,9 +235,9 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
         throw new Error(data?.error || "Nuk u kuptua, provo perseri.");
       }
 
+      await stopAnswerAudio();
       setQuestion(data.question || "");
       setResult(data);
-      speakAnswer(data.friendlyAnswer, data.language || "sq");
     } catch (err) {
       setResult(null);
       setError(err instanceof Error ? err.message : "Nuk u kuptua, provo perseri.");
@@ -315,16 +383,21 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
             </Pressable>
 
             <Pressable
-              onPress={() => setReadAloud((value) => !value)}
-              style={[styles.speechToggle, readAloud && styles.speechToggleActive]}
+              disabled={!result}
+              onPress={toggleAnswerAudio}
+              style={[
+                styles.speechToggle,
+                isSpeaking && styles.speechToggleStop,
+                !result && styles.buttonDisabled,
+              ]}
             >
               <Ionicons
-                color={readAloud ? "#FFFFFF" : colors.primary}
-                name={readAloud ? "volume-high-outline" : "volume-mute-outline"}
+                color={isSpeaking ? "#FFFFFF" : colors.primary}
+                name={isSpeaking ? "stop-circle-outline" : "volume-high-outline"}
                 size={18}
               />
-              <Text style={[styles.speechToggleText, readAloud && styles.speechToggleTextActive]}>
-                🔊 Lexo përgjigjen
+              <Text style={[styles.speechToggleText, isSpeaking && styles.speechToggleTextActive]}>
+                {isSpeaking ? "Stop now" : "Lexo përgjigjen"}
               </Text>
             </Pressable>
           </View>
@@ -363,7 +436,7 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
               </View>
               <View style={styles.resultHeaderText}>
                 <Text style={styles.resultTitle}>Përgjigjja e thjeshtuar</Text>
-                <Text style={styles.answer}>{result.friendlyAnswer}</Text>
+                <Text style={styles.answer}>{result.answer || result.friendlyAnswer}</Text>
               </View>
             </View>
 
@@ -747,7 +820,7 @@ const styles = StyleSheet.create({
     minHeight: 48,
     paddingHorizontal: 10,
   },
-  speechToggleActive: {
+  speechToggleStop: {
     backgroundColor: colors.success,
     borderColor: colors.success,
   },

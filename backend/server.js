@@ -15,9 +15,11 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const casesPath = path.join(__dirname, "data", "cases.json");
 const institutionsPath = path.join(__dirname, "data", "institutions.json");
+const audioPath = path.join(__dirname, "data", "audio");
 
 app.use(cors());
 app.use(express.json({ limit: "2mb" }));
+app.use("/audio", express.static(audioPath));
 
 app.get("/health", (_req, res) => {
   res.json({ ok: true });

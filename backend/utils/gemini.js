@@ -17,6 +17,11 @@ const { GoogleGenAI } = require("@google/genai");
 const project = process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || "dardania-496416";
 const location = process.env.GOOGLE_CLOUD_LOCATION || "us-central1";
 const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const ttsModels = [
+  process.env.GEMINI_TTS_MODEL,
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts",
+].filter(Boolean);
 
 const ai = new GoogleGenAI({
   vertexai: true,
@@ -131,6 +136,92 @@ const generateJson = async (contents) => {
   });
 
   return extractJson(response.text);
+};
+
+const waveBufferFromPcm = (pcmBuffer, sampleRate = 24000, channels = 1, bitsPerSample = 16) => {
+  const header = Buffer.alloc(44);
+  const byteRate = (sampleRate * channels * bitsPerSample) / 8;
+  const blockAlign = (channels * bitsPerSample) / 8;
+
+  header.write("RIFF", 0);
+  header.writeUInt32LE(36 + pcmBuffer.length, 4);
+  header.write("WAVE", 8);
+  header.write("fmt ", 12);
+  header.writeUInt32LE(16, 16);
+  header.writeUInt16LE(1, 20);
+  header.writeUInt16LE(channels, 22);
+  header.writeUInt32LE(sampleRate, 24);
+  header.writeUInt32LE(byteRate, 28);
+  header.writeUInt16LE(blockAlign, 32);
+  header.writeUInt16LE(bitsPerSample, 34);
+  header.write("data", 36);
+  header.writeUInt32LE(pcmBuffer.length, 40);
+
+  return Buffer.concat([header, pcmBuffer]);
+};
+
+const buildTtsPrompt = (answer, language = "sq") => {
+  const languageNotes = {
+    sq: "Speak in natural Kosovo Albanian. Make it sound like a helpful person at a municipal information desk, not like a robot or formal newsreader. Use a warm tone, clear articulation, and natural short pauses. Keep Albanian pronunciation natural.",
+    en: "Speak in natural English. Make it sound like a helpful public-service assistant, warm and clear.",
+    tr: "Speak in natural Turkish. Make it sound helpful, warm, and clear.",
+    sr: "Speak in natural Serbian. Make it sound helpful, warm, and clear.",
+  };
+
+  return `
+Audio direction:
+${languageNotes[language] || languageNotes.sq}
+Do not sound dramatic. Do not over-enunciate. Do not read punctuation awkwardly.
+Use a conversational pace, with small pauses between ideas.
+
+Transcript to read aloud exactly:
+[warmly, natural pace] ${answer}
+`;
+};
+
+const generateGuideAudio = async (answer, language = "sq") => {
+  let lastError;
+
+  for (const ttsModel of ttsModels) {
+    try {
+      const response = await ai.models.generateContent({
+        model: ttsModel,
+        contents: [
+          {
+            role: "user",
+            parts: [
+              {
+                text: buildTtsPrompt(answer, language),
+              },
+            ],
+          },
+        ],
+        config: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: {
+                voiceName: process.env.GEMINI_TTS_VOICE || "Puck",
+              },
+            },
+          },
+        },
+      });
+
+      const audioBase64 = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+
+      if (!audioBase64) {
+        throw new Error("Gemini TTS did not return audio.");
+      }
+
+      return waveBufferFromPcm(Buffer.from(audioBase64, "base64"));
+    } catch (error) {
+      lastError = error;
+      console.warn(`Gemini TTS model ${ttsModel} failed:`, error.message);
+    }
+  }
+
+  throw lastError || new Error("Gemini TTS failed.");
 };
 
 const analyzeAccessibility = async (imageBase64, mimeType = "image/jpeg") => {
@@ -289,6 +380,88 @@ Rules:
   };
 };
 
+const buildGuideResponse = async ({ question, service, preferredLanguage }) => {
+  const payload = JSON.stringify(
+    {
+      question,
+      preferredLanguage,
+      service,
+    },
+    null,
+    2,
+  );
+  const result = await generateJson([
+    {
+      role: "user",
+      parts: [
+        {
+          text: `
+You are KuMeShku, a public-service routing assistant.
+
+Task:
+Detect the user's language and create a complete answer in that same language.
+For Albanian, sound like a helpful public-service assistant in Kosovo: natural, clear, warm, and direct.
+
+Supported output language codes:
+- sq: Albanian
+- en: English
+- tr: Turkish
+- sr: Serbian
+
+Input:
+${payload}
+
+Return ONLY valid JSON with this exact shape:
+{
+  "language": "sq" | "en" | "tr" | "sr",
+  "answer": string,
+  "service": string,
+  "institution": string,
+  "office": string,
+  "floor": string,
+  "documents": string[],
+  "estimatedWait": string,
+  "steps": string[]
+}
+
+Rules:
+- If preferredLanguage is provided, use it. Otherwise detect the language from question.
+- Respond ONLY in that language.
+- Translate all service data fields too: service, institution, office, floor, documents, estimatedWait, steps.
+- No mixed languages.
+- The answer must sound natural, not like a literal translation or a database row.
+- For Albanian, prefer everyday phrasing like "zakonisht duhet të shkosh", "merr me vete", "nëse të kërkohet", "ruaje dëshminë".
+- Keep the answer conversational but still accurate.
+- If the language is English, translate examples like:
+  "Kati 1" -> "1st floor"
+  "Dokumentet" -> "Documents"
+  "Komuna" -> "Municipality"
+- Keep the answer short, practical, and friendly: 2-4 sentences.
+- Do not invent services, offices, documents, steps, emails, addresses, or institutions.
+`,
+        },
+      ],
+    },
+  ]);
+
+  const supportedLanguages = ["sq", "en", "tr", "sr"];
+  const language = supportedLanguages.includes(result.language)
+    ? result.language
+    : preferredLanguage || "sq";
+
+  return {
+    language,
+    answer: String(result.answer || ""),
+    service: String(result.service || service.service),
+    institution: String(result.institution || service.institution),
+    office: String(result.office || service.office),
+    floor: String(result.floor || service.floor),
+    documents: Array.isArray(result.documents) ? result.documents.map(String) : service.documents,
+    estimatedWait: String(result.estimatedWait || service.estimatedWait),
+    steps: Array.isArray(result.steps) ? result.steps.map(String) : service.steps,
+  };
+};
+
 const transcribeGuideAudio = async (audioBase64, mimeType = "audio/m4a") => {
   const result = await generateJson([
     {
@@ -345,6 +518,8 @@ Rules:
 module.exports = {
   analyzeAccessibility,
   analyzeReport,
+  buildGuideResponse,
+  generateGuideAudio,
   matchGuideService,
   transcribeGuideAudio,
 };

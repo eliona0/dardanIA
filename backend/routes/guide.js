@@ -2,8 +2,14 @@ const express = require("express");
 const fs = require("fs/promises");
 const multer = require("multer");
 const path = require("path");
+const crypto = require("crypto");
 
-const { matchGuideService, transcribeGuideAudio } = require("../utils/gemini");
+const {
+  buildGuideResponse,
+  generateGuideAudio,
+  matchGuideService,
+  transcribeGuideAudio,
+} = require("../utils/gemini");
 
 const router = express.Router();
 const upload = multer({
@@ -13,8 +19,10 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 const servicesPath = path.join(__dirname, "..", "data", "services.json");
+const audioDir = path.join(__dirname, "..", "data", "audio");
 const MIN_AI_CONFIDENCE = 0.55;
 const STRONG_LOCAL_SCORE = 4;
+const FAST_ALBANIAN_SCORE = 5;
 
 const aliases = {
   "certifikate e lindjes": ["certifikate", "lindjes", "lindje", "birth"],
@@ -102,7 +110,27 @@ function buildFriendlyAnswer(service, language = "sq") {
     return `Za ${service.service}, idi u ${service.institution}, ${service.office}, ${service.floor}. Ponesi: ${documents}. Uobičajeno vreme čekanja je ${service.estimatedWait}.`;
   }
 
-  return `Per ${service.service}, shko te ${service.institution}, ne ${service.office}, ${service.floor}. Merr me vete: ${documents}. Koha e pritjes zakonisht eshte ${service.estimatedWait}.`;
+  const firstStep = Array.isArray(service.steps) && service.steps.length
+    ? ` Hapi i parë: ${service.steps[0]}`
+    : "";
+
+  return `Për ${service.service}, zakonisht duhet të shkosh te ${service.institution}, në ${service.office}, ${service.floor}. Merr me vete këto dokumente: ${documents}. Koha e pritjes zakonisht është rreth ${service.estimatedWait}.${firstStep}`;
+}
+
+async function saveGuideAudio(answer, language, req) {
+  try {
+    const audioBuffer = await generateGuideAudio(answer, language);
+    await fs.mkdir(audioDir, { recursive: true });
+
+    const fileName = `guide-${Date.now()}-${crypto.randomUUID()}.wav`;
+    const filePath = path.join(audioDir, fileName);
+    await fs.writeFile(filePath, audioBuffer);
+
+    return `${req.protocol}://${req.get("host")}/audio/${fileName}`;
+  } catch (error) {
+    console.warn("Gemini guide TTS failed, frontend will use fallback speech:", error.message);
+    return null;
+  }
 }
 
 async function readServices() {
@@ -141,9 +169,73 @@ function findLocalMatch(question, services) {
   return { service: bestMatch.service, source: "local", score: bestMatch.score, language: "sq" };
 }
 
+function detectLikelyLanguage(question) {
+  const normalizedQuestion = normalize(question);
+  const rawQuestion = String(question || "").toLowerCase();
+  const albanianHints = [
+    "ku",
+    "shkoj",
+    "shku",
+    "duhet",
+    "per",
+    "për",
+    "certifikate",
+    "certifikatë",
+    "leternjoftim",
+    "letërnjoftim",
+    "komune",
+    "komunë",
+    "dokument",
+    "patente",
+    "pasaporte",
+    "pasaportë",
+    "mjek",
+    "pages",
+    "tatim",
+  ];
+  const englishHints = ["where", "how", "what", "birth", "certificate", "documents", "municipality", "floor"];
+  const turkishHints = ["nereye", "nasıl", "belge", "belediye", "kat"];
+  const serbianHints = ["gde", "kako", "dokument", "opstina", "opština", "sprat"];
+  const hasHint = (hints) =>
+    hints.some((hint) => normalizedQuestion.includes(normalize(hint)) || rawQuestion.includes(hint));
+
+  if (hasHint(englishHints)) {
+    return "en";
+  }
+
+  if (hasHint(turkishHints)) {
+    return "tr";
+  }
+
+  if (hasHint(serbianHints)) {
+    return "sr";
+  }
+
+  if (hasHint(albanianHints)) {
+    return "sq";
+  }
+
+  return "sq";
+}
+
 async function resolveGuideAnswer(question, preferredLanguage) {
   const services = await readServices();
   const localMatch = findLocalMatch(question, services);
+  const likelyLanguage = preferredLanguage || detectLikelyLanguage(question);
+  const useFastAlbanian =
+    likelyLanguage === "sq" && localMatch && localMatch.score >= FAST_ALBANIAN_SCORE;
+
+  if (useFastAlbanian) {
+    const friendlyAnswer = buildFriendlyAnswer(localMatch.service, "sq");
+
+    return {
+      ...localMatch.service,
+      answer: friendlyAnswer,
+      friendlyAnswer,
+      language: "sq",
+    };
+  }
+
   const strongLocalMatch =
     localMatch && localMatch.score >= STRONG_LOCAL_SCORE ? localMatch : null;
   const match = strongLocalMatch || (await findAiMatch(question, services)) || localMatch;
@@ -152,11 +244,32 @@ async function resolveGuideAnswer(question, preferredLanguage) {
     return null;
   }
 
-  return {
-    ...match.service,
-    friendlyAnswer: buildFriendlyAnswer(match.service, preferredLanguage || match.language || "sq"),
-    language: preferredLanguage || match.language || "sq",
-  };
+  const language = preferredLanguage || match.language || likelyLanguage;
+
+  try {
+    const guideResponse = await buildGuideResponse({
+      question,
+      service: match.service,
+      preferredLanguage: language,
+    });
+
+    return {
+      ...guideResponse,
+      friendlyAnswer: guideResponse.answer,
+    };
+  } catch (error) {
+    console.warn("KuMeShku Gemini answer failed, using local fallback:", error.message);
+
+    const fallbackLanguage = language || "sq";
+    const friendlyAnswer = buildFriendlyAnswer(match.service, fallbackLanguage);
+
+    return {
+      ...match.service,
+      answer: friendlyAnswer,
+      friendlyAnswer,
+      language: fallbackLanguage,
+    };
+  }
 }
 
 router.post("/", async (req, res) => {
@@ -175,7 +288,14 @@ router.post("/", async (req, res) => {
       });
     }
 
-    res.json(answer);
+    const audioUrl = await saveGuideAudio(answer.answer || answer.friendlyAnswer, answer.language, req);
+
+    res.json({
+      ...answer,
+      answer: answer.answer || answer.friendlyAnswer,
+      friendlyAnswer: answer.answer || answer.friendlyAnswer,
+      audioUrl,
+    });
   } catch (error) {
     console.error("Guide route failed:", error);
     res.status(500).json({ error: "Guide service failed" });
@@ -200,8 +320,13 @@ router.post("/voice", upload.single("audio"), async (req, res) => {
       });
     }
 
+    const audioUrl = await saveGuideAudio(answer.answer || answer.friendlyAnswer, answer.language, req);
+
     res.json({
       ...answer,
+      answer: answer.answer || answer.friendlyAnswer,
+      friendlyAnswer: answer.answer || answer.friendlyAnswer,
+      audioUrl,
       question: transcription.question,
       language: transcription.language,
     });
