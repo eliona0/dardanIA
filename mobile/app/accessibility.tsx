@@ -149,8 +149,17 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
 
     try {
       setIsSaving(true);
-      await saveCase(result);
-      Alert.alert("Rasti u ruajt", "Kontrolli i qasjes u ruajt me sukses.");
+      const savedCase = await saveCase(result);
+      const emailStatus = (savedCase as { emailStatus?: string }).emailStatus;
+
+      Alert.alert(
+        "Rasti u ruajt",
+        emailStatus === "sent"
+          ? "Kontrolli i qasjes u ruajt dhe email-i u dërgua te institucioni."
+          : emailStatus === "failed"
+            ? "Kontrolli i qasjes u ruajt, por email-i nuk u dërgua."
+            : "Kontrolli i qasjes u ruajt me sukses.",
+      );
     } catch (error) {
       Alert.alert(
         "Ruajtja dështoi",
