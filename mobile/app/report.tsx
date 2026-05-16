@@ -218,8 +218,17 @@ export default function ReportProblemScreen({ navigation }: { navigation?: any }
         },
       };
 
-      await saveCase(casePayload as unknown as ReportAnalysisResult);
-      Alert.alert("Rasti u ruajt", "Raporti u ruajt me sukses.");
+      const savedCase = await saveCase(casePayload as unknown as ReportAnalysisResult);
+      const emailStatus = (savedCase as { emailStatus?: string }).emailStatus;
+
+      Alert.alert(
+        "Rasti u ruajt",
+        emailStatus === "sent"
+          ? "Raporti u ruajt dhe email-i u dërgua te institucioni."
+          : emailStatus === "failed"
+            ? "Raporti u ruajt, por email-i nuk u dërgua."
+            : "Raporti u ruajt me sukses.",
+      );
     } catch (error) {
       Alert.alert(
         "Ruajtja dështoi",

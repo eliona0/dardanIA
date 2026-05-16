@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Komuna e Prishtinës - Drejtoria e Shërbimeve Publike",
+    "categories": ["road_damage", "waste", "public_lighting"],
+    "city": "Prishtinë",
+    "email": "lea.mustafa2005@gmail.com"
+  },
+  {
+    "name": "Drejtoria e Inspektoratit",
+    "categories": ["accessibility", "blocked_sidewalk"],
+    "city": "Prishtinë",
+    "email": "lea.mustafa2005@gmail.com"
+  }
+]

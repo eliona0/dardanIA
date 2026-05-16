@@ -240,5 +240,207 @@
     "status": "pending",
     "id": "42924563-e3c1-4cc9-8408-f8439e8e5f51",
     "createdAt": "2026-05-16T00:15:34.786Z"
+  },
+  {
+    "title": "Non-Compliant Entrance Ramps and Stairs",
+    "category": "accessibility",
+    "accessibilityScore": 15,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Excessively steep ramp slope",
+      "Insufficient ramp width",
+      "Curved ramp design, difficult to navigate",
+      "Absence of handrails on ramps",
+      "Lack of level landings at ramp ends",
+      "Lack of contrasting nosings on stairs",
+      "Absence of tactile warning surfaces at stairs and ramps",
+      "Potential for slippery ramp surface (tiles)",
+      "Single handrail on stairs (less ideal than two)"
+    ],
+    "recommendations": [
+      "Reconstruct ramps to meet accessibility standards (maximum 1:12 slope, minimum 36-inch clear width, level landings, handrails on both sides extending beyond ends).",
+      "Consider an alternative accessible entrance if space constraints prevent a compliant ramp.",
+      "Add contrasting nosings to all stair treads to improve visibility.",
+      "Install tactile warning surfaces at the top and bottom of stairs and ramps.",
+      "Ensure handrails are present on both sides of stairs and ramps, extending beyond the top and bottom steps/landings.",
+      "Use non-slip materials for all walking surfaces, especially ramps."
+    ],
+    "summary": "The entrance features stairs and two curved ramps. The ramps are severely non-compliant with accessibility standards, appearing excessively steep, too narrow, and lacking essential safety features like handrails and level landings. The stairs also pose a risk due to a lack of contrasting nosings and tactile warnings. This design presents significant barriers and safety hazards for both wheelchair users and individuals with visual impairments.",
+    "officialReport": "This entrance presents severe accessibility deficiencies. The ramps are non-compliant with standard accessibility guidelines regarding slope, width, curvature, and the absence of handrails and level landings. These features render the ramps unsafe and largely unusable for wheelchair users. Furthermore, the stairs lack contrasting nosings and tactile warning surfaces, increasing the risk of falls for individuals with visual impairments. Immediate remediation is required to ensure safe and equitable access.",
+    "recommendedInstitution": "Local Building Authority / Accessibility Standards Organization",
+    "status": "pending",
+    "id": "5f1c5d70-f606-4e65-925d-9aab3f338286",
+    "createdAt": "2026-05-16T09:06:20.254Z",
+    "institutionName": null,
+    "institutionEmail": null,
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Significant Pothole on Rruga C",
+    "category": "road_damage",
+    "severity": "high",
+    "recommendedInstitution": "Municipality of Prishtina - Public Works Department",
+    "summary": "A large and deep pothole has been reported on Rruga C in Prishtinë. The pothole is filled with water and surrounded by loose gravel, posing a significant hazard to vehicles and potentially pedestrians.",
+    "officialComplaint": "To the attention of the Public Works Department, Municipality of Prishtina. This letter serves to formally report a significant pothole located on Rruga C in Prishtinë. The pothole, as observed and depicted in the accompanying image, is substantial in size and depth, presenting a considerable hazard to vehicular traffic and potentially to pedestrians. Its current state, including the presence of water and loose gravel, exacerbates the risk of vehicle damage and accidents. We urge your immediate attention to this matter and request prompt action for its repair to ensure public safety and maintain road integrity.",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga C"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga C",
+    "id": "92089332-b9da-40e7-9d93-1705535ff861",
+    "createdAt": "2026-05-16T09:09:25.617Z",
+    "institutionName": "Komuna e Prishtinës - Drejtoria e Shërbimeve Publike",
+    "institutionEmail": "diellaveliu@gmail.com",
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Significant Pothole on Rruga C",
+    "category": "road_damage",
+    "severity": "high",
+    "recommendedInstitution": "Municipality of Prishtina - Public Works Department",
+    "summary": "A large and deep pothole has been reported on Rruga C in Prishtinë. The pothole is filled with water and surrounded by loose gravel, posing a significant hazard to vehicles and potentially pedestrians.",
+    "officialComplaint": "To the attention of the Public Works Department, Municipality of Prishtina. This letter serves to formally report a significant pothole located on Rruga C in Prishtinë. The pothole, as observed and depicted in the accompanying image, is substantial in size and depth, presenting a considerable hazard to vehicular traffic and potentially to pedestrians. Its current state, including the presence of water and loose gravel, exacerbates the risk of vehicle damage and accidents. We urge your immediate attention to this matter and request prompt action for its repair to ensure public safety and maintain road integrity.",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga C"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga C",
+    "id": "24102071-a2a7-4d7e-a88f-7fa216325a2a",
+    "createdAt": "2026-05-16T09:10:34.462Z",
+    "institutionName": "Komuna e Prishtinës - Drejtoria e Shërbimeve Publike",
+    "institutionEmail": "lea.mustafa2005@gmail.com",
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Large Pothole on Rruga C",
+    "category": "road_damage",
+    "severity": "high",
+    "recommendedInstitution": "Prishtinë Municipality - Public Works Department",
+    "summary": "A significant pothole has been identified on Rruga C in Prishtinë, posing a hazard to vehicles and pedestrians. The attached image shows the extent of the damage.",
+    "officialComplaint": "To the Prishtinë Municipality - Public Works Department,\n\nThis letter serves to formally report a significant pothole located on Rruga C in Prishtinë. The pothole is clearly visible and appears to be deep, as evidenced by the attached image, and presents a considerable hazard to vehicular traffic and pedestrians. This issue requires urgent attention to prevent potential accidents and further damage to vehicles.\n\nWe kindly request your prompt action to repair the road surface to ensure public safety and maintain infrastructure integrity.\n\nThank you for your immediate consideration.",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga C"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga C",
+    "id": "6bbee8dd-7ee3-4772-b6e5-95e773798d45",
+    "createdAt": "2026-05-16T09:12:33.326Z",
+    "institutionName": "Komuna e Prishtinës - Drejtoria e Shërbimeve Publike",
+    "institutionEmail": "lea.mustafa2005@gmail.com",
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Gropë e madhe në rrugë",
+    "category": "road_damage",
+    "severity": "high",
+    "recommendedInstitution": "Komuna e Prishtinës",
+    "summary": "Një gropë e madhe dhe e thellë është krijuar në rrugën 'c' në Prishtinë, duke paraqitur rrezik për qarkullimin. Gropa është e mbushur me ujë dhe ka zhavorr të shpërndarë rreth saj, siç shihet edhe në fotografi.",
+    "officialComplaint": "I nderuar institucion,\n\nMe anë të këtij raporti, dëshiroj të theksoj një problem serioz në infrastrukturën rrugore. Në rrugën 'c' në Prishtinë, është krijuar një gropë e madhe dhe e thellë, siç shihet edhe në fotografinë e bashkangjitur. Kjo gropë, e cila shpesh mbushet me ujë, paraqet një rrezik të lartë për sigurinë e qytetarëve dhe dëmtimin e automjeteve.\n\nKërkojmë ndërhyrjen tuaj të shpejtë për sanimin e këtij dëmtimi, në mënyrë që të parandalohen aksidentet dhe të sigurohet një qarkullim i sigurt.\n\nMe respekt,\nQytetar i shqetësuar",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "rruga c"
+    },
+    "status": "pending",
+    "address": "Prishtinë, rruga c",
+    "id": "b06c7fa4-4d63-41fe-8ea1-e9f77894c7d6",
+    "createdAt": "2026-05-16T09:20:21.772Z",
+    "institutionName": "Komuna e Prishtinës - Drejtoria e Shërbimeve Publike",
+    "institutionEmail": "lea.mustafa2005@gmail.com",
+    "emailStatus": "sent",
+    "emailSentAt": "2026-05-16T09:20:29.802Z"
+  },
+  {
+    "title": "Vlerësim i Pengesave të Qasjes në Hyrje me Shkallë dhe Rampa",
+    "category": "accessibility",
+    "accessibilityScore": 5,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Rampa shumë të pjerrëta dhe të lakuara, të papërshtatshme për karroca invalidësh.",
+      "Mungesë e parmakëve anësorë në rampa, duke rrezikuar sigurinë.",
+      "Rampa shumë të ngushta, të pamjaftueshme për gjerësinë standarde të karrocave.",
+      "Mungesë e shenjave taktile paralajmëruese në fillim dhe në fund të shkallëve dhe rampave për personat me dëmtime në shikim.",
+      "Kontrast i pamjaftueshëm vizual midis shkallëve/rampave dhe sipërfaqes përreth.",
+      "Parmakët ekzistues në shkallë nuk janë të vazhdueshëm dhe nuk ofrojnë mbështetje të plotë."
+    ],
+    "recommendations": [
+      "Ndërtimi i një rampe të re, të drejtë, me pjerrësi maksimale 1:12 dhe gjerësi minimale 90 cm, në përputhje me standardet e qasjes.",
+      "Instalimi i parmakëve të dyfishtë dhe të vazhdueshëm në të gjithë gjatësinë e rampës dhe shkallëve, me zgjatime në fillim dhe në fund.",
+      "Vendosja e pllakave taktile paralajmëruese në fillim dhe në fund të çdo rampe dhe shkalle.",
+      "Përmirësimi i kontrastit vizual të sipërfaqeve të shkallëve dhe rampave për të lehtësuar orientimin e personave me dëmtime në shikim.",
+      "Nëse hapësira nuk lejon një rampë të përshtatshme, të shqyrtohet instalimi i një platforme ngritëse (lifti) për personat me aftësi të kufizuara."
+    ],
+    "summary": "Hyrja e objektit paraqet pengesa të rënda për qasje, duke e bërë atë të papërdorshme dhe të rrezikshme për përdoruesit e karrocave dhe personat me dëmtime në shikim. Rampat ekzistuese janë të papërshtatshme për shkak të pjerrësisë, gjerësisë dhe formës së lakuar, si dhe mungesës së parmakëve dhe shenjave taktile.",
+    "officialReport": "Raport mbi Pengesat e Qasjes në Hyrjen e Objektit\n\nI nderuar/a [Emri i Institucionit Përgjegjës],\n\nKy raport ka për qëllim të theksojë pengesat serioze të qasjes të identifikuara në hyrjen e objektit të fotografuar. Analiza tregon se hyrja aktuale është e papërshtatshme dhe e rrezikshme për personat me aftësi të kufizuara, veçanërisht për përdoruesit e karrocave dhe personat me dëmtime në shikim.\n\nPengesat kryesore përfshijnë:\n1. Rampat ekzistuese janë jashtë standardeve të qasjes: ato janë shumë të pjerrëta, të ngushta dhe të lakuara, duke i bërë ato të papërdorshme dhe të rrezikshme.\n2. Mungesa e parmakëve të sigurt dhe të vazhdueshëm në rampa dhe shkallë.\n3. Mungesa e shenjave taktile paralajmëruese në fillim dhe në fund të shkallëve dhe rampave, të cilat janë thelbësore për orientimin e personave me dëmtime në shikim.\n4. Kontrasti i pamjaftueshëm vizual i sipërfaqeve.\n\nKëto mangësi bien ndesh me Ligjin për Personat me Aftësi të Kufizuara dhe standardet ndërkombëtare të qasjes. Kërkojmë ndërhyrje urgjente për të siguruar një hyrje të qasshme dhe të sigurt për të gjithë qytetarët.\n\nMe respekt,\n[Emri i Dërguesit/Organizata]",
+    "recommendedInstitution": "Ministria e Mjedisit, Planifikimit Hapësinor dhe Infrastrukturës",
+    "status": "pending",
+    "id": "1c7130ec-edc8-4584-bd8c-6d3243f91807",
+    "createdAt": "2026-05-16T09:21:43.818Z",
+    "institutionName": "Drejtoria e Inspektoratit",
+    "institutionEmail": "lea.mustafa2005@gmail.com",
+    "emailStatus": "sent",
+    "emailSentAt": "2026-05-16T09:21:47.610Z"
+  },
+  {
+    "title": "Probleme me uje",
+    "category": "water_issue",
+    "severity": "medium",
+    "recommendedInstitution": "KRU Prishtina",
+    "summary": "Prania e ujit në trotuar në Rrugën C në Prishtinë, duke shkaktuar shqetësim dhe rrezik rrëshqitjeje për kalimtarët. Burimi i ujit nuk është i qartë, por kërkon ndërhyrje.",
+    "officialComplaint": "I nderuar/a, \n\nMe anë të këtij raporti, dëshiroj të paraqes një ankesë lidhur me praninë e ujit në trotuar në Rrugën C, Prishtinë. Siç shihet edhe nga fotografia e bashkangjitur, ka një sasi të konsiderueshme uji që ka mbuluar një pjesë të trotuarit, duke krijuar vështirësi për kalimtarët dhe duke paraqitur rrezik rrëshqitjeje. Kërkojmë ndërhyrjen tuaj të shpejtë për identifikimin e burimit të problemit dhe eliminimin e tij. \n\nMe respekt, \nQytetar/e",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Rruga C"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Rruga C",
+    "id": "e18e75f2-3b0b-43c2-8209-3c30e553327f",
+    "createdAt": "2026-05-16T09:42:24.338Z",
+    "institutionName": null,
+    "institutionEmail": null,
+    "emailStatus": "not_sent"
+  },
+  {
+    "title": "Pengesa të rënda qasjeje në hyrjen e ndërtesës",
+    "category": "accessibility",
+    "accessibilityScore": 1,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Rampë me pjerrësi ekstreme dhe e papërdorshme për karroca.",
+      "Mungesë e platformave të sheshta dhe të sigurta në fillim dhe në fund të rampës.",
+      "Dizajn i lakuar i rampës që e bën të pamundur manovrimin me karrocë.",
+      "Mungesë e parmakëve mbrojtës përgjatë gjithë gjatësisë së rampës.",
+      "Përfundim i papritur i rampës me rënie të konsiderueshme, duke paraqitur rrezik rrëzimi.",
+      "Mungesë e shenjave taktile paralajmëruese në fillim dhe në fund të shkallëve dhe rampës."
+    ],
+    "recommendations": [
+      "Rikonstruksion i plotë i rampës për të përmbushur standardet ndërkombëtare të qasjes (pjerrësia maksimale 1:12, gjerësia minimale 90 cm, platforma pushimi çdo 9 metra ose ndryshim drejtimi, parmakë mbrojtës në të dyja anët).",
+      "Instalimi i shenjave taktile paralajmëruese në fillim dhe në fund të shkallëve dhe rampës për personat me dëmtime në shikim.",
+      "Sigurimi i kontrastit të duhur vizual midis shkallëve/rampës dhe sipërfaqeve përreth.",
+      "Zgjatja e parmakëve të shkallëve përtej hapit të parë dhe të fundit me të paktën 30 cm."
+    ],
+    "summary": "Fotografia tregon një hyrje me shkallë dhe një rampë të dizajnuar jashtëzakonisht keq, e cila paraqet pengesa të rënda dhe rreziqe të larta për personat me karroca dhe ata me dëmtime në shikim. Pjerrësia ekstreme, mungesa e platformave dhe parmakëve, si dhe përfundimi i papritur i rampës, e bëjnë atë plotësisht të papërdorshme dhe të rrezikshme.",
+    "officialReport": "Raport mbi Pengesat e Qasjes në Hyrjen e Ndërtesës\n\nI nderuar/a,\n\nKy raport ka për qëllim të theksojë pengesat serioze të qasjes të identifikuara në hyrjen e ndërtesës së paraqitur në fotografi. Analiza tregon një shkallë të lartë rreziku për personat me aftësi të kufizuara, veçanërisht për përdoruesit e karrocave dhe personat me dëmtime në shikim.\n\nPengesat e identifikuara:\n1.  Rampë e papërdorshme: Rampa e instaluar është jashtëzakonisht e pjerrët dhe e lakuar, duke e bërë të pamundur përdorimin e saj nga personat me karroca. Ajo nuk plotëson asnjë standard minimal të qasjes.\n2.  Mungesë sigurie: Nuk ka platforma të sheshta në fillim dhe në fund të rampës, dhe parmakët mbrojtës mungojnë përgjatë gjithë gjatësisë së saj. Përfundimi i papritur i rampës paraqet një rrezik të lartë rrëzimi.\n3.  Rrezik për personat me dëmtime në shikim: Mungojnë shenjat taktile paralajmëruese në fillim dhe në fund të shkallëve dhe rampës, duke rritur rrezikun e aksidenteve.\n\nRekomandime:\n1.  Rikonstruksion i plotë: Kërkohet rikonstruksion i menjëhershëm i rampës, duke u bazuar në standardet ndërkombëtare të qasjes (p.sh., pjerrësia maksimale 1:12, gjerësia minimale 90 cm, platforma pushimi, parmakë mbrojtës në të dyja anët).\n2.  Instalimi i shenjave taktile: Duhet të instalohen shenja taktile paralajmëruese në të gjitha pikat hyrëse dhe dalëse të shkallëve dhe rampës.\n3.  Përmirësimi i parmakëve: Parmakët e shkallëve duhet të zgjaten përtej hapit të parë dhe të fundit me të paktën 30 cm.\n\nKëto ndërhyrje janë thelbësore për të siguruar qasje të barabartë dhe të sigurt për të gjithë qytetarët, në përputhje me Ligjin për Personat me Aftësi të Kufizuara në Kosovë.\n\nMe respekt,\n[Emri Juaj/Organizata Juaj]",
+    "recommendedInstitution": "Ministria e Mjedisit, Planifikimit Hapësinor dhe Infrastrukturës / Komuna përkatëse",
+    "status": "pending",
+    "id": "ca8283d8-5de5-4570-af2a-38b358518050",
+    "createdAt": "2026-05-16T09:44:57.868Z",
+    "institutionName": "Drejtoria e Inspektoratit",
+    "institutionEmail": "lea.mustafa2005@gmail.com",
+    "emailStatus": "sent",
+    "emailSentAt": "2026-05-16T09:44:59.676Z"
   }
 ]

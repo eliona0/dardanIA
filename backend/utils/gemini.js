@@ -76,7 +76,7 @@ const validateAccessibilityResult = (result) => {
   }
 
   return {
-    title: String(result.title || "Accessibility barrier report"),
+    title: String(result.title || "Raport për pengesa në qasje"),
     category: "accessibility",
     accessibilityScore: Math.max(0, Math.min(100, Number(result.accessibilityScore) || 0)),
     severity: result.severity,
@@ -109,7 +109,7 @@ const validateReportResult = (result, fallbackLocation) => {
   }
 
   return {
-    title: String(result.title || "Civic problem report"),
+    title: String(result.title || "Raport qytetar"),
     category: result.category,
     severity: result.severity,
     recommendedInstitution: String(result.recommendedInstitution || ""),
@@ -140,12 +140,12 @@ const analyzeAccessibility = async (imageBase64, mimeType = "image/jpeg") => {
       parts: [
         {
           text: `
-Analyze this image for accessibility barriers.
+Analizo këtë fotografi për pengesa të qasjes.
 
-The photo may show an entrance, sidewalk, ramp, parking space, or elevator.
-Assess risks for wheelchair users and people with visual impairments.
+Fotografia mund të tregojë hyrje, trotuar, rampë, parking ose ashensor.
+Vlerëso rreziqet për përdorues të karrocës dhe persona me dëmtime në shikim.
 
-Return ONLY valid JSON with this exact shape:
+Kthe VETËM JSON valid me këtë strukturë të saktë:
 {
   "title": string,
   "category": "accessibility",
@@ -160,6 +160,11 @@ Return ONLY valid JSON with this exact shape:
   "recommendedInstitution": string,
   "status": "pending"
 }
+
+Rregulla:
+- Shkruaj të gjitha vlerat tekstuale në gjuhën shqipe: title, detectedBarriers, recommendations, summary, officialReport, recommendedInstitution.
+- Mos përkthe vlerat teknike: category duhet të jetë "accessibility"; severity, wheelchairRisk dhe visualImpairmentRisk duhet të jenë vetëm "low", "medium" ose "high"; status duhet të jetë "pending".
+- officialReport duhet të jetë formal dhe gati për t'u dërguar te institucioni përgjegjës në Kosovë.
 `,
         },
         {
@@ -179,15 +184,15 @@ const analyzeReport = async ({ description, city, imageBase64, mimeType = "image
   const parts = [
     {
       text: `
-Analyze this civic problem report.
+Analizo këtë raport qytetar.
 
-Description:
+Përshkrimi:
 "${description}"
 
-City or location:
+Qyteti ose lokacioni:
 "${city}"
 
-Return ONLY valid JSON with this exact shape:
+Kthe VETËM JSON valid me këtë strukturë të saktë:
 {
   "title": string,
   "category": "road_damage | blocked_sidewalk | waste | public_lighting | water_issue | public_transport | accessibility | other",
@@ -199,11 +204,15 @@ Return ONLY valid JSON with this exact shape:
   "status": "pending"
 }
 
-Rules:
-- Use the provided city/location as the location unless the report clearly identifies a more precise place.
-- If an image is provided, use it as supporting evidence.
-- If no image is provided, analyze only the description and city/location.
-- Keep officialComplaint formal and ready to send to the recommended institution.
+Rregulla:
+- Shkruaj të gjitha vlerat tekstuale në gjuhën shqipe: title, recommendedInstitution, summary, officialComplaint, location.
+- Mos përkthe vlerat teknike të category: përdor vetëm njërën nga këto kode: "road_damage", "blocked_sidewalk", "waste", "public_lighting", "water_issue", "public_transport", "accessibility", "other".
+- Mos përkthe severity: përdor vetëm "low", "medium" ose "high".
+- Mos përkthe status: përdor vetëm "pending".
+- Përdor qytetin/lokacionin e dhënë si location, përveç nëse raporti identifikon qartë vend më të saktë.
+- Nëse ka fotografi, përdore si dëshmi mbështetëse.
+- Nëse nuk ka fotografi, analizo vetëm përshkrimin dhe qytetin/lokacionin.
+- officialComplaint duhet të jetë formal dhe gati për t'u dërguar te institucioni përgjegjës në Kosovë.
 `,
     },
   ];
