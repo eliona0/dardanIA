@@ -248,12 +248,14 @@ Return ONLY valid JSON with this exact shape:
 {
   "service": string | null,
   "confidence": number,
+  "language": "sq" | "en" | "tr" | "sr",
   "reason": string
 }
 
 Rules:
 - The "service" value must be exactly one of the allowed services, or null if none fits.
 - Understand informal Albanian, typos, synonyms, abbreviations, and mixed language.
+- Detect the user's language. If unclear, use "sq".
 - Match the user's intent, not only exact words.
 - Do not invent new services, institutions, offices, documents, or steps.
 - Use confidence from 0 to 1.
@@ -268,11 +270,66 @@ Rules:
   }
 
   const matchedService = serviceNames.find((name) => name === result.service);
+  const supportedLanguages = ["sq", "en", "tr", "sr"];
 
   return {
     service: matchedService || null,
     confidence: Math.max(0, Math.min(1, Number(result.confidence) || 0)),
+    language: supportedLanguages.includes(result.language) ? result.language : "sq",
     reason: String(result.reason || ""),
+  };
+};
+
+const transcribeGuideAudio = async (audioBase64, mimeType = "audio/m4a") => {
+  const result = await generateJson([
+    {
+      role: "user",
+      parts: [
+        {
+          text: `
+You are the voice input layer for KuMeShku.
+
+Task:
+Transcribe the spoken user question and detect the language.
+
+Supported languages:
+- sq: Albanian
+- en: English
+- tr: Turkish
+- sr: Serbian
+
+Return ONLY valid JSON with this exact shape:
+{
+  "question": string,
+  "language": "sq" | "en" | "tr" | "sr"
+}
+
+Rules:
+- If the audio is Albanian dialect or Kosovo Albanian, use "sq".
+- If the language is unclear, use "sq".
+- Return the user's question as normal readable text.
+- Do not answer the question here.
+`,
+        },
+        {
+          inlineData: {
+            mimeType,
+            data: audioBase64,
+          },
+        },
+      ],
+    },
+  ]);
+
+  if (!result || typeof result !== "object" || !result.question) {
+    throw new Error("Nuk u kuptua, provo perseri.");
+  }
+
+  const supportedLanguages = ["sq", "en", "tr", "sr"];
+
+  return {
+    question: String(result.question),
+    language: supportedLanguages.includes(result.language) ? result.language : "sq",
   };
 };
 
@@ -280,4 +337,5 @@ module.exports = {
   analyzeAccessibility,
   analyzeReport,
   matchGuideService,
+  transcribeGuideAudio,
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -7,7 +7,10 @@ import {
   Text,
   TextInput,
   View,
+  Platform,
 } from "react-native";
+import { Audio } from "expo-av";
+import * as Speech from "expo-speech";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
@@ -22,7 +25,11 @@ type GuideResult = {
   estimatedWait: string;
   steps: string[];
   friendlyAnswer: string;
+  question?: string;
+  language?: SupportedLanguage;
 };
+
+type SupportedLanguage = "sq" | "en" | "tr" | "sr";
 
 const colors = {
   accent: "#6A97B2",
@@ -35,6 +42,12 @@ const colors = {
 };
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
+const speechLanguage: Record<SupportedLanguage, string> = {
+  sq: "sq-AL",
+  en: "en-US",
+  tr: "tr-TR",
+  sr: "sr-RS",
+};
 const routeToScreen = {
   "/": "Home",
   "/accessibility": "Accessibility",
@@ -61,6 +74,10 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
   const [result, setResult] = useState<GuideResult | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [isProcessingVoice, setIsProcessingVoice] = useState(false);
+  const [readAloud, setReadAloud] = useState(true);
+  const recordingRef = useRef<Audio.Recording | null>(null);
 
   const navigateTab = (route: string) => {
     if (navigation) {
@@ -71,8 +88,21 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
     router.push(route as never);
   };
 
-  const askGuide = async () => {
-    const trimmedQuestion = question.trim();
+  const speakAnswer = (text: string, language: SupportedLanguage = "sq") => {
+    if (!readAloud || !text) {
+      return;
+    }
+
+    Speech.stop();
+    Speech.speak(text, {
+      language: speechLanguage[language] || speechLanguage.sq,
+      pitch: 1,
+      rate: 0.96,
+    });
+  };
+
+  const askGuide = async (overrideQuestion?: string) => {
+    const trimmedQuestion = (overrideQuestion || question).trim();
 
     if (!trimmedQuestion) {
       setError("Shkruaj çfarë shërbimi po kërkon.");
@@ -98,12 +128,127 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
       }
 
       setResult(data);
+      speakAnswer(data.friendlyAnswer, data.language || "sq");
     } catch (err) {
       setResult(null);
       setError(err instanceof Error ? err.message : "Diçka shkoi keq.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const sendVoiceQuestion = async (audioUri: string) => {
+    setIsProcessingVoice(true);
+    setError("");
+
+    try {
+      const formData = new FormData();
+
+      if (Platform.OS === "web") {
+        const audioResponse = await fetch(audioUri);
+        const audioBlob = await audioResponse.blob();
+
+        formData.append("audio", audioBlob, "kumeshku-voice.webm");
+      } else {
+        formData.append("audio", {
+          uri: audioUri,
+          name: "kumeshku-voice.m4a",
+          type: "audio/m4a",
+        } as unknown as Blob);
+      }
+
+      const response = await fetch(`${API_URL}/api/guide/voice`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await readJsonResponse(response);
+
+      if (!response.ok) {
+        throw new Error(data?.error || "Nuk u kuptua, provo perseri.");
+      }
+
+      setQuestion(data.question || "");
+      setResult(data);
+      speakAnswer(data.friendlyAnswer, data.language || "sq");
+    } catch (err) {
+      setResult(null);
+      setError(err instanceof Error ? err.message : "Nuk u kuptua, provo perseri.");
+    } finally {
+      setIsProcessingVoice(false);
+    }
+  };
+
+  const startListening = async () => {
+    try {
+      setError("");
+      setResult(null);
+
+      const permission = await Audio.requestPermissionsAsync();
+
+      if (!permission.granted) {
+        setError("Lejo mikrofonin per te perdorur zerin.");
+        return;
+      }
+
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      const recording = new Audio.Recording();
+      await recording.prepareToRecordAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
+      await recording.startAsync();
+
+      recordingRef.current = recording;
+      setIsListening(true);
+    } catch {
+      recordingRef.current = null;
+      setIsListening(false);
+      setError("Nuk u hap mikrofoni, provo perseri.");
+    }
+  };
+
+  const stopListening = async () => {
+    const recording = recordingRef.current;
+
+    if (!recording) {
+      return;
+    }
+
+    try {
+      setIsListening(false);
+      recordingRef.current = null;
+      await recording.stopAndUnloadAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+      });
+
+      const uri = recording.getURI();
+
+      if (!uri) {
+        setError("Nuk u kuptua, provo perseri.");
+        return;
+      }
+
+      await sendVoiceQuestion(uri);
+    } catch {
+      setIsListening(false);
+      recordingRef.current = null;
+      setError("Nuk u kuptua, provo perseri.");
+    }
+  };
+
+  const toggleListening = () => {
+    if (isProcessingVoice || loading) {
+      return;
+    }
+
+    if (isListening) {
+      stopListening();
+      return;
+    }
+
+    startListening();
   };
 
   return (
@@ -151,10 +296,46 @@ export default function GuideScreen({ navigation }: { navigation?: any }) {
             textAlignVertical="top"
           />
 
+          <View style={styles.voiceRow}>
+            <Pressable
+              disabled={loading || isProcessingVoice}
+              onPress={toggleListening}
+              style={[
+                styles.voiceButton,
+                isListening && styles.voiceButtonActive,
+                (loading || isProcessingVoice) && styles.buttonDisabled,
+              ]}
+            >
+              {isProcessingVoice ? (
+                <ActivityIndicator color="#FFFFFF" />
+              ) : (
+                <Ionicons color="#FFFFFF" name={isListening ? "stop-circle-outline" : "mic-outline"} size={20} />
+              )}
+              <Text style={styles.voiceButtonText}>{isListening ? "Ndalo" : "Fol me mua"}</Text>
+            </Pressable>
+
+            <Pressable
+              onPress={() => setReadAloud((value) => !value)}
+              style={[styles.speechToggle, readAloud && styles.speechToggleActive]}
+            >
+              <Ionicons
+                color={readAloud ? "#FFFFFF" : colors.primary}
+                name={readAloud ? "volume-high-outline" : "volume-mute-outline"}
+                size={18}
+              />
+              <Text style={[styles.speechToggleText, readAloud && styles.speechToggleTextActive]}>
+                🔊 Lexo përgjigjen
+              </Text>
+            </Pressable>
+          </View>
+
+          {isListening ? <Text style={styles.statusText}>Duke dëgjuar...</Text> : null}
+          {isProcessingVoice ? <Text style={styles.statusText}>Duke procesuar...</Text> : null}
+
           <Pressable
-            style={[styles.button, loading && styles.buttonDisabled]}
-            onPress={askGuide}
-            disabled={loading}
+            style={[styles.button, (loading || isProcessingVoice || isListening) && styles.buttonDisabled]}
+            onPress={() => askGuide()}
+            disabled={loading || isProcessingVoice || isListening}
           >
             {loading ? (
               <ActivityIndicator color="#fff" />
@@ -553,10 +734,67 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     marginTop: 8,
   },
+  speechToggle: {
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderColor: "#C6D6DE",
+    borderRadius: 16,
+    borderWidth: 1,
+    flex: 1,
+    flexDirection: "row",
+    gap: 7,
+    justifyContent: "center",
+    minHeight: 48,
+    paddingHorizontal: 10,
+  },
+  speechToggleActive: {
+    backgroundColor: colors.success,
+    borderColor: colors.success,
+  },
+  speechToggleText: {
+    color: colors.primary,
+    flexShrink: 1,
+    fontSize: 13,
+    fontWeight: "900",
+  },
+  speechToggleTextActive: {
+    color: "#FFFFFF",
+  },
+  statusText: {
+    color: colors.primary,
+    fontSize: 14,
+    fontWeight: "900",
+    marginTop: 10,
+    textAlign: "center",
+  },
   title: {
     color: "#FFFFFF",
     fontSize: 30,
     fontWeight: "900",
     lineHeight: 36,
+  },
+  voiceButton: {
+    alignItems: "center",
+    backgroundColor: colors.primary,
+    borderRadius: 16,
+    flex: 1,
+    flexDirection: "row",
+    gap: 8,
+    justifyContent: "center",
+    minHeight: 48,
+    paddingHorizontal: 12,
+  },
+  voiceButtonActive: {
+    backgroundColor: "#B42318",
+  },
+  voiceButtonText: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "900",
+  },
+  voiceRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 12,
   },
 });

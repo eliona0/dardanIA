@@ -1,10 +1,17 @@
 const express = require("express");
 const fs = require("fs/promises");
+const multer = require("multer");
 const path = require("path");
 
-const { matchGuideService } = require("../utils/gemini");
+const { matchGuideService, transcribeGuideAudio } = require("../utils/gemini");
 
 const router = express.Router();
+const upload = multer({
+  limits: {
+    fileSize: 10 * 1024 * 1024,
+  },
+  storage: multer.memoryStorage(),
+});
 const servicesPath = path.join(__dirname, "..", "data", "services.json");
 const MIN_AI_CONFIDENCE = 0.55;
 const STRONG_LOCAL_SCORE = 4;
@@ -80,8 +87,22 @@ function scoreService(question, service) {
   return score;
 }
 
-function buildFriendlyAnswer(service) {
-  return `Per ${service.service}, shko te ${service.institution}, ne ${service.office}, ${service.floor}. Merr me vete: ${service.documents.join(", ")}. Koha e pritjes zakonisht eshte ${service.estimatedWait}.`;
+function buildFriendlyAnswer(service, language = "sq") {
+  const documents = service.documents.join(", ");
+
+  if (language === "en") {
+    return `For ${service.service}, go to ${service.institution}, ${service.office}, ${service.floor}. Bring: ${documents}. The usual waiting time is ${service.estimatedWait}.`;
+  }
+
+  if (language === "tr") {
+    return `${service.service} için ${service.institution} kurumunda ${service.office}, ${service.floor} bölümüne git. Yanında şunları getir: ${documents}. Tahmini bekleme süresi ${service.estimatedWait}.`;
+  }
+
+  if (language === "sr") {
+    return `Za ${service.service}, idi u ${service.institution}, ${service.office}, ${service.floor}. Ponesi: ${documents}. Uobičajeno vreme čekanja je ${service.estimatedWait}.`;
+  }
+
+  return `Per ${service.service}, shko te ${service.institution}, ne ${service.office}, ${service.floor}. Merr me vete: ${documents}. Koha e pritjes zakonisht eshte ${service.estimatedWait}.`;
 }
 
 async function readServices() {
@@ -99,7 +120,9 @@ async function findAiMatch(question, services) {
 
     const service = services.find((item) => item.service === aiMatch.service);
 
-    return service ? { service, source: "gemini", confidence: aiMatch.confidence } : null;
+    return service
+      ? { service, source: "gemini", confidence: aiMatch.confidence, language: aiMatch.language }
+      : null;
   } catch (error) {
     console.warn("KuMeShku Gemini match failed, using local fallback:", error.message);
     return null;
@@ -115,7 +138,25 @@ function findLocalMatch(question, services) {
     return null;
   }
 
-  return { service: bestMatch.service, source: "local", score: bestMatch.score };
+  return { service: bestMatch.service, source: "local", score: bestMatch.score, language: "sq" };
+}
+
+async function resolveGuideAnswer(question, preferredLanguage) {
+  const services = await readServices();
+  const localMatch = findLocalMatch(question, services);
+  const strongLocalMatch =
+    localMatch && localMatch.score >= STRONG_LOCAL_SCORE ? localMatch : null;
+  const match = strongLocalMatch || (await findAiMatch(question, services)) || localMatch;
+
+  if (!match) {
+    return null;
+  }
+
+  return {
+    ...match.service,
+    friendlyAnswer: buildFriendlyAnswer(match.service, preferredLanguage || match.language || "sq"),
+    language: preferredLanguage || match.language || "sq",
+  };
 }
 
 router.post("/", async (req, res) => {
@@ -126,25 +167,47 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "question is required" });
     }
 
-    const services = await readServices();
-    const localMatch = findLocalMatch(question, services);
-    const strongLocalMatch =
-      localMatch && localMatch.score >= STRONG_LOCAL_SCORE ? localMatch : null;
-    const match = strongLocalMatch || (await findAiMatch(question, services)) || localMatch;
+    const answer = await resolveGuideAnswer(question);
 
-    if (!match) {
+    if (!answer) {
       return res.status(404).json({
         error: "Nuk gjeta nje sherbim te pershtatshem. Provo ta pershkruash me fjale te tjera.",
       });
     }
 
-    res.json({
-      ...match.service,
-      friendlyAnswer: buildFriendlyAnswer(match.service),
-    });
+    res.json(answer);
   } catch (error) {
     console.error("Guide route failed:", error);
     res.status(500).json({ error: "Guide service failed" });
+  }
+});
+
+router.post("/voice", upload.single("audio"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Audio file is required." });
+    }
+
+    const audioBase64 = req.file.buffer.toString("base64");
+    const transcription = await transcribeGuideAudio(audioBase64, req.file.mimetype);
+    const answer = await resolveGuideAnswer(transcription.question, transcription.language);
+
+    if (!answer) {
+      return res.status(404).json({
+        error: "Nuk u kuptua, provo perseri.",
+        question: transcription.question,
+        language: transcription.language,
+      });
+    }
+
+    res.json({
+      ...answer,
+      question: transcription.question,
+      language: transcription.language,
+    });
+  } catch (error) {
+    console.error("Guide voice route failed:", error);
+    res.status(500).json({ error: error.message || "Nuk u kuptua, provo perseri." });
   }
 });
 
