@@ -3,10 +3,10 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 const tabs = [
-  { icon: "home", label: "Home", route: "/" },
-  { icon: "camera-outline", label: "Report", route: "/report" },
-  { icon: "accessibility-outline", label: "Accessibility", route: "/accessibility" },
-  { icon: "bar-chart-outline", label: "Dashboard", route: "/dashboard" },
+  { icon: "home", key: "Home", label: "Ballina", route: "/" },
+  { icon: "camera-outline", key: "Report", label: "Raporto", route: "/report" },
+  { icon: "accessibility-outline", key: "Accessibility", label: "Qasja", route: "/accessibility" },
+  { icon: "bar-chart-outline", key: "Dashboard", label: "Paneli", route: "/dashboard" },
 ];
 
 export default function BottomNav({ activeTab, onNavigate }) {
@@ -23,7 +23,7 @@ export default function BottomNav({ activeTab, onNavigate }) {
     <View style={styles.wrap}>
       <View style={styles.nav}>
         {tabs.map((tab) => {
-          const isActive = tab.label === activeTab;
+          const isActive = tab.key === activeTab;
 
           return (
             <Pressable
@@ -34,7 +34,7 @@ export default function BottomNav({ activeTab, onNavigate }) {
             >
               <View style={[styles.iconWrap, isActive && styles.iconWrapActive]}>
                 <Ionicons
-                  color={isActive ? "#FFFFFF" : "#64748B"}
+                  color={isActive ? "#FFFFFF" : "#6A97B2"}
                   name={tab.icon}
                   size={20}
                 />
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   nav: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#E7EAF2",
+    borderColor: "#C6D6DE",
     borderRadius: 24,
     borderWidth: 1,
     elevation: 8,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 10,
     paddingVertical: 9,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { height: 12, width: 0 },
     shadowOpacity: 0.14,
     shadowRadius: 22,
@@ -87,14 +87,14 @@ const styles = StyleSheet.create({
     width: 42,
   },
   iconWrapActive: {
-    backgroundColor: "#4F46E5",
+    backgroundColor: "#356F94",
   },
   label: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 11,
     fontWeight: "800",
   },
   labelActive: {
-    color: "#4F46E5",
+    color: "#356F94",
   },
 });

@@ -15,44 +15,44 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://172.16.103.5:4000";
 
 const severityStyles = {
   high: {
-    label: "High",
-    backgroundColor: "#FEE2E2",
-    color: "#B91C1C",
+    label: "I lartë",
+    backgroundColor: "#E4EDF1",
+    color: "#356F94",
   },
   medium: {
-    label: "Medium",
-    backgroundColor: "#FFEDD5",
-    color: "#C2410C",
+    label: "Mesatar",
+    backgroundColor: "#E4EDF1",
+    color: "#6A97B2",
   },
   low: {
-    label: "Low",
-    backgroundColor: "#DCFCE7",
-    color: "#15803D",
+    label: "I ulët",
+    backgroundColor: "#E4EFE3",
+    color: "#5B7B57",
   },
 };
 
 const statusStyles = {
   pending: {
-    label: "Pending",
-    backgroundColor: "#DBEAFE",
-    color: "#1D4ED8",
+    label: "Në pritje",
+    backgroundColor: "#E4EDF1",
+    color: "#356F94",
   },
   default: {
-    label: "Open",
-    backgroundColor: "#E5E7EB",
-    color: "#4B5563",
+    label: "Hapur",
+    backgroundColor: "#F2F5EA",
+    color: "#2F2D2E",
   },
 };
 
 const categoryLabels = {
-  accessibility: "Accessibility",
-  road_damage: "Road damage",
-  blocked_sidewalk: "Blocked sidewalk",
-  waste: "Waste",
-  public_lighting: "Public lighting",
-  water_issue: "Water issue",
-  public_transport: "Public transport",
-  other: "Other",
+  accessibility: "Qasje",
+  road_damage: "Dëmtim rruge",
+  blocked_sidewalk: "Trotuar i bllokuar",
+  waste: "Mbeturina",
+  public_lighting: "Ndriçim publik",
+  water_issue: "Problem me ujë",
+  public_transport: "Transport publik",
+  other: "Tjetër",
 };
 
 const routeToScreen = {
@@ -70,7 +70,7 @@ const getStatusStyle = (status) =>
 
 const formatCategory = (category) => {
   if (!category) {
-    return "Civic case";
+    return "Rast qytetar";
   }
 
   return categoryLabels[category] || String(category).replace(/_/g, " ");
@@ -78,13 +78,13 @@ const formatCategory = (category) => {
 
 const formatDate = (value) => {
   if (!value) {
-    return "Recently reported";
+    return "Raportuar së fundmi";
   }
 
   const date = new Date(value);
 
   if (Number.isNaN(date.getTime())) {
-    return "Recently reported";
+    return "Raportuar së fundmi";
   }
 
   return date.toLocaleDateString(undefined, {
@@ -122,11 +122,11 @@ const CaseCard = ({ item }) => {
       </View>
 
       <Text style={styles.caseTitle} numberOfLines={2}>
-        {item.title || "Untitled case"}
+        {item.title || "Rast pa titull"}
       </Text>
 
       <Text style={styles.caseSummary} numberOfLines={3}>
-        {item.summary || "No summary provided yet."}
+        {item.summary || "Ende nuk ka përmbledhje."}
       </Text>
 
       <View style={styles.caseFooter}>
@@ -174,12 +174,12 @@ export default function DashboardScreen({ navigation }) {
       const payload = await response.json();
 
       if (!response.ok) {
-        throw new Error(payload?.error || "Could not load cases.");
+        throw new Error(payload?.error || "Rastet nuk mund të ngarkohen.");
       }
 
       setCases(Array.isArray(payload) ? payload : []);
     } catch (fetchError) {
-      setError(fetchError.message || "Could not load cases.");
+      setError(fetchError.message || "Rastet nuk mund të ngarkohen.");
     } finally {
       setIsLoading(false);
       setIsRefreshing(false);
@@ -203,24 +203,24 @@ export default function DashboardScreen({ navigation }) {
 
     return [
       {
-        label: "Total cases",
+        label: "Gjithsej raste",
         value: cases.length,
-        accentColor: "#2563EB",
+        accentColor: "#356F94",
       },
       {
-        label: "High priority",
+        label: "Prioritet i lartë",
         value: highPriorityCases.length,
-        accentColor: "#DC2626",
+        accentColor: "#356F94",
       },
       {
-        label: "Accessibility",
+        label: "Qasje",
         value: accessibilityCases.length,
-        accentColor: "#7C3AED",
+        accentColor: "#6A97B2",
       },
       {
-        label: "Pending",
+        label: "Në pritje",
         value: pendingCases.length,
-        accentColor: "#0891B2",
+        accentColor: "#5B7B57",
       },
     ];
   }, [cases]);
@@ -233,25 +233,25 @@ export default function DashboardScreen({ navigation }) {
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={() => fetchCases({ refreshing: true })}
-            tintColor="#2563EB"
+            tintColor="#356F94"
           />
         }
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.eyebrow}>QasjaAI</Text>
-          <Text style={styles.title}>Dashboard</Text>
+          <Text style={styles.eyebrow}>dardanIA</Text>
+          <Text style={styles.title}>Paneli</Text>
           <Text style={styles.subtitle}>
-            Overview of reported civic and accessibility cases
+            Përmbledhje e rasteve qytetare dhe të qasjes.
           </Text>
         </View>
 
         {isLoading ? (
           <View style={styles.stateCard}>
-            <ActivityIndicator color="#2563EB" size="large" />
-            <Text style={styles.stateTitle}>Loading dashboard</Text>
+            <ActivityIndicator color="#356F94" size="large" />
+            <Text style={styles.stateTitle}>Duke ngarkuar panelin</Text>
             <Text style={styles.stateText}>
-              Fetching the latest reported cases...
+              Po marrim rastet e raportuara së fundmi...
             </Text>
           </View>
         ) : (
@@ -268,13 +268,13 @@ export default function DashboardScreen({ navigation }) {
             </View>
 
             <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Recent cases</Text>
+              <Text style={styles.sectionTitle}>Rastet e fundit</Text>
               <Text style={styles.sectionCount}>{cases.length}</Text>
             </View>
 
             {!!error && (
               <View style={styles.errorCard}>
-                <Text style={styles.errorTitle}>Unable to refresh cases</Text>
+                <Text style={styles.errorTitle}>Rastet nuk mund të rifreskohen</Text>
                 <Text style={styles.errorText}>{error}</Text>
               </View>
             )}
@@ -306,7 +306,7 @@ export default function DashboardScreen({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#F5F7FB",
+    backgroundColor: "#F2F5EA",
   },
   content: {
     padding: 20,
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     paddingBottom: 22,
   },
   eyebrow: {
-    color: "#2563EB",
+    color: "#356F94",
     fontSize: 13,
     fontWeight: "800",
     letterSpacing: 0.4,
@@ -325,13 +325,13 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   title: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 34,
     fontWeight: "900",
     letterSpacing: 0,
   },
   subtitle: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 16,
     lineHeight: 23,
     marginTop: 8,
@@ -345,13 +345,13 @@ const styles = StyleSheet.create({
   },
   statCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#EEF2F7",
+    borderColor: "#D8E1D0",
     borderRadius: 20,
     borderWidth: 1,
     elevation: 3,
     minHeight: 116,
     padding: 16,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.08,
     shadowRadius: 16,
@@ -364,13 +364,13 @@ const styles = StyleSheet.create({
     width: 42,
   },
   statValue: {
-    color: "#0F172A",
+    color: "#2F2D2E",
     fontSize: 30,
     fontWeight: "900",
     letterSpacing: 0,
   },
   statLabel: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 13,
     fontWeight: "700",
     marginTop: 4,
@@ -382,14 +382,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   sectionTitle: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 20,
     fontWeight: "900",
   },
   sectionCount: {
-    backgroundColor: "#E0F2FE",
+    backgroundColor: "#E4EDF1",
     borderRadius: 999,
-    color: "#0369A1",
+    color: "#356F94",
     fontSize: 13,
     fontWeight: "800",
     overflow: "hidden",
@@ -401,12 +401,12 @@ const styles = StyleSheet.create({
   },
   caseCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#E8EEF7",
+    borderColor: "#D8E1D0",
     borderRadius: 22,
     borderWidth: 1,
     elevation: 2,
     padding: 16,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.07,
     shadowRadius: 14,
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   caseCategory: {
-    color: "#2563EB",
+    color: "#356F94",
     flex: 1,
     fontSize: 12,
     fontWeight: "900",
@@ -427,24 +427,24 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   caseDate: {
-    color: "#94A3B8",
+    color: "#6A97B2",
     fontSize: 12,
     fontWeight: "700",
   },
   caseTitle: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 18,
     fontWeight: "900",
     lineHeight: 23,
   },
   caseSummary: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 14,
     lineHeight: 21,
     marginTop: 8,
   },
   caseFooter: {
-    borderTopColor: "#F1F5F9",
+    borderTopColor: "#D8E1D0",
     borderTopWidth: 1,
     marginTop: 14,
     paddingTop: 14,
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   institution: {
-    color: "#475569",
+    color: "#2F2D2E",
     fontSize: 13,
     fontWeight: "700",
     marginTop: 12,
@@ -472,35 +472,35 @@ const styles = StyleSheet.create({
   stateCard: {
     alignItems: "center",
     backgroundColor: "#FFFFFF",
-    borderColor: "#E8EEF7",
+    borderColor: "#D8E1D0",
     borderRadius: 24,
     borderWidth: 1,
     elevation: 2,
     marginTop: 10,
     padding: 24,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.07,
     shadowRadius: 14,
   },
   stateTitle: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 18,
     fontWeight: "900",
     marginTop: 14,
     textAlign: "center",
   },
   stateText: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 14,
     lineHeight: 21,
     marginTop: 6,
     textAlign: "center",
   },
   emptyIcon: {
-    backgroundColor: "#DCFCE7",
+    backgroundColor: "#E4EFE3",
     borderRadius: 999,
-    color: "#15803D",
+    color: "#5B7B57",
     fontSize: 24,
     fontWeight: "900",
     height: 48,
@@ -510,20 +510,20 @@ const styles = StyleSheet.create({
     width: 48,
   },
   errorCard: {
-    backgroundColor: "#FEF2F2",
-    borderColor: "#FECACA",
+    backgroundColor: "#E4EDF1",
+    borderColor: "#C6D6DE",
     borderRadius: 18,
     borderWidth: 1,
     marginBottom: 14,
     padding: 14,
   },
   errorTitle: {
-    color: "#991B1B",
+    color: "#356F94",
     fontSize: 14,
     fontWeight: "900",
   },
   errorText: {
-    color: "#B91C1C",
+    color: "#2F2D2E",
     fontSize: 13,
     lineHeight: 19,
     marginTop: 4,

@@ -15,13 +15,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Report" component={ReportProblemScreen} options={{ title: "Report Problem" }} />
-        <Stack.Screen name="Guide" component={GuideScreen} options={{ title: "KuMeShku" }} />
-        <Stack.Screen name="Accessibility" component={AccessibilityScreen} />
-        <Stack.Screen name="Dashboard" component={DashboardScreen} />
-        <Stack.Screen name="Map" component={MapScreen} />
-        <Stack.Screen name="Case" component={CaseDetailsScreen} options={{ title: "Case Details" }} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{ title: "dardanIA" }} />
+        <Stack.Screen name="Report" component={ReportProblemScreen} options={{ title: "Raporto problem" }} />
+        <Stack.Screen name="Guide" component={GuideScreen} options={{ title: "Ku me shku?" }} />
+        <Stack.Screen name="Accessibility" component={AccessibilityScreen} options={{ title: "Kontrollo qasjen" }} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ title: "Paneli" }} />
+        <Stack.Screen name="Map" component={MapScreen} options={{ title: "Harta" }} />
+        <Stack.Screen name="Case" component={CaseDetailsScreen} options={{ title: "Detajet e rastit" }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

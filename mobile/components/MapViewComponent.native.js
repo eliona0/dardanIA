@@ -90,9 +90,9 @@ export default function MapViewComponent({
 }
 
 function markerColor(severity) {
-  if (severity === "high") return "#EF4444";
-  if (severity === "medium") return "#F97316";
-  return "#22C55E";
+  if (severity === "high") return "#356F94";
+  if (severity === "medium") return "#6A97B2";
+  return "#5B7B57";
 }
 
 const styles = StyleSheet.create({
@@ -110,19 +110,19 @@ const styles = StyleSheet.create({
     elevation: 4,
     minWidth: 180,
     padding: 12,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.14,
     shadowRadius: 14,
   },
   calloutTitle: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 14,
     fontWeight: "900",
     marginBottom: 4,
   },
   calloutMeta: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 12,
     fontWeight: "700",
   },
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   centerText: {
-    color: "#4F46E5",
+    color: "#356F94",
     fontSize: 12,
     fontWeight: "900",
   },
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     right: 12,
   },
   controlText: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 20,
     fontWeight: "900",
   },

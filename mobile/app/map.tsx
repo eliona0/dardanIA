@@ -5,31 +5,24 @@ import BottomNav from "../components/BottomNav";
 import MapViewComponent from "../components/MapViewComponent";
 import { mockCases } from "../components/mockCases";
 
-const prishtinaRegion = {
-  latitude: 42.6629,
-  latitudeDelta: 0.045,
-  longitude: 21.1655,
-  longitudeDelta: 0.045,
-};
-
 export default function FullMapScreen() {
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
-        <Text style={styles.title}>Case Map</Text>
-        <Text style={styles.subtitle}>Zoom in to inspect reports around Prishtina.</Text>
+        <Text style={styles.title}>Harta e rasteve</Text>
+        <Text style={styles.subtitle}>Shiko raportimet rreth Prishtinës.</Text>
       </View>
 
       <View style={styles.mapCard}>
         <MapViewComponent
           cases={mockCases}
           height={560}
-          onMarkerPress={(caseItem) => router.push(`/case/${caseItem.id}` as never)}
-          region={prishtinaRegion}
+          onCasePress={(caseItem: any) => router.push(`/case/${caseItem.id}` as never)}
+          onMarkerPress={(caseItem: any) => router.push(`/case/${caseItem.id}` as never)}
         />
       </View>
 
-      <BottomNav activeTab="Home" onNavigate={(path) => router.push(path as never)} />
+      <BottomNav activeTab="Home" onNavigate={(path: string) => router.push(path as never)} />
     </View>
   );
 }

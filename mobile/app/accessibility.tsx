@@ -9,8 +9,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 
 import BottomNav from "../components/BottomNav";
 import {
@@ -25,10 +26,26 @@ type SelectedImage = {
   mimeType?: string | null;
 };
 
+const colors = {
+  accent: "#6A97B2",
+  background: "#F2F5EA",
+  card: "#FFFFFF",
+  gold: "#6A97B2",
+  primary: "#356F94",
+  success: "#5B7B57",
+  text: "#2F2D2E",
+};
+
 const riskColor = {
-  low: "#16803c",
-  medium: "#b7791f",
-  high: "#c53030",
+  low: "#5B7B57",
+  medium: "#6A97B2",
+  high: "#356F94",
+};
+
+const riskLabel = {
+  low: "I ulët",
+  medium: "Mesatar",
+  high: "I lartë",
 };
 
 const routeToScreen = {
@@ -57,7 +74,7 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
     const permission = await ImagePicker.requestCameraPermissionsAsync();
 
     if (!permission.granted) {
-      Alert.alert("Camera permission needed", "Please allow camera access to take a photo.");
+      Alert.alert("Leje për kamerën", "Lejo qasjen në kamerë për të bërë foto.");
       return null;
     }
 
@@ -72,7 +89,7 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (!permission.granted) {
-      Alert.alert("Photo permission needed", "Please allow photo access to select an image.");
+      Alert.alert("Leje për galerinë", "Lejo qasjen në galeri për të zgjedhur foto.");
       return null;
     }
 
@@ -108,7 +125,7 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
 
   const handleAnalyze = async () => {
     if (!image) {
-      Alert.alert("No image selected", "Select or take a photo first.");
+      Alert.alert("Foto mungon", "Zgjidh ose bëj një foto para analizës.");
       return;
     }
 
@@ -117,8 +134,8 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
       setResult(await analyzeAccessibility(image));
     } catch (error) {
       Alert.alert(
-        "Analysis failed",
-        error instanceof Error ? error.message : "Could not analyze this image.",
+        "Analiza dështoi",
+        error instanceof Error ? error.message : "Fotoja nuk mund të analizohet tani.",
       );
     } finally {
       setIsAnalyzing(false);
@@ -133,91 +150,146 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
     try {
       setIsSaving(true);
       await saveCase(result);
-      Alert.alert("Case saved", "The accessibility case was saved successfully.");
+      Alert.alert("Rasti u ruajt", "Kontrolli i qasjes u ruajt me sukses.");
     } catch (error) {
       Alert.alert(
-        "Save failed",
-        error instanceof Error ? error.message : "Could not save this case.",
+        "Ruajtja dështoi",
+        error instanceof Error ? error.message : "Rasti nuk mund të ruhet tani.",
       );
     } finally {
       setIsSaving(false);
     }
   };
 
+  const score = result?.accessibilityScore ?? 0;
+
   return (
     <View style={styles.screen}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Accessibility Check</Text>
-        <Text style={styles.subtitle}>Entrances, sidewalks, ramps, parking and elevators.</Text>
-
-        <View style={styles.actions}>
-        <TouchableOpacity style={styles.secondaryButton} onPress={pickImage}>
-          <Text style={styles.secondaryButtonText}>Select Image</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.secondaryButton} onPress={takePhoto}>
-          <Text style={styles.secondaryButtonText}>Take Photo</Text>
-        </TouchableOpacity>
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={styles.hero}>
+          <View style={styles.brandRow}>
+            <View style={styles.heroIcon}>
+              <Ionicons color="#FFFFFF" name="accessibility-outline" size={25} />
+            </View>
+            <Text style={styles.brand}>dardanIA</Text>
+          </View>
+          <Text style={styles.title}>Kontrollo Qasjen</Text>
+          <Text style={styles.subtitle}>
+            Analizo nëse një hapësirë është e përshtatshme për persona me aftësi
+            të kufizuara.
+          </Text>
         </View>
 
-        {image ? (
-        <Image source={{ uri: image.uri }} style={styles.preview} />
-      ) : (
-        <View style={styles.emptyPreview}>
-          <Text style={styles.emptyText}>No image selected</Text>
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <View style={styles.cardIcon}>
+              <Ionicons color={colors.primary} name="camera-outline" size={20} />
+            </View>
+            <Text style={styles.cardTitle}>Foto e hapësirës</Text>
+          </View>
+          <Text style={styles.helperText}>
+            Fotografo hyrjen, trotuarin, rampën, ashensorin ose vendin ku dyshon se ka pengesa.
+          </Text>
+
+          <View style={styles.actions}>
+            <TouchableOpacity style={styles.secondaryButton} onPress={pickImage}>
+              <Ionicons color={colors.primary} name="images-outline" size={18} />
+              <Text style={styles.secondaryButtonText}>Zgjidh nga galeria</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.secondaryButton} onPress={takePhoto}>
+              <Ionicons color={colors.primary} name="camera-outline" size={18} />
+              <Text style={styles.secondaryButtonText}>Bëj foto</Text>
+            </TouchableOpacity>
+          </View>
+
+          {image ? (
+            <Image source={{ uri: image.uri }} style={styles.preview} />
+          ) : (
+            <View style={styles.emptyPreview}>
+              <Ionicons color={colors.gold} name="image-outline" size={34} />
+              <Text style={styles.emptyText}>Zgjidh foto për analizë</Text>
+            </View>
+          )}
         </View>
-        )}
 
         <TouchableOpacity
-        disabled={!image || isAnalyzing}
-        style={[styles.primaryButton, (!image || isAnalyzing) && styles.disabledButton]}
-        onPress={handleAnalyze}
-      >
-        {isAnalyzing ? (
-          <ActivityIndicator color="#ffffff" />
-        ) : (
-          <Text style={styles.primaryButtonText}>Analyze Accessibility</Text>
-        )}
+          disabled={!image || isAnalyzing}
+          style={[styles.primaryButton, (!image || isAnalyzing) && styles.disabledButton]}
+          onPress={handleAnalyze}
+        >
+          {isAnalyzing ? (
+            <ActivityIndicator color="#ffffff" />
+          ) : (
+            <>
+              <Ionicons color="#FFFFFF" name="scan-outline" size={20} />
+              <Text style={styles.primaryButtonText}>Analizo Qasjen</Text>
+            </>
+          )}
         </TouchableOpacity>
 
         {result && (
-          <View style={styles.result}>
-          <Text style={styles.resultTitle}>{result.title}</Text>
-
-          <View style={styles.scoreRow}>
-            <View style={styles.scoreBox}>
-              <Text style={styles.scoreLabel}>Accessibility Score</Text>
-              <Text style={styles.scoreValue}>{result.accessibilityScore}/100</Text>
+          <View style={styles.resultCard}>
+            <View style={styles.resultHeader}>
+              <View style={styles.resultIcon}>
+                <Ionicons color={colors.primary} name="analytics-outline" size={24} />
+              </View>
+              <View style={styles.resultHeaderText}>
+                <Text style={styles.resultTitle}>{result.title}</Text>
+                <Text style={styles.resultSubtitle}>Rezultatet vizuale nga dardanIA</Text>
+              </View>
             </View>
-            <RiskPill label="Severity" value={result.severity} />
-          </View>
 
-          <RiskPill label="Wheelchair Risk" value={result.wheelchairRisk} />
-          <RiskPill label="Visual Impairment Risk" value={result.visualImpairmentRisk} />
+            <View style={styles.scoreCard}>
+              <Text style={styles.scoreLabel}>Rezultati i qasjes</Text>
+              <View style={styles.scoreRow}>
+                <Text style={styles.scoreValue}>{score}</Text>
+                <Text style={styles.scoreMax}>/100</Text>
+              </View>
+              <View style={styles.progressTrack}>
+                <View style={[styles.progressFill, { width: `${Math.max(0, Math.min(score, 100))}%` }]} />
+              </View>
+            </View>
 
-          <Section title="Detected Barriers" items={result.detectedBarriers} />
-          <Section title="Recommendations" items={result.recommendations} />
+            <View style={styles.riskCard}>
+              <Text style={styles.sectionTitle}>Rreziqet</Text>
+              <RiskPill icon="accessibility-outline" label="Rreziku për karroca" value={result.wheelchairRisk} />
+              <RiskPill icon="eye-outline" label="Rreziku për persona me shikim të dobët" value={result.visualImpairmentRisk} />
+              <RiskPill icon="warning-outline" label="Serioziteti i përgjithshëm" value={result.severity} />
+            </View>
 
-          <Text style={styles.sectionTitle}>Summary</Text>
-          <Text style={styles.paragraph}>{result.summary}</Text>
+            <ListCard
+              icon="warning-outline"
+              items={result.detectedBarriers}
+              title="Pengesat e identifikuara"
+            />
+            <ListCard
+              icon="bulb-outline"
+              items={result.recommendations}
+              title="Rekomandimet"
+            />
 
-          <Text style={styles.sectionTitle}>Official Report</Text>
-          <Text style={styles.paragraph}>{result.officialReport}</Text>
+            <TextCard icon="document-text-outline" title="Raport zyrtar" value={result.officialReport} />
+            <TextCard
+              icon="business-outline"
+              title="Institucioni i rekomanduar"
+              value={result.recommendedInstitution}
+            />
 
-          <Text style={styles.sectionTitle}>Recommended Institution</Text>
-          <Text style={styles.paragraph}>{result.recommendedInstitution}</Text>
-
-          <TouchableOpacity
-            disabled={isSaving}
-            style={[styles.primaryButton, isSaving && styles.disabledButton]}
-            onPress={handleSaveCase}
-          >
-            {isSaving ? (
-              <ActivityIndicator color="#ffffff" />
-            ) : (
-              <Text style={styles.primaryButtonText}>Save Case</Text>
-            )}
-          </TouchableOpacity>
+            <TouchableOpacity
+              disabled={isSaving}
+              style={[styles.primaryButton, styles.saveButton, isSaving && styles.disabledButton]}
+              onPress={handleSaveCase}
+            >
+              {isSaving ? (
+                <ActivityIndicator color="#ffffff" />
+              ) : (
+                <>
+                  <Ionicons color="#FFFFFF" name="bookmark-outline" size={20} />
+                  <Text style={styles.primaryButtonText}>Ruaj rastin</Text>
+                </>
+              )}
+            </TouchableOpacity>
           </View>
         )}
       </ScrollView>
@@ -227,180 +299,391 @@ export default function AccessibilityCheckScreen({ navigation }: { navigation?: 
 }
 
 function RiskPill({
+  icon,
   label,
   value,
 }: {
+  icon: keyof typeof Ionicons.glyphMap;
   label: string;
   value: "low" | "medium" | "high";
 }) {
   return (
     <View style={styles.riskRow}>
-      <Text style={styles.riskLabel}>{label}</Text>
+      <View style={styles.riskLabelRow}>
+        <Ionicons color={colors.accent} name={icon} size={18} />
+        <Text style={styles.riskLabel}>{label}</Text>
+      </View>
       <View style={[styles.riskPill, { backgroundColor: riskColor[value] }]}>
-        <Text style={styles.riskText}>{value.toUpperCase()}</Text>
+        <Text style={styles.riskText}>{riskLabel[value]}</Text>
       </View>
     </View>
   );
 }
 
-function Section({ title, items }: { title: string; items: string[] }) {
+function ListCard({
+  icon,
+  items,
+  title,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  items: string[];
+  title: string;
+}) {
   return (
-    <View>
-      <Text style={styles.sectionTitle}>{title}</Text>
-      {items.map((item) => (
-        <Text key={item} style={styles.listItem}>
-          - {item}
-        </Text>
-      ))}
+    <View style={styles.innerCard}>
+      <View style={styles.innerHeader}>
+        <Ionicons color={colors.primary} name={icon} size={20} />
+        <Text style={styles.sectionTitle}>{title}</Text>
+      </View>
+      {items.length ? (
+        items.map((item) => (
+          <View key={item} style={styles.listRow}>
+            <Ionicons color={colors.gold} name="checkmark-circle-outline" size={18} />
+            <Text style={styles.listItem}>{item}</Text>
+          </View>
+        ))
+      ) : (
+        <Text style={styles.paragraph}>Nuk u gjetën të dhëna të mjaftueshme.</Text>
+      )}
+    </View>
+  );
+}
+
+function TextCard({
+  icon,
+  title,
+  value,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  title: string;
+  value: string;
+}) {
+  return (
+    <View style={styles.innerCard}>
+      <View style={styles.innerHeader}>
+        <Ionicons color={colors.primary} name={icon} size={20} />
+        <Text style={styles.sectionTitle}>{title}</Text>
+      </View>
+      <Text style={styles.paragraph}>{value}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    backgroundColor: "#f6f7f9",
-    flex: 1,
-  },
   actions: {
     flexDirection: "row",
     gap: 12,
+    marginTop: 14,
+  },
+  brand: {
+    color: colors.gold,
+    fontSize: 15,
+    fontWeight: "900",
+  },
+  brandRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 10,
+    marginBottom: 14,
+  },
+  card: {
+    backgroundColor: colors.card,
+    borderColor: "#D8E1D0",
+    borderRadius: 20,
+    borderWidth: 1,
+    elevation: 3,
     marginBottom: 16,
+    padding: 16,
+    shadowColor: colors.text,
+    shadowOffset: { height: 8, width: 0 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+  },
+  cardHeader: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 10,
+    marginBottom: 10,
+  },
+  cardIcon: {
+    alignItems: "center",
+    backgroundColor: "#E4EDF1",
+    borderRadius: 14,
+    height: 40,
+    justifyContent: "center",
+    width: 40,
+  },
+  cardTitle: {
+    color: colors.text,
+    flex: 1,
+    fontSize: 18,
+    fontWeight: "900",
   },
   container: {
-    backgroundColor: "#f6f7f9",
     flexGrow: 1,
     padding: 20,
-    paddingBottom: 112,
+    paddingBottom: 116,
   },
   disabledButton: {
-    opacity: 0.5,
+    opacity: 0.55,
   },
   emptyPreview: {
     alignItems: "center",
     aspectRatio: 4 / 3,
-    backgroundColor: "#e7ebef",
-    borderRadius: 8,
+    backgroundColor: "#F2F5EA",
+    borderColor: "#C6D6DE",
+    borderRadius: 18,
+    borderStyle: "dashed",
+    borderWidth: 1,
+    gap: 8,
     justifyContent: "center",
-    marginBottom: 16,
+    marginTop: 14,
   },
   emptyText: {
-    color: "#68707a",
+    color: colors.accent,
+    fontSize: 14,
+    fontWeight: "800",
+  },
+  helperText: {
+    color: colors.accent,
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  hero: {
+    backgroundColor: colors.primary,
+    borderRadius: 22,
+    marginBottom: 16,
+    padding: 20,
+  },
+  heroIcon: {
+    alignItems: "center",
+    backgroundColor: colors.accent,
+    borderRadius: 14,
+    height: 44,
+    justifyContent: "center",
+    width: 44,
+  },
+  innerCard: {
+    backgroundColor: "#F2F5EA",
+    borderColor: "#D8E1D0",
+    borderRadius: 18,
+    borderWidth: 1,
+    marginTop: 12,
+    padding: 14,
+  },
+  innerHeader: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 10,
   },
   listItem: {
-    color: "#2b333b",
+    color: colors.text,
+    flex: 1,
     fontSize: 15,
     lineHeight: 22,
-    marginBottom: 6,
+  },
+  listRow: {
+    alignItems: "flex-start",
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 8,
   },
   paragraph: {
-    color: "#2b333b",
+    color: colors.text,
     fontSize: 15,
-    lineHeight: 22,
-    marginBottom: 14,
+    lineHeight: 23,
   },
   preview: {
     aspectRatio: 4 / 3,
-    borderRadius: 8,
-    marginBottom: 16,
+    borderRadius: 18,
+    marginTop: 14,
     width: "100%",
   },
   primaryButton: {
     alignItems: "center",
-    backgroundColor: "#145da0",
-    borderRadius: 8,
-    minHeight: 48,
+    backgroundColor: colors.primary,
+    borderRadius: 18,
+    elevation: 2,
+    flexDirection: "row",
+    gap: 8,
     justifyContent: "center",
     marginBottom: 16,
+    minHeight: 54,
     paddingHorizontal: 16,
+    shadowColor: colors.primary,
+    shadowOffset: { height: 8, width: 0 },
+    shadowOpacity: 0.16,
+    shadowRadius: 14,
   },
   primaryButtonText: {
-    color: "#ffffff",
+    color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "900",
   },
-  result: {
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
+  progressFill: {
+    backgroundColor: colors.primary,
+    borderRadius: 999,
+    height: "100%",
+  },
+  progressTrack: {
+    backgroundColor: "#C6D6DE",
+    borderRadius: 999,
+    height: 12,
+    overflow: "hidden",
+  },
+  resultCard: {
+    backgroundColor: colors.card,
+    borderColor: "#D8E1D0",
+    borderRadius: 20,
+    borderWidth: 1,
+    elevation: 3,
     padding: 16,
+    shadowColor: colors.text,
+    shadowOffset: { height: 8, width: 0 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
   },
-  resultTitle: {
-    color: "#111827",
-    fontSize: 20,
-    fontWeight: "800",
+  resultHeader: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 12,
     marginBottom: 14,
   },
-  riskLabel: {
-    color: "#374151",
+  resultHeaderText: {
     flex: 1,
-    fontSize: 15,
-    fontWeight: "600",
+  },
+  resultIcon: {
+    alignItems: "center",
+    backgroundColor: "#E4EDF1",
+    borderRadius: 16,
+    height: 46,
+    justifyContent: "center",
+    width: 46,
+  },
+  resultSubtitle: {
+    color: colors.accent,
+    fontSize: 14,
+    fontWeight: "700",
+    marginTop: 2,
+  },
+  resultTitle: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: "900",
+  },
+  riskCard: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#D8E1D0",
+    borderRadius: 18,
+    borderWidth: 1,
+    marginTop: 12,
+    padding: 14,
+  },
+  riskLabel: {
+    color: colors.text,
+    flex: 1,
+    fontSize: 14,
+    fontWeight: "800",
+    lineHeight: 20,
+  },
+  riskLabelRow: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: "row",
+    gap: 8,
   },
   riskPill: {
     borderRadius: 999,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 11,
+    paddingVertical: 7,
   },
   riskRow: {
     alignItems: "center",
     flexDirection: "row",
-    marginBottom: 10,
+    gap: 12,
+    justifyContent: "space-between",
+    paddingVertical: 8,
   },
   riskText: {
-    color: "#ffffff",
+    color: "#FFFFFF",
     fontSize: 12,
-    fontWeight: "800",
+    fontWeight: "900",
   },
-  scoreBox: {
-    flex: 1,
+  saveButton: {
+    marginBottom: 0,
+    marginTop: 16,
+  },
+  scoreCard: {
+    backgroundColor: "#F2F5EA",
+    borderColor: "#D8E1D0",
+    borderRadius: 18,
+    borderWidth: 1,
+    padding: 16,
   },
   scoreLabel: {
-    color: "#68707a",
-    fontSize: 13,
+    color: colors.accent,
+    fontSize: 14,
+    fontWeight: "900",
+  },
+  scoreMax: {
+    color: colors.gold,
+    fontSize: 28,
+    fontWeight: "900",
+    marginBottom: 8,
   },
   scoreRow: {
-    alignItems: "center",
+    alignItems: "flex-end",
     flexDirection: "row",
-    gap: 12,
     marginBottom: 12,
   },
   scoreValue: {
-    color: "#111827",
-    fontSize: 28,
+    color: colors.primary,
+    fontSize: 58,
     fontWeight: "900",
+    lineHeight: 64,
+  },
+  screen: {
+    backgroundColor: colors.background,
+    flex: 1,
   },
   secondaryButton: {
     alignItems: "center",
-    backgroundColor: "#ffffff",
-    borderColor: "#c7d0da",
-    borderRadius: 8,
+    backgroundColor: "#F2F5EA",
+    borderColor: "#C6D6DE",
+    borderRadius: 16,
     borderWidth: 1,
     flex: 1,
-    minHeight: 44,
+    flexDirection: "row",
+    gap: 7,
     justifyContent: "center",
-    paddingHorizontal: 12,
+    minHeight: 48,
+    paddingHorizontal: 10,
   },
   secondaryButtonText: {
-    color: "#145da0",
-    fontSize: 15,
-    fontWeight: "700",
+    color: colors.primary,
+    flexShrink: 1,
+    fontSize: 14,
+    fontWeight: "900",
+    textAlign: "center",
   },
   sectionTitle: {
-    color: "#111827",
-    fontSize: 16,
-    fontWeight: "800",
-    marginBottom: 8,
-    marginTop: 12,
+    color: colors.text,
+    flex: 1,
+    fontSize: 17,
+    fontWeight: "900",
   },
   subtitle: {
-    color: "#68707a",
+    color: "#EAF2F6",
     fontSize: 15,
-    lineHeight: 21,
-    marginBottom: 18,
+    fontWeight: "600",
+    lineHeight: 23,
+    marginTop: 8,
   },
   title: {
-    color: "#111827",
-    fontSize: 28,
+    color: "#FFFFFF",
+    fontSize: 30,
     fontWeight: "900",
-    marginBottom: 6,
+    lineHeight: 36,
   },
 });

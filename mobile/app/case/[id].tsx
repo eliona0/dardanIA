@@ -8,7 +8,7 @@ export default function CaseDetailsRoute() {
   return (
     <CaseDetailsContent
       caseId={String(params.id || "")}
-      onTabNavigate={(path) => router.push(path as never)}
+      onTabNavigate={(path: string) => router.push(path as never)}
     />
   );
 }

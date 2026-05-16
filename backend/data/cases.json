@@ -191,5 +191,54 @@
     "status": "pending",
     "id": "0524af17-2506-45db-b0c6-55536057105a",
     "createdAt": "2026-05-15T22:21:26.078Z"
+  },
+  {
+    "title": "Severe Road Damage and Potholes in Matiqan, Prishtinë",
+    "category": "road_damage",
+    "severity": "high",
+    "recommendedInstitution": "Public Works Department, Municipality of Prishtinë",
+    "summary": "The road in Matiqan, Prishtinë, is in a state of severe disrepair, characterized by numerous large and deep potholes, many filled with water, which significantly impede safe passage for vehicles and pedestrians.",
+    "officialComplaint": "To the Public Works Department of the Municipality of Prishtinë,\n\nThis letter serves as a formal complaint regarding the severely damaged road in Matiqan, Prishtinë. The road surface is extensively deteriorated with numerous large and deep potholes, many of which are filled with water, as evidenced by the accompanying image. This condition presents a significant hazard to all road users, including drivers, cyclists, and pedestrians, increasing the risk of accidents and vehicle damage.\n\nWe urge your immediate attention to this critical issue and request prompt action for the repair and rehabilitation of the affected road section to ensure public safety and maintain adequate infrastructure.\n\nSincerely,\nA Concerned Citizen",
+    "location": {
+      "city": "Prishtinë",
+      "coordinates": null,
+      "neighborhood": "Matiqan"
+    },
+    "status": "pending",
+    "address": "Prishtinë, Matiqan",
+    "id": "c564f68e-28c4-4d88-a950-da92907615f6",
+    "createdAt": "2026-05-16T00:14:43.856Z"
+  },
+  {
+    "title": "Massive Sinkhole/Excavation Adjacent to Road/Pathway",
+    "category": "accessibility",
+    "accessibilityScore": 0,
+    "severity": "high",
+    "wheelchairRisk": "high",
+    "visualImpairmentRisk": "high",
+    "detectedBarriers": [
+      "Complete collapse and destruction of pedestrian/roadway surface",
+      "Massive, deep excavation directly adjacent to an active area",
+      "Lack of robust safety barriers or fencing at the immediate edge of the hazard",
+      "Unstable and uneven ground leading to the edge of the collapse",
+      "Exposed utilities and debris within the pit creating additional hazards",
+      "No safe, accessible detour or alternative route is apparent",
+      "Absence of tactile warnings or audible alerts for visually impaired individuals"
+    ],
+    "recommendations": [
+      "Immediately cordon off the entire hazardous area with robust, high-visibility fencing and warning signs.",
+      "Implement 24/7 monitoring or security to prevent unauthorized access to the dangerous zone.",
+      "Establish a clearly marked, safe, and accessible detour route for pedestrians and vehicles, ensuring it meets accessibility standards.",
+      "Conduct an urgent geotechnical assessment to determine the cause and full extent of the collapse and ground instability.",
+      "Prioritize stabilization and repair of the collapsed area to restore safe passage.",
+      "Install tactile warning surfaces leading up to any temporary barriers or detours to assist visually impaired individuals.",
+      "Provide clear, audible warnings if construction or repair work is ongoing near the detour path."
+    ],
+    "summary": "A large, deep excavation or sinkhole has completely destroyed a section of a road or pathway, rendering the area impassable and extremely dangerous. There is an immediate and severe risk of falling for all individuals, especially wheelchair users and those with visual impairments, due to the lack of adequate safety barriers and the unstable nature of the ground. The area is completely inaccessible and poses an extreme public safety hazard.",
+    "officialReport": "This incident requires immediate reporting to local emergency services, public works department, and urban planning/construction authorities due to the extreme public safety hazard and potential for further collapse.",
+    "recommendedInstitution": "Local Emergency Services, Public Works Department, Urban Planning/Construction Authority",
+    "status": "pending",
+    "id": "42924563-e3c1-4cc9-8408-f8439e8e5f51",
+    "createdAt": "2026-05-16T00:15:34.786Z"
   }
 ]

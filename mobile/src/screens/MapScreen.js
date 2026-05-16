@@ -12,25 +12,26 @@ const routeToScreen = {
   "/report": "Report",
 };
 
-const prishtinaRegion = {
-  latitude: 42.6629,
-  latitudeDelta: 0.045,
-  longitude: 21.1655,
-  longitudeDelta: 0.045,
-};
-
 export default function MapScreen({ navigation }) {
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
-        <Text style={styles.title}>Case Map</Text>
-        <Text style={styles.subtitle}>Zoom in to inspect reports around Prishtina.</Text>
+        <Text style={styles.title}>Harta e rasteve</Text>
+        <Text style={styles.subtitle}>Shiko raportimet rreth Prishtinës.</Text>
       </View>
 
       <View style={styles.mapCard}>
         <MapViewComponent
           cases={mockCases}
           height={560}
+          onCasePress={(caseItem) => {
+            if (navigation) {
+              navigation.navigate("Case", { id: caseItem.id });
+              return;
+            }
+
+            router.push(`/case/${caseItem.id}`);
+          }}
           onMarkerPress={(caseItem) => {
             if (navigation) {
               navigation.navigate("Case", { id: caseItem.id });
@@ -39,7 +40,6 @@ export default function MapScreen({ navigation }) {
 
             router.push(`/case/${caseItem.id}`);
           }}
-          region={prishtinaRegion}
         />
       </View>
 
@@ -53,7 +53,7 @@ export default function MapScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#F2F5EA",
     flex: 1,
     padding: 18,
     paddingBottom: 106,
@@ -62,13 +62,13 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   title: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 30,
     fontWeight: "900",
     letterSpacing: 0,
   },
   subtitle: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 15,
     fontWeight: "700",
     lineHeight: 22,
@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
   },
   mapCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#EEF2F7",
+    borderColor: "#D8E1D0",
     borderRadius: 22,
     borderWidth: 1,
     elevation: 3,
     overflow: "hidden",
     padding: 8,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.07,
     shadowRadius: 16,

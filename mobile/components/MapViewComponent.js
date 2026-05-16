@@ -49,8 +49,8 @@ export default function MapViewComponent({
       )}
 
       <View style={styles.mapFallbackLabel}>
-        <Ionicons color="#4F46E5" name="location" size={15} />
-        <Text style={styles.mapFallbackText}>Prishtina case map</Text>
+        <Ionicons color="#356F94" name="location" size={15} />
+        <Text style={styles.mapFallbackText}>Harta e rasteve në Prishtinë</Text>
       </View>
 
       {showControls && (
@@ -69,7 +69,7 @@ export default function MapViewComponent({
           >
             <Text style={styles.zoomText}>-</Text>
           </Pressable>
-          <Text style={styles.zoomLevel}>Zoom {zoom}</Text>
+          <Text style={styles.zoomLevel}>Zmadhimi {zoom}</Text>
         </View>
       )}
     </View>
@@ -77,14 +77,14 @@ export default function MapViewComponent({
 }
 
 function markerColor(severity) {
-  if (severity === "high") return "#EF4444";
-  if (severity === "medium") return "#F97316";
-  return "#22C55E";
+  if (severity === "high") return "#356F94";
+  if (severity === "medium") return "#6A97B2";
+  return "#5B7B57";
 }
 
 const styles = StyleSheet.create({
   mapFallback: {
-    backgroundColor: "#E0F2FE",
+    backgroundColor: "#E4EDF1",
     borderRadius: 20,
     overflow: "hidden",
   },
@@ -123,13 +123,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 14,
     top: 14,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.14,
     shadowRadius: 14,
   },
   calloutMeta: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 12,
     fontWeight: "700",
     marginTop: 3,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   calloutTitle: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 14,
     fontWeight: "900",
   },
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   mapFallbackText: {
-    color: "#1E293B",
+    color: "#2F2D2E",
     fontSize: 12,
     fontWeight: "900",
   },
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   zoomLevel: {
     backgroundColor: "#FFFFFF",
     borderRadius: 999,
-    color: "#475569",
+    color: "#6A97B2",
     fontSize: 10,
     fontWeight: "900",
     overflow: "hidden",
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   zoomText: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 20,
     fontWeight: "900",
   },

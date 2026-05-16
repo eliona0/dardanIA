@@ -5,21 +5,21 @@ import BottomNav from "./BottomNav";
 import { mockCases } from "./mockCases";
 
 const severityColors = {
-  high: "#EF4444",
-  medium: "#F97316",
-  low: "#22C55E",
+  high: "#356F94",
+  medium: "#6A97B2",
+  low: "#5B7B57",
 };
 
 export default function CaseDetailsContent({ activeTab = "Home", caseId, onTabNavigate }) {
   const caseItem = mockCases.find((item) => item.id === caseId) || mockCases[0];
-  const severityColor = severityColors[caseItem.severity] || "#22C55E";
+  const severityColor = severityColors[caseItem.severity] || "#5B7B57";
 
   return (
     <View style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.iconWrap}>
-            <Ionicons color="#4F46E5" name={caseItem.icon} size={24} />
+            <Ionicons color="#356F94" name={caseItem.icon} size={24} />
           </View>
           <Text style={styles.title}>{caseItem.title}</Text>
           <View style={styles.metaRow}>
@@ -59,7 +59,7 @@ export default function CaseDetailsContent({ activeTab = "Home", caseId, onTabNa
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "#F7F8FC",
+    backgroundColor: "#F2F5EA",
     flex: 1,
   },
   content: {
@@ -68,19 +68,19 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#E7EAF2",
+    borderColor: "#D8E1D0",
     borderRadius: 26,
     borderWidth: 1,
     elevation: 4,
     padding: 18,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { height: 10, width: 0 },
     shadowOpacity: 0.08,
     shadowRadius: 18,
   },
   iconWrap: {
     alignItems: "center",
-    backgroundColor: "#EEF2FF",
+    backgroundColor: "#E4EDF1",
     borderRadius: 18,
     height: 54,
     justifyContent: "center",
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     width: 54,
   },
   title: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 26,
     fontWeight: "900",
     letterSpacing: 0,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   category: {
-    color: "#64748B",
+    color: "#6A97B2",
     fontSize: 14,
     fontWeight: "800",
   },
@@ -116,20 +116,20 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#E7EAF2",
+    borderColor: "#D8E1D0",
     borderRadius: 22,
     borderWidth: 1,
     marginTop: 16,
     padding: 16,
   },
   sectionTitle: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 17,
     fontWeight: "900",
     marginBottom: 8,
   },
   paragraph: {
-    color: "#475569",
+    color: "#2F2D2E",
     fontSize: 15,
     fontWeight: "600",
     lineHeight: 23,
@@ -141,14 +141,14 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   recommendationText: {
-    color: "#475569",
+    color: "#2F2D2E",
     flex: 1,
     fontSize: 15,
     fontWeight: "600",
     lineHeight: 22,
   },
   dot: {
-    backgroundColor: "#4F46E5",
+    backgroundColor: "#356F94",
     borderRadius: 999,
     height: 7,
     marginTop: 8,

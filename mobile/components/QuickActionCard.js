@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function QuickActionCard({
-  color = "#4F46E5",
+  color = "#356F94",
   icon,
   iconFamily,
   onPress,
@@ -27,13 +27,13 @@ export default function QuickActionCard({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#EEF2F7",
+    borderColor: "#D8E1D0",
     borderRadius: 18,
     borderWidth: 1,
     elevation: 2,
     minHeight: 124,
     padding: 16,
-    shadowColor: "#0F172A",
+    shadowColor: "#2F2D2E",
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.06,
     shadowRadius: 14,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     width: 46,
   },
   title: {
-    color: "#111827",
+    color: "#2F2D2E",
     fontSize: 16,
     fontWeight: "900",
     lineHeight: 21,

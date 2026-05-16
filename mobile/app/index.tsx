@@ -16,8 +16,11 @@ import QuickActionCard from "../components/QuickActionCard";
 import SearchBar from "../components/SearchBar";
 import { mockCases } from "../components/mockCases";
 
-const primary = "#4F46E5";
-const success = "#22C55E";
+const primary = "#356F94";
+const secondary = "#6A97B2";
+const success = "#5B7B57";
+const background = "#F2F5EA";
+const text = "#2F2D2E";
 
 const actions = [
   {
@@ -26,7 +29,7 @@ const actions = [
     iconFamily: "MaterialCommunityIcons",
     route: "/report",
     screen: "Report",
-    title: "Report Problem",
+    title: "Raporto problem",
   },
   {
     color: success,
@@ -34,38 +37,31 @@ const actions = [
     iconFamily: "Ionicons",
     route: "/accessibility",
     screen: "Accessibility",
-    title: "Accessibility Check",
+    title: "Kontrollo qasjen",
   },
   {
-    color: "#0EA5E9",
+    color: secondary,
     icon: "business-outline",
     iconFamily: "Ionicons",
-    route: "/kumeshku",
+    route: "/guide",
     screen: "Guide",
-    title: "KuMeShku",
+    title: "Ku me shku?",
   },
   {
-    color: "#F59E0B",
+    color: "#356F94",
     icon: "map-outline",
     iconFamily: "Ionicons",
     route: "/map",
     screen: "Map",
-    title: "View Map",
+    title: "Shiko hartën",
   },
 ];
 
 const tips = [
-  "Check if a place is accessible",
-  "Report city issues in seconds",
-  "Find where to go for services",
+  "Kontrollo nëse një hapësirë është e qasshme",
+  "Raporto probleme në qytet brenda pak sekondave",
+  "Gjej ku duhet të shkosh për shërbime publike",
 ];
-
-const prishtinaRegion = {
-  latitude: 42.6629,
-  latitudeDelta: 0.045,
-  longitude: 21.1655,
-  longitudeDelta: 0.045,
-};
 
 export function HomeLanding({
   onCaseNavigate,
@@ -112,15 +108,15 @@ export function HomeLanding({
           <View style={styles.headerIcon}>
             <Ionicons color="#FFFFFF" name="navigate" size={23} />
           </View>
-          <Text style={styles.title}>Accessibility Assistant</Text>
+          <Text style={styles.title}>dardanIA</Text>
           <Text style={styles.subtitle}>
-            Report problems and check accessibility around you
+            Raporto probleme, kontrollo qasjen dhe gjej shërbime publike pranë teje.
           </Text>
         </View>
 
         <SearchBar
           onChangeText={setQuery}
-          placeholder="Search services or locations..."
+          placeholder="Kërko shërbime ose lokacione..."
           value={query}
         />
 
@@ -140,28 +136,28 @@ export function HomeLanding({
         <View style={styles.mapCard}>
           <View style={styles.sectionHeader}>
             <View>
-              <Text style={styles.sectionTitle}>Nearby cases</Text>
-              <Text style={styles.sectionHint}>Prishtina area</Text>
+              <Text style={styles.sectionTitle}>Raste pranë teje</Text>
+              <Text style={styles.sectionHint}>Zona e Prishtinës</Text>
             </View>
             <Pressable
               accessibilityRole="button"
               onPress={() => handleNavigate(actions[3])}
               style={styles.mapButton}
             >
-              <Text style={styles.mapButtonText}>Open Full Map</Text>
+              <Text style={styles.mapButtonText}>Hape hartën</Text>
             </Pressable>
           </View>
           <MapViewComponent
             cases={mockCases}
             height={190}
-            onMarkerPress={(caseItem) => handleCaseNavigate(caseItem.id)}
-            region={prishtinaRegion}
+            onCasePress={(caseItem: any) => handleCaseNavigate(caseItem.id)}
+            onMarkerPress={(caseItem: any) => handleCaseNavigate(caseItem.id)}
           />
         </View>
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Recent cases</Text>
-          <Text style={styles.sectionHint}>Latest reports</Text>
+          <Text style={styles.sectionTitle}>Rastet e fundit</Text>
+          <Text style={styles.sectionHint}>Raportimet më të reja</Text>
         </View>
 
         <View style={styles.caseList}>
@@ -175,7 +171,7 @@ export function HomeLanding({
         </View>
 
         <View style={styles.infoCard}>
-          <Text style={styles.infoTitle}>What you can do</Text>
+          <Text style={styles.infoTitle}>Çfarë mund të bësh</Text>
           {tips.map((tip) => (
             <View key={tip} style={styles.tipRow}>
               <MaterialCommunityIcons color={primary} name="check-circle-outline" size={18} />
@@ -196,7 +192,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: background,
     flex: 1,
   },
   content: {
@@ -204,8 +200,8 @@ const styles = StyleSheet.create({
     paddingBottom: 108,
   },
   header: {
-    backgroundColor: "#F8FAFC",
-    borderColor: "#EEF2F7",
+    backgroundColor: primary,
+    borderColor: secondary,
     borderRadius: 22,
     borderWidth: 1,
     padding: 18,
@@ -220,14 +216,14 @@ const styles = StyleSheet.create({
     width: 48,
   },
   title: {
-    color: "#111827",
+    color: "#FFFFFF",
     fontSize: 28,
     fontWeight: "900",
     letterSpacing: 0,
     lineHeight: 34,
   },
   subtitle: {
-    color: "#64748B",
+    color: "#EAF2F6",
     fontSize: 15,
     fontWeight: "700",
     lineHeight: 22,
@@ -241,13 +237,13 @@ const styles = StyleSheet.create({
   },
   mapCard: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#EEF2F7",
+    borderColor: "#D8E1D0",
     borderRadius: 22,
     borderWidth: 1,
     elevation: 3,
     marginTop: 22,
     padding: 14,
-    shadowColor: "#0F172A",
+    shadowColor: text,
     shadowOffset: { height: 8, width: 0 },
     shadowOpacity: 0.07,
     shadowRadius: 16,
@@ -260,18 +256,18 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   sectionTitle: {
-    color: "#111827",
+    color: text,
     fontSize: 19,
     fontWeight: "900",
   },
   sectionHint: {
-    color: "#64748B",
+    color: secondary,
     fontSize: 13,
     fontWeight: "700",
     marginTop: 2,
   },
   mapButton: {
-    backgroundColor: "#EEF2FF",
+    backgroundColor: "#E4EDF1",
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -285,15 +281,15 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   infoCard: {
-    backgroundColor: "#F8FAFC",
-    borderColor: "#EEF2F7",
+    backgroundColor: "#FFFFFF",
+    borderColor: "#D8E1D0",
     borderRadius: 20,
     borderWidth: 1,
     marginTop: 22,
     padding: 16,
   },
   infoTitle: {
-    color: "#111827",
+    color: text,
     fontSize: 17,
     fontWeight: "900",
     marginBottom: 10,
@@ -305,7 +301,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   tipText: {
-    color: "#475569",
+    color: text,
     flex: 1,
     fontSize: 14,
     fontWeight: "700",
